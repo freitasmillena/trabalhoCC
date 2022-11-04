@@ -7,6 +7,7 @@ abstract class Servidor {
     private String dominio;
     private String portaAtendimento;
     private String ficheiroLog;
+    protected String ficheiroST;
     private List<String> servidoresTopo;
 
     public Servidor() {
@@ -16,10 +17,11 @@ abstract class Servidor {
         this.servidoresTopo = new ArrayList<>();
     }
 
-    public Servidor(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo) {
+    public Servidor(String dominio, String portaAtendimento, String ficheiroLog, String ficheiroST, List<String> servidoresTopo) {
         this.dominio = dominio;
         this.portaAtendimento = portaAtendimento;
         this.ficheiroLog = ficheiroLog;
+        this.ficheiroST = ficheiroST;
         this.servidoresTopo = new ArrayList<>();
 
         for(String st : servidoresTopo){
@@ -49,6 +51,14 @@ abstract class Servidor {
 
     public void setFicheiroLog(String ficheiroLog) {
         this.ficheiroLog = ficheiroLog;
+    }
+
+    public void setFicheiroST(String st) {
+        this.ficheiroST = st;
+    }
+
+    public String getFicheiroST() {
+        return this.ficheiroST;
     }
 
     public List<String> getServidoresTopo() {

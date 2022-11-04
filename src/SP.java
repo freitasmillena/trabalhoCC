@@ -4,7 +4,15 @@ public class SP extends Servidor{
     private String ficheiroBD;
     private String segurancaBD;
     private List<String> servidoresSecundarios;
-    private Map<String,Registo> BD;
+
+    private Map<String,Registo> BD; // a String corresponde ao Tipo de Valor do Registo: 
+                                    // SOASP, SOAADMIN, SOASERIAL, SOAREFRESH, SOARETRY, SOAEXPIRE
+    // o mesmo não é feito para alguns Tipos de Valores: 
+    private List<Registo> listaNS;
+    private List<Registo> listaMX;
+    private List<Registo> listaA;
+    private List<Registo> listaCNAME;
+
     private int versaoBD;
 
 
@@ -15,12 +23,17 @@ public class SP extends Servidor{
         this.segurancaBD = "";
         this.servidoresSecundarios = new ArrayList<>();
         this.BD = new HashMap<>();
+        this.listaNS = new ArrayList<>();
+        this.listaMX = new ArrayList<>();
+        this.listaA = new ArrayList<>();
+        this.listaCNAME = new ArrayList<>();
         this.versaoBD = 0;
     }
 
+
     // Construtor completo
-    public SP(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String ficheiroBD, String segurancaBD, List<String> servidoresSecundarios, Map<String, Registo> BD, int versaoBD) {
-        super(dominio, portaAtendimento, ficheiroLog, servidoresTopo);
+    public SP(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String ficheiroBD, String segurancaBD, List<String> servidoresSecundarios, Map<String, Registo> BD, int versaoBD, List<Registo> listaNS, List<Registo> listaMX, List<Registo> listaA, List<Registo> listaCNAME, String ficheiroST) {
+        super(dominio, portaAtendimento, ficheiroLog, ficheiroST, servidoresTopo);
         this.ficheiroBD = ficheiroBD;
         this.segurancaBD = segurancaBD;
         this.servidoresSecundarios = new ArrayList<>();
@@ -32,8 +45,28 @@ public class SP extends Servidor{
 
         this.BD = new HashMap<>();
 
-        for(String st : BD.keySet()){
+        for(String st: BD.keySet()){
             this.BD.put(st, BD.get(st).clone());
+        }
+
+        this.listaNS = new ArrayList<>();
+        for(Registo r: listaNS){
+            this.listaNS.add(r.clone());
+        }
+        
+        this.listaA = new ArrayList<>();
+        for(Registo r: listaA){
+            this.listaA.add(r.clone());
+        }
+
+        this.listaMX = new ArrayList<>();
+        for(Registo r: listaMX){
+            this.listaMX.add(r.clone());
+        }
+
+        this.listaCNAME = new ArrayList<>();
+        for(Registo r: listaCNAME){
+            this.listaCNAME.add(r.clone());
         }
     }
 
@@ -76,6 +109,10 @@ public class SP extends Servidor{
         }
     }
 
+    public void addServidorSecundario(String ss) {
+        this.servidoresSecundarios.add(ss);
+    }
+
     public Map<String, Registo> getBD() {
         Map<String,Registo> res = new HashMap<>();
 
@@ -91,6 +128,62 @@ public class SP extends Servidor{
         for(String st : BD.keySet()){
             this.BD.put(st, BD.get(st).clone());
         }
+    }
+
+    public void addRegistoBD(String tipoValor, Registo r) {
+        this.BD.put(tipoValor, r);
+    }
+
+    public void addRegistoNS(Registo r) {
+        this.listaNS.add(r);
+    }
+
+    public List<Registo> getListaNS() {
+        List<Registo> listaNS = new ArrayList<>();
+
+        for(Registo r : this.listaNS) {
+            listaNS.add(r.clone());
+        }
+        return listaNS;
+    }
+
+    public void addRegistoA(Registo r) {
+        this.listaA.add(r);
+    }
+
+    public List<Registo> getListaA() {
+        List<Registo> listaA = new ArrayList<>();
+
+        for(Registo r : this.listaA) {
+            listaA.add(r.clone());
+        }
+        return listaA;
+    }
+
+    public void addRegistoCNAME(Registo r) {
+        this.listaCNAME.add(r);
+    }
+
+    public List<Registo> getListaCNAME() {
+        List<Registo> listaCNAME = new ArrayList<>();
+
+        for(Registo r : this.listaCNAME) {
+            listaA.add(r.clone());
+        }
+        return listaCNAME;
+    }
+
+    public void addRegistoMX(Registo r) {
+        this.listaMX.add(r);
+    }
+
+    public List<Registo> getListaMX() {
+        List<Registo> listaMX = new ArrayList<>();
+
+        for(Registo r : this.listaMX) {
+            listaMX.add(r.clone());
+        }
+        return listaMX;
     }
 
     public boolean equals(Object o) {

@@ -5,7 +5,7 @@ import java.util.Map;
 public class SS extends Servidor{
     private String servidorPrimario;
     private String segurancaSP;
-    private Map<String,Registo> BD;
+    private Map<String,Registo> BD; // cópia da BD do respetivo SP
     private int versaoBD;
 
     public SS() {
@@ -16,8 +16,8 @@ public class SS extends Servidor{
         this.versaoBD = 0;
     }
 
-    public SS(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String servidorPrimario, String segurancaSP, Map<String, Registo> BD, int versaoBD) {
-        super(dominio, portaAtendimento, ficheiroLog, servidoresTopo);
+    public SS(String dominio, String portaAtendimento, String ficheiroLog, String ficheiroST, List<String> servidoresTopo, String servidorPrimario, String segurancaSP, Map<String, Registo> BD, int versaoBD) {
+        super(dominio, portaAtendimento, ficheiroLog, ficheiroST, servidoresTopo);
         this.servidorPrimario = servidorPrimario;
         this.segurancaSP = segurancaSP;
         this.versaoBD = versaoBD;

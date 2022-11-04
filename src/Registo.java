@@ -1,30 +1,28 @@
-import java.util.Objects;
-
 public class Registo {
-    private String ip;
+    private String valor;
     private int timetolive;
 
     public Registo() {
-        this.ip = "";
+        this.valor = "";
         this.timetolive = 0;
     }
 
-    public Registo(String ip, int timetolive) {
-        this.ip = ip;
+    public Registo(String valor, int timetolive) {
+        this.valor = valor;
         this.timetolive = timetolive;
     }
 
     public Registo(Registo registo) {
-        this.ip = registo.getIp();
+        this.valor = registo.getvalor();
         this.timetolive = registo.getTimetolive();
     }
 
-    public String getIp() {
-        return ip;
+    public String getvalor() {
+        return valor;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setvalor(String valor) {
+        this.valor = valor;
     }
 
     public int getTimetolive() {
@@ -39,7 +37,7 @@ public class Registo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Registo registo = (Registo) o;
-        return (this.ip.equals(registo.getIp()) &&
+        return (this.valor.equals(registo.getvalor()) &&
                 this.timetolive == registo.getTimetolive()
         );
     }
