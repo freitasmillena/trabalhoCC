@@ -16,8 +16,8 @@ public class SS extends Servidor{
         this.versaoBD = 0;
     }
 
-    public SS(String dominio, String portaAtendimento, String ficheiroLog, String ficheiroST, List<String> servidoresTopo, String servidorPrimario, String segurancaSP, Map<String, Registo> BD, int versaoBD) {
-        super(dominio, portaAtendimento, ficheiroLog, ficheiroST, servidoresTopo);
+    public SS(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String servidorPrimario, String segurancaSP, Map<String, Registo> BD, int versaoBD) {
+        super(dominio, portaAtendimento, ficheiroLog, servidoresTopo);
         this.servidorPrimario = servidorPrimario;
         this.segurancaSP = segurancaSP;
         this.versaoBD = versaoBD;

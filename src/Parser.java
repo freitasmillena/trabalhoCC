@@ -13,12 +13,12 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "" || linha.charAt(0) == '#') {
-                continue;
-            }
+            if (linha == "") continue;
+            else if (linha.charAt(0) == '#') continue;
+
             else {
                 String[] linhaPartida;
-                linhaPartida = linha.split(" \\r\\n");
+                linhaPartida = linha.split("[ \\r\\n]+");
                 
                 switch(linhaPartida[1]) {
                     case "DB":
@@ -35,7 +35,7 @@ public class Parser {
                         sp.setPortaAtendimento(linhaPartida[2]);
                         break;
                     case "ST":
-                        sp.setFicheiroST(linhaPartida[2]);
+                        fileParserST(linhaPartida[0], sp);
                         break;
                     case "LG":
                         sp.setFicheiroLog(linhaPartida[2]);
@@ -49,12 +49,12 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "" || linha.charAt(0) == '#') {
-                continue;
-            }
+            if (linha == "") continue;
+            else if (linha.charAt(0) == '#') continue;
+
             else {
                 String[] linhaPartida;
-                linhaPartida = linha.split(" \\r\\n");
+                linhaPartida = linha.split("[ \\r\\n]+");
                 
                 switch(linhaPartida[1]) {
                     case "SOASP":
@@ -86,12 +86,12 @@ public class Parser {
                         sp.addRegistoNS(ns);
                         break;
                     case "A":
-                        Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
-                        sp.addRegistoA(a);
+                        Registo a = new Registo(linhaPartida[0], Integer.parseInt(linhaPartida[3]));
+                        sp.addRegistoBD(linhaPartida[2], a);
                         break;
                     case "CNAME":
-                        Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
-                        sp.addRegistoCNAME(cname);
+                        Registo cname = new Registo(linhaPartida[0], Integer.parseInt(linhaPartida[3]));
+                        sp.addRegistoBD(linhaPartida[2], cname);
                         break;
                     case "MX":
                         Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
@@ -108,12 +108,12 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "" || linha.charAt(0) == '#') {
-                continue;
-            }
+            if (linha == "") continue;
+            else if (linha.charAt(0) == '#') continue;
+
             else {
                 String[] linhaPartida;
-                linhaPartida = linha.split(" \\r\\n");
+                linhaPartida = linha.split("[ \\r\\n]+");
                 
                 switch(linhaPartida[1]) {
                     // Não tem valor SS, nem DB
@@ -126,7 +126,7 @@ public class Parser {
                         ss.setPortaAtendimento(linhaPartida[2]);
                         break;
                     case "ST":
-                        ss.setFicheiroST(linhaPartida[2]);
+                        fileParserST(linhaPartida[0], ss);
                         break;
                     case "LG":
                         ss.setFicheiroLog(linhaPartida[2]);
@@ -136,35 +136,50 @@ public class Parser {
         }
     }
 
-        // Para ficheiros de configuração de SR - Servidores Secundários
-        public void fileParserConfigSR(String nomeFich, SR sr){
-        
-            List<String> linhas = lerFicheiro(nomeFich);
+    // Para ficheiros de configuração de SR - Servidores Secundários
+    public void fileParserConfigSR(String nomeFich, SR sr){
     
-            for (String linha : linhas) {
-                if (linha == "" || linha.charAt(0) == '#') {
-                    continue;
-                }
-                else {
-                    String[] linhaPartida;
-                    linhaPartida = linha.split(" \\r\\n");
-                    
-                    switch(linhaPartida[1]) {
-                        // Não tem valor SS, nem DB
-                        case "DD":
-                            sr.setDominio(linhaPartida[0]);
-                            sr.setPortaAtendimento(linhaPartida[2]);
-                            break;
-                        case "ST":
-                            sr.setFicheiroST(linhaPartida[2]);
-                            break;
-                        case "LG":
-                            sr.setFicheiroLog(linhaPartida[2]);
-                            break;
-                    }
+        List<String> linhas = lerFicheiro(nomeFich);
+
+        for (String linha : linhas) {
+            if (linha == "") continue;
+            else if (linha.charAt(0) == '#') continue;
+
+            else {
+                String[] linhaPartida;
+                linhaPartida = linha.split("[ \\r\\n]+");
+                
+                switch(linhaPartida[1]) {
+                    // Não tem valor SS, nem DB
+                    case "DD":
+                        sr.setDominio(linhaPartida[0]);
+                        sr.setPortaAtendimento(linhaPartida[2]);
+                        break;
+                    case "ST":
+                        fileParserST(linhaPartida[2], sr);
+                        break;
+                    case "LG":
+                        sr.setFicheiroLog(linhaPartida[2]);
+                        break;
                 }
             }
         }
+    }
+
+    public void fileParserST(String nomeFich, Servidor s) {
+        List<String> linhas = lerFicheiro(nomeFich);
+
+        for (String linha : linhas) {
+            if (linha == "") continue;
+            else if (linha.charAt(0) == '#') continue;
+
+            else {
+                String[] linhaPartida;
+                linhaPartida = linha.split("\\n");
+                s.assServidorTopo(linhaPartida[0]);
+            }
+        }
+    }
 
     public List<String> lerFicheiro(String nomeFich) {
         List<String> lines;

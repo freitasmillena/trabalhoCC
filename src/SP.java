@@ -10,8 +10,6 @@ public class SP extends Servidor{
     // o mesmo não é feito para alguns Tipos de Valores: 
     private List<Registo> listaNS;
     private List<Registo> listaMX;
-    private List<Registo> listaA;
-    private List<Registo> listaCNAME;
 
     private int versaoBD;
 
@@ -25,15 +23,13 @@ public class SP extends Servidor{
         this.BD = new HashMap<>();
         this.listaNS = new ArrayList<>();
         this.listaMX = new ArrayList<>();
-        this.listaA = new ArrayList<>();
-        this.listaCNAME = new ArrayList<>();
         this.versaoBD = 0;
     }
 
 
     // Construtor completo
-    public SP(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String ficheiroBD, String segurancaBD, List<String> servidoresSecundarios, Map<String, Registo> BD, int versaoBD, List<Registo> listaNS, List<Registo> listaMX, List<Registo> listaA, List<Registo> listaCNAME, String ficheiroST) {
-        super(dominio, portaAtendimento, ficheiroLog, ficheiroST, servidoresTopo);
+    public SP(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String ficheiroBD, String segurancaBD, List<String> servidoresSecundarios, Map<String, Registo> BD, int versaoBD, List<Registo> listaNS, List<Registo> listaMX, String ficheiroST) {
+        super(dominio, portaAtendimento, ficheiroLog, servidoresTopo);
         this.ficheiroBD = ficheiroBD;
         this.segurancaBD = segurancaBD;
         this.servidoresSecundarios = new ArrayList<>();
@@ -54,19 +50,9 @@ public class SP extends Servidor{
             this.listaNS.add(r.clone());
         }
         
-        this.listaA = new ArrayList<>();
-        for(Registo r: listaA){
-            this.listaA.add(r.clone());
-        }
-
         this.listaMX = new ArrayList<>();
         for(Registo r: listaMX){
             this.listaMX.add(r.clone());
-        }
-
-        this.listaCNAME = new ArrayList<>();
-        for(Registo r: listaCNAME){
-            this.listaCNAME.add(r.clone());
         }
     }
 
@@ -145,32 +131,6 @@ public class SP extends Servidor{
             listaNS.add(r.clone());
         }
         return listaNS;
-    }
-
-    public void addRegistoA(Registo r) {
-        this.listaA.add(r);
-    }
-
-    public List<Registo> getListaA() {
-        List<Registo> listaA = new ArrayList<>();
-
-        for(Registo r : this.listaA) {
-            listaA.add(r.clone());
-        }
-        return listaA;
-    }
-
-    public void addRegistoCNAME(Registo r) {
-        this.listaCNAME.add(r);
-    }
-
-    public List<Registo> getListaCNAME() {
-        List<Registo> listaCNAME = new ArrayList<>();
-
-        for(Registo r : this.listaCNAME) {
-            listaA.add(r.clone());
-        }
-        return listaCNAME;
     }
 
     public void addRegistoMX(Registo r) {

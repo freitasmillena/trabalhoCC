@@ -10,8 +10,8 @@ public class SR extends Servidor{
         this.cache = new HashMap<>();
     }
 
-    public SR(String dominio, String portaAtendimento, String ficheiroLog, String ficheiroST, List<String> servidoresTopo, List<String> servidoresDNS, Map<String, Registo> cache) {
-        super(dominio, portaAtendimento, ficheiroLog, ficheiroST, servidoresTopo);
+    public SR(String dominio, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, List<String> servidoresDNS, Map<String, Registo> cache) {
+        super(dominio, portaAtendimento, ficheiroLog, servidoresTopo);
         this.servidoresDNS = new ArrayList<>();
         for(String dns : servidoresDNS){
             this.servidoresDNS.add(dns);
