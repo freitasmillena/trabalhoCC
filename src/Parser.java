@@ -58,43 +58,43 @@ public class Parser {
                 
                 switch(linhaPartida[1]) {
                     case "SOASP":
-                        Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP");
                         sp.addRegistoBD("SOASP", soap);
                         break;
                     case "SOAADMIN":
-                        Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAADMIN");
                         sp.addRegistoBD("SOAADMIN", soadmin);
                         break;
                     case "SOASERIAL":
-                        Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASERIAL");
                         sp.addRegistoBD("SOASERIAL", soaserial);
                         break;
                     case "SOAREFRESH":
-                        Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAREFRESH");
                         sp.addRegistoBD("SOAREFRESH", soarefresh);
                         break;
                     case "SOARETRY":
-                        Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOARETRY");
                         sp.addRegistoBD("SOARETRY", soaretry);
                         break; 
                     case "SOAEXPIRE":
-                        Registo soaexpire= new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo soaexpire= new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAEXPIRE");
                         sp.addRegistoBD("SOAEXPIRE", soaexpire);
                         break;
                     case "NS":
-                        Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS");
                         sp.addRegistoNS(ns);
                         break;
                     case "A":
-                        Registo a = new Registo(linhaPartida[0], Integer.parseInt(linhaPartida[3]));
-                        sp.addRegistoBD(linhaPartida[2], a);
+                        Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A");
+                        sp.addRegistoBD(linhaPartida[0], a);
                         break;
                     case "CNAME":
-                        Registo cname = new Registo(linhaPartida[0], Integer.parseInt(linhaPartida[3]));
-                        sp.addRegistoBD(linhaPartida[2], cname);
+                        Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME");
+                        sp.addRegistoBD(linhaPartida[0], cname);
                         break;
                     case "MX":
-                        Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]));
+                        Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX");
                         sp.addRegistoMX(mx);
                         break;
                 }

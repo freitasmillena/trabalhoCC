@@ -1,20 +1,24 @@
 public class Registo {
     private String valor;
     private int timetolive;
+    private String tag;
 
     public Registo() {
         this.valor = "";
         this.timetolive = 0;
+        this.tag = "";
     }
 
-    public Registo(String valor, int timetolive) {
+    public Registo(String valor, int timetolive, String tag) {
         this.valor = valor;
         this.timetolive = timetolive;
+        this.tag = tag;
     }
 
     public Registo(Registo registo) {
         this.valor = registo.getvalor();
         this.timetolive = registo.getTimetolive();
+        this.tag = registo.getTag();
     }
 
     public String getvalor() {
@@ -31,6 +35,14 @@ public class Registo {
 
     public void setTimetolive(int timetolive) {
         this.timetolive = timetolive;
+    }
+
+    public String getTag(){
+        return this.tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public boolean equals(Object o) {
