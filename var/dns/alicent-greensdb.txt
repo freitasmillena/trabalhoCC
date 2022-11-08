@@ -1,0 +1,29 @@
+# DNS database file for domain alicent.greens
+
+alicent.greens. SOASP ns1.alicent.greens. 86400
+alicent.greens. SOAADMIN dns\.admin.alicent.greens. 86400
+alicent.greens. SOASERIAL 0117102022 86400
+alicent.greens. SOAREFRESH 14400 86400
+alicent.greens. SOARETRY 3600 86400
+alicent.greens. SOAEXPIRE 604800 86400
+
+alicent.greens. NS ns1.alicent.greens. 86400
+alicent.greens. NS ns2.alicent.greens. 86400
+alicent.greens. NS ns3.alicent.greens. 86400
+
+alicent.greens. MX mx1.alicent.greens. 86400 
+alicent.greens. MX mx2.alicent.greens. 86400 
+
+ns1.alicent.greens. A 10.0.2.15 86400
+ns2.alicent.greens. A 10.0.2.14 86400
+ns3.alicent.greens. A 10.0.22.10 86400
+mx1.alicent.greens. A 10.0.2.11 86400
+mx2.alicent.greens. A 10.0.2.16 86400
+www.alicent.greens. A 10.0.2.12 86400 
+
+sp CNAME ns1.alicent.greens. 86400
+ss1 CNAME ns2.alicent.greens. 86400
+ss2 CNAME ns3.alicent.greens. 86400
+mail1 CNAME mx1.alicent.greens. 86400
+mail2 CNAME mx2.alicent.greens. 86400 
+web CNAME www.alicent.greens. 86400

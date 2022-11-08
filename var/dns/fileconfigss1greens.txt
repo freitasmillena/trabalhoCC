@@ -1,0 +1,5 @@
+# Configuration file for secondary server for .greens.
+.greens SP 10.0.4.11
+.greens DD 10.0.4.12
+.greens LG ./var/dns/greenslogss1.txt
+root ST ./var/dns/rootservers.txt
