@@ -92,11 +92,13 @@ public class Parser {
                         break;
                     case "NS":
                         Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade);
-                        sp.addRegistoNS(ns);
+                        String s_ns = linhaPartida[2];
+                        String[] nssplit = s_ns.split("\\.", 2);
+                        sp.addRegistoBD(nssplit[0], ns); // Formato ns1
                         break;
                     case "A":
                         Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A", prioridade);
-                        sp.addRegistoBD(linhaPartida[0], a);
+                        sp.addRegistoBD(linhaPartida[0], a); // Formato ns1.example.com.
                         break;
                     case "CNAME":
                         Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME", prioridade);
@@ -104,7 +106,7 @@ public class Parser {
                         break;
                     case "MX":
                         Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX", prioridade);
-                        sp.addRegistoMX(mx);
+                        sp.addRegistoBD(linhaPartida[0], mx);
                         break;
                 }
             }
