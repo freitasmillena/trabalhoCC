@@ -2,17 +2,20 @@ public class Registo {
     private String valor;
     private int timetolive;
     private String tag;
+    private int prioridade;
 
     public Registo() {
         this.valor = "";
         this.timetolive = 0;
         this.tag = "";
+        this.prioridade = 0;
     }
 
-    public Registo(String valor, int timetolive, String tag) {
+    public Registo(String valor, int timetolive, String tag, int prioridade) {
         this.valor = valor;
         this.timetolive = timetolive;
         this.tag = tag;
+        this.prioridade = prioridade; 
     }
 
     public Registo(Registo registo) {
@@ -45,12 +48,21 @@ public class Registo {
         this.tag = tag;
     }
 
+    public int getPrioridade() {
+        return this.prioridade;
+    }
+
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Registo registo = (Registo) o;
         return (this.valor.equals(registo.getvalor()) &&
-                this.timetolive == registo.getTimetolive()
+                this.timetolive == registo.getTimetolive() &&
+                this.prioridade == registo.getPrioridade()
         );
     }
 

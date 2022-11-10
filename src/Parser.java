@@ -13,7 +13,7 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "") continue;
+            if (linha == "\n") continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
@@ -45,56 +45,65 @@ public class Parser {
         }
     }
 
+    // Prioridades aplicáveis apenas para os todos campos
+    // prioridade INFINITA: 1 000 000 (1 milhão) 
     public void fileParserDadosSP(String nomeFich, SP sp) {
         List<String> linhas = lerFicheiro(nomeFich);
+        int prioridade;
 
         for (String linha : linhas) {
-            if (linha == "") continue;
+            if (linha == "\n") continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
                 String[] linhaPartida;
                 linhaPartida = linha.split("[ \\r\\n]+");
+
+                // Lidar com as proridades
+                if (linhaPartida[4] == "") { // não tem prioridade
+                    prioridade = 1000000;
+                }
+                else prioridade = Integer.parseInt(linhaPartida[4]);
                 
                 switch(linhaPartida[1]) {
                     case "SOASP":
-                        Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP");
+                        Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP", prioridade);
                         sp.addRegistoBD("SOASP", soap);
                         break;
                     case "SOAADMIN":
-                        Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAADMIN");
+                        Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAADMIN", prioridade);
                         sp.addRegistoBD("SOAADMIN", soadmin);
                         break;
                     case "SOASERIAL":
-                        Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASERIAL");
+                        Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASERIAL", prioridade);
                         sp.addRegistoBD("SOASERIAL", soaserial);
                         break;
                     case "SOAREFRESH":
-                        Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAREFRESH");
+                        Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAREFRESH", prioridade);
                         sp.addRegistoBD("SOAREFRESH", soarefresh);
                         break;
                     case "SOARETRY":
-                        Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOARETRY");
+                        Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOARETRY", prioridade);
                         sp.addRegistoBD("SOARETRY", soaretry);
                         break; 
                     case "SOAEXPIRE":
-                        Registo soaexpire= new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAEXPIRE");
+                        Registo soaexpire= new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAEXPIRE", prioridade);
                         sp.addRegistoBD("SOAEXPIRE", soaexpire);
                         break;
                     case "NS":
-                        Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS");
+                        Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade);
                         sp.addRegistoNS(ns);
                         break;
                     case "A":
-                        Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A");
+                        Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A", prioridade);
                         sp.addRegistoBD(linhaPartida[0], a);
                         break;
                     case "CNAME":
-                        Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME");
+                        Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME", prioridade);
                         sp.addRegistoBD(linhaPartida[0], cname);
                         break;
                     case "MX":
-                        Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX");
+                        Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX", prioridade);
                         sp.addRegistoMX(mx);
                         break;
                 }
@@ -108,7 +117,7 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "") continue;
+            if (linha == "\n") continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
@@ -142,7 +151,7 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "") continue;
+            if (linha == "\n") continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
@@ -170,7 +179,7 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "") continue;
+            if (linha == "\n") continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
