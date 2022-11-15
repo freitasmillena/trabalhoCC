@@ -1,0 +1,34 @@
+# DNS database file for domain greens
+# It also includes a pointer to the primary server
+# of the alicent.greens subdomain
+
+greens. SOASP ns1.greens. 86400
+greens. SOAADMIN dns\.admin.greens. 86400
+greens. SOASERIAL 0117102022 86400
+greens. SOAREFRESH 14400 86400
+greens. SOARETRY 3600 86400
+greens. SOAEXPIRE 604800 86400
+
+greens. NS ns1.greens. 86400
+greens. NS ns2.greens. 86400
+greens. NS ns3.greens. 86400
+
+Alicent.greens. NS sp.alicent.greens.
+
+greens. MX mx1.greens. 86400 
+greens. MX mx2.greens. 86400 
+
+ns1.greens. A 10.0.4.11 86400
+ns2.greens. A 10.0.4.12 86400
+ns3.greens. A 10.0.18.10 86400
+sp.alicent.greens. A 10.0.2.15 86400
+mx1.greens. A 10.0.4.10 86400
+mx2.greens. A 10.0.4.16 86400
+www.greens. A 10.0.4.15 86400 
+
+sp CNAME ns1.greens. 86400
+ss1 CNAME ns2.greens. 86400
+ss2 CNAME ns3.greens. 86400
+mail1 CNAME mx1.greens. 86400
+mail2 CNAME mx2.greens. 86400 
+web CNAME www.greens. 86400
