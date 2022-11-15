@@ -177,7 +177,7 @@ public class SP extends Servidor{
             if(i != 0) sb.append(",");
             if(!res.contains(registos.get(i))) {
                 res.add(registos.get(i).clone());
-                sb.append(fetch(registos.get(i).getvalor(), registos.get(i).getTag()));
+                sb.append(fetch(registos.get(i).getvalor(), "A"));
             }
         }
         str[0] = sb.toString();
@@ -215,13 +215,25 @@ public class SP extends Servidor{
             }
             else {
                 //MX ou NS
-                List<Registo> r = fetchTag(type);
-                nValues = Integer.toString(r.size());
-                response = listString(r);
-                for(Registo reg : r) authorities.add(reg);
-                String[] extras = fetchExtra(authorities);
-                extra = extras[0];
-                nExtra = extras[1];
+                if(!nome.equals(this.getDominio())){
+                    Registo r = fetch(nome, nome);
+                    response = r.toString();
+                    nValues = "1";
+                    authorities.add(r);
+                    String[] extras = fetchExtra(authorities);
+                    extra = extras[0];
+                    nExtra = extras[1];
+                }
+                else {
+                    List<Registo> r = fetchTag(type);
+                    nValues = Integer.toString(r.size());
+                    response = listString(r);
+                    for(Registo reg : r) authorities.add(reg);
+                    String[] extras = fetchExtra(authorities);
+                    extra = extras[0];
+                    nExtra = extras[1];
+                }
+
             }
 
             PDU resposta = new PDU(query.getMessageID(),nome,type, "0", nValues, nAuthorities,nExtra,response,auth,extra);

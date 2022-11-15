@@ -59,11 +59,12 @@ public class Parser {
                 linhaPartida = linha.split("[ \\r\\n]+");
 
                 // Lidar com as proridades
-                if (linhaPartida[4] == "") { // não tem prioridade
+                if (linhaPartida[4].equals("")) { // não tem prioridade
                     prioridade = 1000000;
                 }
                 else prioridade = Integer.parseInt(linhaPartida[4]);
-                
+
+
                 switch(linhaPartida[1]) {
                     case "SOASP":
                         Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP", prioridade, sp.getDominio());
@@ -90,8 +91,14 @@ public class Parser {
                         sp.addRegistoBD("SOAEXPIRE", soaexpire);
                         break;
                     case "NS":
-                        Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, sp.getDominio());
-                        sp.addRegistoBD("NS", ns); // Formato ns1
+                        if(linhaPartida[0].equals(sp.getDominio())) {
+                            Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, sp.getDominio());
+                            sp.addRegistoBD("NS", ns);
+                        }
+                        else {
+                            Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, linhaPartida[0]);
+                            sp.addRegistoBD(linhaPartida[0], ns);
+                        }
                         break;
                     case "A":
                         Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A", prioridade, linhaPartida[0]);
