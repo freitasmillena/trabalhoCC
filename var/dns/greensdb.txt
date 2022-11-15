@@ -13,7 +13,7 @@
 .greens. NS ns2.greens. 86400
 .greens. NS ns3.greens. 86400
 
-Alicent.greens. NS sp.alicent.greens. 86400
+Alicent.greens. NS sp.alicent.greens.
 
 .greens. MX mx1.greens. 86400 
 .greens. MX mx2.greens. 86400 
