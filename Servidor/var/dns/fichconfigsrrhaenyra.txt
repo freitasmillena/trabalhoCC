@@ -1,4 +1,0 @@
-# Configuration file for resolver server for rhaenyra.blacks
-rhaenyra.blacks DD 10.0.3.13
-rhaenyra.blacks LG ./var/dns/rhaenyralogsr.txt
-root ST ./var/dns/rootservers.txt

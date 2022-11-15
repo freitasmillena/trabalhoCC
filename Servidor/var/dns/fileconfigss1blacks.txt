@@ -1,5 +1,0 @@
-# Configuration file for secondary server for .blacks.
-.greens SP 10.0.5.10
-.greens DD 10.0.5.11
-.greens LG ./var/dns/blackslogss1.txt
-root ST ./var/dns/rootservers.txt

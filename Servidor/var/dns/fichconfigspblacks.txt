@@ -1,7 +1,0 @@
-# Configuration file for primary server for .blacks.
-.blacks DB ./var/dns/blacksdb.txt
-.blacks SS 10.0.5.11
-.blacks SS 10.0.19.10
-.blacks DD 10.0.5.10
-.blacks LG ./var/dns/blackslogsp.txt
-root ST ./var/dns/rootservers.txt

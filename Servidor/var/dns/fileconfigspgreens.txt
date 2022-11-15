@@ -1,7 +1,0 @@
-# Configuration file for primary server for .greens.
-.greens DB ./var/dns/greensdb.txt
-.greens SS 10.0.4.12
-.greens SS 10.0.18.10
-.greens DD 10.0.4.11
-.greens LG ./var/dns/greenslogsp.txt
-root ST ./var/dns/rootservers.txt
