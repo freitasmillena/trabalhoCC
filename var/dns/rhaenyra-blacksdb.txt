@@ -1,4 +1,4 @@
-# DNS database file for domain rhaenyra.blacks
+# DNS database file for domain rhaenyra.blacks.
 
 rhaenyra.blacks. SOASP ns1.rhaenyra.blacks. 86400
 rhaenyra.blacks. SOAADMIN dns\.admin.rhaenyra.blacks. 86400
@@ -14,16 +14,16 @@ rhaenyra.blacks. NS ns3.rhaenyra.blacks. 86400
 rhaenyra.blacks. MX mx1.rhaenyra.blacks. 86400 
 rhaenyra.blacks. MX mx2.rhaenyra.blacks. 86400 
 
-ns1.rhaenyra.blacks. A 10.0.3.10 86400
-ns2.rhaenyra.blacks. A 10.0.3.11 86400
+ns1.rhaenyra.blacks. A 10.0.12.10 86400
+ns2.rhaenyra.blacks. A 10.0.22.10 86400
 ns3.rhaenyra.blacks. A 10.0.23.10 86400
-mx1.rhaenyra.blacks. A 10.0.3.15 86400
-mx2.rhaenyra.blacks. A 10.0.3.16 86400
-www.rhaenyra.blacks. A 10.0.3.14 86400 
+mx1.rhaenyra.blacks. A 10.0.12.11 86400
+mx2.rhaenyra.blacks. A 10.0.12.14 86400
+www.rhaenyra.blacks. A 10.0.12.13 86400 
 
-sp CNAME ns1.rhaenyra.blacks. 86400
-ss1 CNAME ns2.rhaenyra.blacks. 86400
-ss2 CNAME ns3.rhaenyra.blacks. 86400
-mail1 CNAME mx1.rhaenyra.blacks. 86400
-mail2 CNAME mx2.rhaenyra.blacks. 86400 
-web CNAME www.rhaenyra.blacks. 86400
+sp.rhaenyra.blacks. CNAME ns1.rhaenyra.blacks. 86400
+ss1.rhaenyra.blacks. CNAME ns2.rhaenyra.blacks. 86400
+ss2.rhaenyra.blacks. CNAME ns3.rhaenyra.blacks. 86400
+mail1.rhaenyra.blacks. CNAME mx1.rhaenyra.blacks. 86400
+mail2.rhaenyra.blacks. CNAME mx2.rhaenyra.blacks. 86400 
+web.rhaenyra.blacks. CNAME www.rhaenyra.blacks. 86400

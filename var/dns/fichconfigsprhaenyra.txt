@@ -1,7 +1,7 @@
 # Configuration file for primary server for rhaenyra.blacks.
-rhaenyra.blacks DB ./var/dns/rhaenyrasdb.txt
-rhaenyra.blacks SS 10.0.3.11
-rhaenyra.blacks SS 10.0.23.10
-rhaenyra.blacks DD 10.0.3.10
-rhaenyra.blacks LG ./var/dns/rhaenyraslogsp.txt
+rhaenyra.blacks. DB ./var/dns/rhaenyrasdb.txt
+rhaenyra.blacks. SS 10.0.22.10
+rhaenyra.blacks. SS 10.0.23.10
+rhaenyra.blacks. DD 10.0.12.10
+rhaenyra.blacks. LG ./var/dns/rhaenyraslogsp.txt
 root ST ./var/dns/rootservers.txt

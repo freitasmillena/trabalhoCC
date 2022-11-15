@@ -1,0 +1,15 @@
+# DNS database file for .root1. server
+.root1. SOASP ns1.root. 86400
+.root1. SOAADMIN dns\.admin.root. 86400
+.root1. SOASERIAL 0117102022 86400
+.root1. SOAREFRESH 14400 86400
+.root1. SOARETRY 3600 86400
+.root1. SOAEXPIRE 604800 86400
+
+.root1. NS ns1.root1. 86400
+
+ns1.root1. A 10.0.17.10 86400
+.greens. A 10.0.0.10 86400
+.blacks. A 10.0.10.15 86400
+
+sp.root1. CNAME ns1.root1. 86400

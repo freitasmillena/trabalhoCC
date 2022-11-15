@@ -1,4 +1,4 @@
-# Configuration file for resolver server for alicent.greens
-alicent.greens DD 10.0.2.15
-alicent.greens LG ./var/dns/alicentlogsr.txt
+# Configuration file for resolver server for alicent.greens.
+alicent.greens. DD 10.0.13.14
+alicent.greens. LG ./var/dns/alicentlogsr.txt
 root ST ./var/dns/rootservers.txt
