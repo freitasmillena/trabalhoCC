@@ -14,6 +14,7 @@ public class Parser {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
+
             if (linha.equals("\n")) continue;
             else if (linha.charAt(0) == '#') continue;
 
@@ -34,7 +35,7 @@ public class Parser {
                         sp.setPortaAtendimento(linhaPartida[2]);
                         break;
                     case "ST":
-                        fileParserST(linhaPartida[0], sp);
+                        fileParserST(linhaPartida[2], sp);
                         break;
                     case "LG":
                         sp.setFicheiroLog(linhaPartida[2]);
@@ -46,72 +47,78 @@ public class Parser {
 
     // Prioridades aplicáveis apenas para os todos campos
     // prioridade INFINITA: 1 000 000 (1 milhão) 
-    public void fileParserDadosSP(SP sp) { //pq tem q passar nomefich se ja guardou no sp?
+    public void fileParserDadosSP(SP sp) {
         List<String> linhas = lerFicheiro(sp.getFicheiroBD());
         int prioridade;
 
         for (String linha : linhas) {
-            if (linha.equals("\n")) continue;
-            else if (linha.charAt(0) == '#') continue;
+
+            if (linha.trim().isEmpty()) {
+
+            }
 
             else {
+
                 String[] linhaPartida;
                 linhaPartida = linha.split("[ \\r\\n]+");
 
-                // Lidar com as proridades
-                if (linhaPartida[4].equals("")) { // não tem prioridade
-                    prioridade = 1000000;
+                if (linhaPartida[0].equals("#")) {
+
                 }
-                else prioridade = Integer.parseInt(linhaPartida[4]);
+                else {
+
+                    if (linhaPartida.length < 5) { // não tem prioridade
+                        prioridade = 1000000;
+                    } else prioridade = Integer.parseInt(linhaPartida[4]);
 
 
-                switch(linhaPartida[1]) {
-                    case "SOASP":
-                        Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP", prioridade, sp.getDominio());
-                        sp.addRegistoBD("SOASP", soap);
-                        break;
-                    case "SOAADMIN":
-                        Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAADMIN", prioridade, sp.getDominio());
-                        sp.addRegistoBD("SOAADMIN", soadmin);
-                        break;
-                    case "SOASERIAL":
-                        Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASERIAL", prioridade, sp.getDominio());
-                        sp.addRegistoBD("SOASERIAL", soaserial);
-                        break;
-                    case "SOAREFRESH":
-                        Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAREFRESH", prioridade, sp.getDominio());
-                        sp.addRegistoBD("SOAREFRESH", soarefresh);
-                        break;
-                    case "SOARETRY":
-                        Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOARETRY", prioridade, sp.getDominio());
-                        sp.addRegistoBD("SOARETRY", soaretry);
-                        break; 
-                    case "SOAEXPIRE":
-                        Registo soaexpire= new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAEXPIRE", prioridade, sp.getDominio());
-                        sp.addRegistoBD("SOAEXPIRE", soaexpire);
-                        break;
-                    case "NS":
-                        if(linhaPartida[0].equals(sp.getDominio())) {
-                            Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, sp.getDominio());
-                            sp.addRegistoBD("NS", ns);
-                        }
-                        else {
-                            Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, linhaPartida[0]);
-                            sp.addRegistoBD(linhaPartida[0], ns);
-                        }
-                        break;
-                    case "A":
-                        Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A", prioridade, linhaPartida[0]);
-                        sp.addRegistoBD("A", a); // Formato ns1.example.com.
-                        break;
-                    case "CNAME":
-                        Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME", prioridade, linhaPartida[0]);
-                        sp.addRegistoBD("CNAME", cname);
-                        break;
-                    case "MX":
-                        Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX", prioridade, sp.getDominio());
-                        sp.addRegistoBD("MX", mx);
-                        break;
+                    switch (linhaPartida[1]) {
+                        case "SOASP":
+                            Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP", prioridade, sp.getDominio());
+                            sp.addRegistoBD("SOASP", soap);
+                            break;
+                        case "SOAADMIN":
+                            Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAADMIN", prioridade, sp.getDominio());
+                            sp.addRegistoBD("SOAADMIN", soadmin);
+                            break;
+                        case "SOASERIAL":
+                            Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASERIAL", prioridade, sp.getDominio());
+                            sp.addRegistoBD("SOASERIAL", soaserial);
+                            break;
+                        case "SOAREFRESH":
+                            Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAREFRESH", prioridade, sp.getDominio());
+                            sp.addRegistoBD("SOAREFRESH", soarefresh);
+                            break;
+                        case "SOARETRY":
+                            Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOARETRY", prioridade, sp.getDominio());
+                            sp.addRegistoBD("SOARETRY", soaretry);
+                            break;
+                        case "SOAEXPIRE":
+                            Registo soaexpire = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAEXPIRE", prioridade, sp.getDominio());
+                            sp.addRegistoBD("SOAEXPIRE", soaexpire);
+                            break;
+                        case "NS":
+                            if (linhaPartida[0].equals(sp.getDominio())) {
+                                Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, sp.getDominio());
+                                sp.addRegistoBD("NS", ns);
+                            } else {
+                                Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, linhaPartida[0]);
+                                sp.addRegistoBD(linhaPartida[0], ns);
+                            }
+                            break;
+                        case "A":
+                            Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A", prioridade, linhaPartida[0]);
+                            sp.addRegistoBD("A", a); // Formato ns1.example.com.
+                            break;
+                        case "CNAME":
+                            Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME", prioridade, linhaPartida[0]);
+                            sp.addRegistoBD("CNAME", cname);
+                            break;
+                        case "MX":
+                            Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX", prioridade, sp.getDominio());
+                            sp.addRegistoBD("MX", mx);
+                            break;
+                    }
                 }
             }
         }
@@ -199,7 +206,10 @@ public class Parser {
     public List<String> lerFicheiro(String nomeFich) {
         List<String> lines;
         try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8); }
-        catch(IOException exc) { lines = new ArrayList<>(); }
+        catch(IOException exc) {
+            System.out.println("n achou");
+            lines = new ArrayList<>();
+        }
         return lines;
     }
 

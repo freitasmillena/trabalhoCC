@@ -1,0 +1,5 @@
+# Configuration file for secondary server for rhaenyras.blacks.
+rhaenyra.blacks. SP 10.0.12.10
+rhaenyra.blacks. DD 10.0.22.10
+rhaenyra.blacks. LG var/dns/rhaenyraslogss1.txt
+root ST var/dns/rootservers.txt

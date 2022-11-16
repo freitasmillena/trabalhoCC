@@ -29,6 +29,16 @@ public class Registo {
         this.nome = registo.getNome();
     }
 
+    public Registo(byte[] data){
+        String msg =  new String(data).trim();
+        String[] arrOfStr = msg.split(" ", 5);
+        this.nome = arrOfStr[0];
+        this.tag = arrOfStr[1];
+        this.valor = arrOfStr[2];
+        this.timetolive = Integer.parseInt(arrOfStr[3]);
+        this.prioridade = Integer.parseInt(arrOfStr[4]);
+    }
+
     public String getNome() {
         return this.nome;
     }

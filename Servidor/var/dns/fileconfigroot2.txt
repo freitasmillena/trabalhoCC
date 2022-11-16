@@ -1,0 +1,4 @@
+# Configuration file for root server 2
+root DB var/dns/rootdb.txt
+root DD 10.0.18.10
+root LG var/dns/root2log.txt

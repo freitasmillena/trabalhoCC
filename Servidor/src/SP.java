@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class SP extends Servidor{
@@ -242,46 +243,36 @@ public class SP extends Servidor{
     }
 
 
-    public void run(){
 
-        /* Pra testar sem conexão com cliente
+    public void testing(){
 
-        this.setDominio("example.com.");
-        Registo ns1 = new Registo("ns1.example.com.",8, "NS", 100,"example.com.");
-        Registo ns2 = new Registo("ns2.example.com.",8, "NS", 100,"example.com.");
-        Registo smaller = new Registo("sp.smaller.example.com.",8, "NS", 100,"Smaller.example.com.");
-        Registo mx1 = new Registo("mx1.example.com.",8, "MX", 100,"example.com.");
-        Registo mx2 = new Registo("mx2.example.com.",8, "MX", 100,"example.com.");
-        Registo ans = new Registo("193.136.130.250", 8, "A", 100, "ns1.example.com.");
-        Registo ans2 = new Registo("193.136.130.251", 8, "A", 100, "ns2.example.com.");
-        Registo asp = new Registo("193.140.90.11", 8, "A", 100, "sp.smaller.example.com.");
-        Registo amx = new Registo("193.136.130.200", 8, "A", 100, "mx1.example.com.");
-        Registo amx2 = new Registo("193.136.130.201", 8, "A", 100, "mx2.example.com.");
-        Registo csp = new Registo("ns1.example.com.", 8, "CNAME",100,"sp.example.com.");
-        Registo cmail = new Registo("mx1.example.com.", 8, "CNAME",100,"mail1.example.com.");
+        System.out.println(super.getDominio());
+        System.out.println(super.getFicheiroLog());
+        System.out.println(super.getTimeOut());
+        System.out.println(super.getServidoresTopo());
+        System.out.println(this.ficheiroBD);
+
+        for(String s : this.BD.keySet()){
+            System.out.println(s + ": ");
+            for(Registo r : this.BD.get(s)){
+                System.out.println(r);
+            }
+        }
 
 
-        addRegistoBD("NS", ns1);
-        addRegistoBD("NS", ns2);
-        addRegistoBD("Smaller.example.com.", smaller);
-        addRegistoBD("MX", mx1);
-        addRegistoBD("MX", mx2);
-        addRegistoBD("A", ans);
-        addRegistoBD("A", ans2);
-        addRegistoBD("A", asp);
-        addRegistoBD("A", amx);
-        addRegistoBD("A", amx2);
-        addRegistoBD("CNAME", csp);
-        addRegistoBD("CNAME", cmail);
 
-        PDU query = new PDU("1234", "example.com.", "MX", "0", "0","0", "0", "", "", "");
-        PDU query2 = new PDU("1234", "example.com.", "NS", "0", "0","0", "0", "", "", "");
-        PDU query3 = new PDU("1234", "Smaller.example.com.", "NS", "0", "0","0", "0", "", "", "");
-        PDU query4 = new PDU("1234", "mx1.example.com.", "A", "0", "0","0", "0", "", "", "");
-        PDU query5 = new PDU("1234", "sp.smaller.example.com.", "A", "0", "0","0", "0", "", "", "");
-        PDU query6 = new PDU("1234", "ns1.example.com.", "A", "0", "0","0", "0", "", "", "");
-        PDU query7 = new PDU("1234", "sp.example.com.", "CNAME", "0", "0","0", "0", "", "", "");
-        PDU query8 = new PDU("1234", "mail1.example.com.", "CNAME", "0", "0","0", "0", "", "", "");
+
+
+        /*
+
+        PDU query = new PDU("1234", ".greens.", "MX", "0", "0","0", "0", "", "", "");
+        PDU query2 = new PDU("1234", ".greens.", "NS", "0", "0","0", "0", "", "", "");
+        PDU query3 = new PDU("1234", "Alicent.greens.", "NS", "0", "0","0", "0", "", "", "");
+        PDU query4 = new PDU("1234", "mx1.greens.", "A", "0", "0","0", "0", "", "", "");
+        PDU query5 = new PDU("1234", "sp.alicent.greens.", "A", "0", "0","0", "0", "", "", "");
+        PDU query6 = new PDU("1234", "ns1.greens.", "A", "0", "0","0", "0", "", "", "");
+        PDU query7 = new PDU("1234", "sp.greens.", "CNAME", "0", "0","0", "0", "", "", "");
+        PDU query8 = new PDU("1234", "mail1.greens.", "CNAME", "0", "0","0", "0", "", "", "");
 
 
         String resposta = handleQuery(query);
@@ -310,18 +301,22 @@ public class SP extends Servidor{
         String resposta8 = handleQuery(query8);
         System.out.println(resposta8);
 
+        */
 
-*/
+    }
+    public void run(){
 
+
+        /*testing();
 
         System.out.println("Servidor inicializou");
         while (true) {
-            byte[] buffer = new byte[256];
+            byte[] buffer = new byte[512];
             DatagramSocket serverS = null;
 
             try {
                 //Receber
-                serverS = new DatagramSocket(5353);
+                serverS = new DatagramSocket(5555);
                 DatagramPacket receiver = new DatagramPacket(buffer, buffer.length);
                 serverS.receive(receiver);
                 serverS.close();
@@ -339,6 +334,7 @@ public class SP extends Servidor{
                 //Log terminal
                 System.out.println(l1);
                 //Log ficheiro
+
                 l1.logToFile(super.getFicheiroLog());
 
 
@@ -363,7 +359,7 @@ public class SP extends Servidor{
             }
 
         }
-
+*/
 
     }
 

@@ -8,9 +8,6 @@ public class Main {
         String configPath = args[3];
         String typeServer = args[4];
 
-        /* Exemplo
-        5555 87400 y C:/Users/Mimi/UMinho/CC/trabalhoCC-main/path.txt sp
-         */
 
         Parser p = new Parser();
 
@@ -19,25 +16,26 @@ public class Main {
         switch (typeServer) {
             case "sp":
                 serv = new SP();
+                serv.setTimeOut(valorTimeout);
                 p.fileParserConfigSP(configPath, (SP) serv);
                 p.fileParserDadosSP((SP) serv);
                 break;
             case "ss":
                 serv = new SS();
+                serv.setTimeOut(valorTimeout);
                 p.fileParserConfigSS(configPath, (SS) serv);
                 break;
             case "sr":
                 serv = new SR();
+                serv.setTimeOut(valorTimeout);
                 p.fileParserConfigSR(configPath, (SR) serv);
                 break;
         }
 
-        System.out.println(serv instanceof SP);
-        System.out.println(serv instanceof SS);
-        System.out.println(serv instanceof SR);
-
         //assert serv != null;
-        //serv.run();
+        serv.run();
+
+
 
        // Ficheiros de LOG "C:/Users/Mimi/UMinho/CC/trabalhoCC-main/path.txt"
 

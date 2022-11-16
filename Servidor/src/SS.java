@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -5,7 +6,7 @@ import java.util.Map;
 public class SS extends Servidor{
     private String servidorPrimario;
     private String segurancaSP;
-    private Map<String,Registo> BD; // cópia da BD do respetivo SP
+    private Map<String, List<Registo>> BD; // cópia da BD do respetivo SP
     private int versaoBD;
 
     public SS() {
@@ -16,7 +17,7 @@ public class SS extends Servidor{
         this.versaoBD = 0;
     }
 
-    public SS(String dominio, String timeout, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String servidorPrimario, String segurancaSP, Map<String, Registo> BD, int versaoBD) {
+    public SS(String dominio, String timeout, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String servidorPrimario, String segurancaSP, int versaoBD) {
         super(dominio, portaAtendimento, ficheiroLog, servidoresTopo, timeout);
         this.servidorPrimario = servidorPrimario;
         this.segurancaSP = segurancaSP;
@@ -24,9 +25,6 @@ public class SS extends Servidor{
 
         this.BD = new HashMap<>();
 
-        for(String st : BD.keySet()){
-            this.BD.put(st, BD.get(st).clone());
-        }
     }
 
     public String getServidorPrimario() {
@@ -53,20 +51,29 @@ public class SS extends Servidor{
         this.versaoBD = versaoBD;
     }
 
-    public Map<String, Registo> getBD() {
-        Map<String,Registo> res = new HashMap<>();
+    public Map<String, List<Registo>> getBD() {
+        Map<String,List<Registo>> res = new HashMap<>();
 
         for(String st : this.BD.keySet()){
-            res.put(st, this.BD.get(st).clone());
+            List<Registo> registos = new ArrayList<>();
+            for(Registo r : this.BD.get(st) ){
+                registos.add(r.clone());
+            }
+            res.put(st,registos);
+
         }
         return res;
     }
 
-    public void setBD(Map<String, Registo> BD) {
+    public void setBD(Map<String, List<Registo>> BD) {
         this.BD = new HashMap<>();
 
         for(String st : BD.keySet()){
-            this.BD.put(st, BD.get(st).clone());
+            List<Registo> registos = new ArrayList<>();
+            for(Registo r : BD.get(st) ){
+                registos.add(r.clone());
+            }
+            this.BD.put(st,registos);
         }
     }
 
@@ -81,6 +88,27 @@ public class SS extends Servidor{
                 this.versaoBD == ss.getVersaoBD() &&
                 this.BD.equals(ss.getBD())
                 );
+
+    }
+
+    public void addRegistoBD(String tipoValor, Registo r) {
+        if(this.BD.containsKey(tipoValor)){
+            this.BD.get(tipoValor).add(r.clone());
+        }
+        else{
+            List<Registo> reg = new ArrayList<>();
+            reg.add(r.clone());
+            this.BD.put(tipoValor,reg);
+        }
+    }
+
+    public void transfZonaLinha(Registo r){
+        if(  (!super.getDominio().equals(r.getNome()) )  && r.getTag().equals("NS")){
+            addRegistoBD(r.getNome(), r.clone());
+        }
+        else {
+            addRegistoBD(r.getTag(), r.clone());
+        }
 
     }
 

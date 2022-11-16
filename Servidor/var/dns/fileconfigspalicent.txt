@@ -1,0 +1,7 @@
+# Configuration file for primary server for alicent.greens.
+alicent.greens. DB var/dns/alicent-greensdb.txt
+alicent.greens. SS 10.0.14.10
+alicent.greens. SS 10.0.15.10
+alicent.greens. DD 10.0.13.10
+alicent.greens. LG var/dns/alicentlogsp.txt
+root ST var/dns/rootservers.txt
