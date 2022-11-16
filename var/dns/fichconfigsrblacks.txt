@@ -1,4 +1,0 @@
-# Configuration file for resolver server for .blacks.
-.blacks. DD 10.0.10.12
-.blacks. LG ./var/dns/blackslogsr.txt
-root ST ./var/dns/rootservers.txt
