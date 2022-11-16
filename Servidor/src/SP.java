@@ -174,10 +174,11 @@ public class SP extends Servidor{
 
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < registos.size();i++){
-            if(i != 0) sb.append(",");
-            if(!res.contains(registos.get(i))) {
-                res.add(registos.get(i).clone());
-                sb.append(fetch(registos.get(i).getvalor(), "A"));
+            Registo r = fetch(registos.get(i).getvalor(), "A");
+            if(!res.contains(r)) {
+                res.add(r.clone());
+                if(i != 0) sb.append(",");
+                sb.append(r);
             }
         }
         str[0] = sb.toString();
@@ -242,6 +243,77 @@ public class SP extends Servidor{
 
 
     public void run(){
+
+        /* Pra testar sem conexão com cliente
+
+        this.setDominio("example.com.");
+        Registo ns1 = new Registo("ns1.example.com.",8, "NS", 100,"example.com.");
+        Registo ns2 = new Registo("ns2.example.com.",8, "NS", 100,"example.com.");
+        Registo smaller = new Registo("sp.smaller.example.com.",8, "NS", 100,"Smaller.example.com.");
+        Registo mx1 = new Registo("mx1.example.com.",8, "MX", 100,"example.com.");
+        Registo mx2 = new Registo("mx2.example.com.",8, "MX", 100,"example.com.");
+        Registo ans = new Registo("193.136.130.250", 8, "A", 100, "ns1.example.com.");
+        Registo ans2 = new Registo("193.136.130.251", 8, "A", 100, "ns2.example.com.");
+        Registo asp = new Registo("193.140.90.11", 8, "A", 100, "sp.smaller.example.com.");
+        Registo amx = new Registo("193.136.130.200", 8, "A", 100, "mx1.example.com.");
+        Registo amx2 = new Registo("193.136.130.201", 8, "A", 100, "mx2.example.com.");
+        Registo csp = new Registo("ns1.example.com.", 8, "CNAME",100,"sp.example.com.");
+        Registo cmail = new Registo("mx1.example.com.", 8, "CNAME",100,"mail1.example.com.");
+
+
+        addRegistoBD("NS", ns1);
+        addRegistoBD("NS", ns2);
+        addRegistoBD("Smaller.example.com.", smaller);
+        addRegistoBD("MX", mx1);
+        addRegistoBD("MX", mx2);
+        addRegistoBD("A", ans);
+        addRegistoBD("A", ans2);
+        addRegistoBD("A", asp);
+        addRegistoBD("A", amx);
+        addRegistoBD("A", amx2);
+        addRegistoBD("CNAME", csp);
+        addRegistoBD("CNAME", cmail);
+
+        PDU query = new PDU("1234", "example.com.", "MX", "0", "0","0", "0", "", "", "");
+        PDU query2 = new PDU("1234", "example.com.", "NS", "0", "0","0", "0", "", "", "");
+        PDU query3 = new PDU("1234", "Smaller.example.com.", "NS", "0", "0","0", "0", "", "", "");
+        PDU query4 = new PDU("1234", "mx1.example.com.", "A", "0", "0","0", "0", "", "", "");
+        PDU query5 = new PDU("1234", "sp.smaller.example.com.", "A", "0", "0","0", "0", "", "", "");
+        PDU query6 = new PDU("1234", "ns1.example.com.", "A", "0", "0","0", "0", "", "", "");
+        PDU query7 = new PDU("1234", "sp.example.com.", "CNAME", "0", "0","0", "0", "", "", "");
+        PDU query8 = new PDU("1234", "mail1.example.com.", "CNAME", "0", "0","0", "0", "", "", "");
+
+
+        String resposta = handleQuery(query);
+        System.out.println(resposta);
+
+        String resposta2 = handleQuery(query2);
+        System.out.println(resposta2);
+
+        String resposta3 = handleQuery(query3);
+        System.out.println(resposta3);
+
+        String resposta4 = handleQuery(query4);
+        System.out.println(resposta4);
+
+
+
+        String resposta5 = handleQuery(query5);
+        System.out.println(resposta5);
+
+        String resposta6= handleQuery(query6);
+        System.out.println(resposta6);
+
+        String resposta7 = handleQuery(query7);
+        System.out.println(resposta7);
+
+        String resposta8 = handleQuery(query8);
+        System.out.println(resposta8);
+
+
+*/
+
+
         System.out.println("Servidor inicializou");
         while (true) {
             byte[] buffer = new byte[256];
@@ -291,6 +363,8 @@ public class SP extends Servidor{
             }
 
         }
+
+
     }
 
 }
