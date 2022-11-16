@@ -48,7 +48,7 @@ public class PDU {
     }
 
     //formato conciso
-    public String ToString(){
+    public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append(this.messageID).append(",")
                 .append(this.flags).append(",")

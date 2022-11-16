@@ -18,7 +18,7 @@ public class UDPHandler {
     public String connectionHandler(String query) {
 
 
-        byte[] buffer = new byte[256];
+        byte[] buffer = new byte[512];
 
 
         PDU resposta = null;
