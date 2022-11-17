@@ -1,0 +1,12 @@
+17:11:2022.18:03:45:474 ZT 127.0.0.1 SS 15 ms
+17:11:2022.18:05:00:539 QR 127.0.0.1 3637,Q,0,0,0,0;.blacks.,MX;null;null;null;
+17:11:2022.18:05:00:542 RP 127.0.0.1 3637,A,0,2,3,5;.blacks.,MX;.blacks. MX mx1.blacks. 86400 1000000,.blacks. MX mx2.blacks. 86400 1000000;.blacks. NS ns1.blacks. 86400 1000000,.blacks. NS ns2.blacks. 86400 1000000,.blacks. NS ns3.blacks. 86400 1000000;ns1.blacks. A 10.0.10.15 86400 1000000,ns2.blacks. A 10.0.20.10 86400 1000000,ns3.blacks. A 10.0.21.10 86400 1000000,mx1.blacks. A 10.0.10.11 86400 1000000,mx2.blacks. A 10.0.10.10 86400 1000000;
+17:11:2022.18:05:30:553 QR 127.0.0.1 33323,Q,0,0,0,0;.blacks.,MX;null;null;null;
+17:11:2022.18:05:30:555 RP 127.0.0.1 33323,A,0,2,3,5;.blacks.,MX;.blacks. MX mx1.blacks. 86400 1000000,.blacks. MX mx2.blacks. 86400 1000000;.blacks. NS ns1.blacks. 86400 1000000,.blacks. NS ns2.blacks. 86400 1000000,.blacks. NS ns3.blacks. 86400 1000000;ns1.blacks. A 10.0.10.15 86400 1000000,ns2.blacks. A 10.0.20.10 86400 1000000,ns3.blacks. A 10.0.21.10 86400 1000000,mx1.blacks. A 10.0.10.11 86400 1000000,mx2.blacks. A 10.0.10.10 86400 1000000;
+17:11:2022.18:06:08:710 QR 127.0.0.1 11052,Q,0,0,0,0;ns1.blacks.,CNAME;null;null;null;
+17:11:2022.18:06:08:711 RP 127.0.0.1 11052,A,0,1,3,3;ns1.blacks.,CNAME;sp.blacks. CNAME ns1.blacks. 86400 1000000;.blacks. NS ns1.blacks. 86400 1000000,.blacks. NS ns2.blacks. 86400 1000000,.blacks. NS ns3.blacks. 86400 1000000;ns1.blacks. A 10.0.10.15 86400 1000000,ns2.blacks. A 10.0.20.10 86400 1000000,ns3.blacks. A 10.0.21.10 86400 1000000;
+17:11:2022.18:06:39:413 QR 127.0.0.1 32973,Q,0,0,0,0;mx1.blacks.,CNAME;null;null;null;
+17:11:2022.18:06:39:415 RP 127.0.0.1 32973,A,0,1,3,4;mx1.blacks.,CNAME;mail1.blacks. CNAME mx1.blacks. 86400 1000000;.blacks. NS ns1.blacks. 86400 1000000,.blacks. NS ns2.blacks. 86400 1000000,.blacks. NS ns3.blacks. 86400 1000000;ns1.blacks. A 10.0.10.15 86400 1000000,ns2.blacks. A 10.0.20.10 86400 1000000,ns3.blacks. A 10.0.21.10 86400 1000000,mx1.blacks. A 10.0.10.11 86400 1000000;
+17:11:2022.18:25:47:38 ZT 127.0.0.1 SS 21 ms
+17:11:2022.18:26:55:10 QR 127.0.0.1 50449,Q,0,0,0,0;mx1.blacks.,CNAME;null;null;null;
+17:11:2022.18:26:55:12 RP 127.0.0.1 50449,A,0,1,3,4;mx1.blacks.,CNAME;mail1.blacks. CNAME mx1.blacks. 86400 1000000;.blacks. NS ns1.blacks. 86400 1000000,.blacks. NS ns2.blacks. 86400 1000000,.blacks. NS ns3.blacks. 86400 1000000;ns1.blacks. A 10.0.10.15 86400 1000000,ns2.blacks. A 10.0.20.10 86400 1000000,ns3.blacks. A 10.0.21.10 86400 1000000,mx1.blacks. A 10.0.10.11 86400 1000000;

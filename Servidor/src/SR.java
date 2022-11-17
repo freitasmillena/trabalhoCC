@@ -66,6 +66,11 @@ public class SR extends Servidor{
     }
 
     @Override
+    public void transf_zone() {
+
+    }
+
+    @Override
     public void run() {
         System.out.println("sou um SR e ainda n tenho run");
     }

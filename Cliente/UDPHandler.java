@@ -24,7 +24,6 @@ public class UDPHandler {
         PDU resposta = null;
 
         try {
-            System.out.println("Cliente inicializou");
 
 
             //Enviar
@@ -32,7 +31,7 @@ public class UDPHandler {
             DatagramPacket request = new DatagramPacket(query.getBytes(), query.getBytes().length, serverAdd, Integer.parseInt(serverPort));
             DatagramSocket s = new DatagramSocket();
             s.send(request);
-            System.out.println("Cliente enviou a query: " + query);
+
 
             //Receber
             DatagramPacket response = new DatagramPacket(buffer, buffer.length);
@@ -40,7 +39,7 @@ public class UDPHandler {
 
             resposta = new PDU(response.getData());
 
-            System.out.println("Cliente recebeu resposta:");
+
             s.close();
 
 

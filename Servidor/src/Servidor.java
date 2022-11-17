@@ -95,6 +95,6 @@ abstract class Servidor {
 
     }
 
-
+public abstract void transf_zone();
 public abstract void run();
 }

@@ -126,7 +126,7 @@ public class Parser {
 
     // Para ficheiros de configuração de SS - Servidores Secundários
     public void fileParserConfigSS(String nomeFich, SS ss){
-        
+
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
@@ -147,7 +147,7 @@ public class Parser {
                         ss.setPortaAtendimento(linhaPartida[2]);
                         break;
                     case "ST":
-                        fileParserST(linhaPartida[0], ss);
+                        fileParserST(linhaPartida[2], ss);
                         break;
                     case "LG":
                         ss.setFicheiroLog(linhaPartida[2]);
@@ -159,7 +159,8 @@ public class Parser {
 
     // Para ficheiros de configuração de SR - Servidores Secundários
     public void fileParserConfigSR(String nomeFich, SR sr){
-    
+
+
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
@@ -177,6 +178,7 @@ public class Parser {
                         sr.setPortaAtendimento(linhaPartida[2]);
                         break;
                     case "ST":
+
                         fileParserST(linhaPartida[2], sr);
                         break;
                     case "LG":
@@ -205,7 +207,7 @@ public class Parser {
 
     public List<String> lerFicheiro(String nomeFich) {
         List<String> lines;
-        try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8); }
+        try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);}
         catch(IOException exc) {
             System.out.println("n achou");
             lines = new ArrayList<>();

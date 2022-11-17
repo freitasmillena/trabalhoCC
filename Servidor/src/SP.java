@@ -1,8 +1,8 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.*;
 import java.util.*;
 
 public class SP extends Servidor{
@@ -133,7 +133,6 @@ public class SP extends Servidor{
                 this.servidoresSecundarios.equals(sp.getServidoresSecundarios()) &&
                 this.BD.equals(sp.getBD()));
     }
-
 
 
     public List<Registo> fetchTag(String tag){
@@ -314,19 +313,6 @@ public class SP extends Servidor{
     public void run(){
 
 
-        /*
-        pra enviar linha a linha da BD
-        for(String st : this.BD.keySet()){
-            List<Registo> list = this.BD.get(st);
-            for(Registo r : list){
-                String registo = r.toString();
-                //enviar registo
-            }
-        }
-        */
-       
-
-        System.out.println("Servidor inicializou");
         while (true) {
             byte[] buffer = new byte[512];
             DatagramSocket serverS = null;
@@ -338,7 +324,6 @@ public class SP extends Servidor{
                 serverS.receive(receiver);
                 serverS.close();
 
-                System.out.println("Servidor recebeu");
 
                 int portClient = receiver.getPort();
                 InetAddress ipCliente = receiver.getAddress();
@@ -347,7 +332,7 @@ public class SP extends Servidor{
 
                 //Logs query recebida
                 String ip = ipCliente.toString();
-                String args[] = ip.split("/", 2);
+                String[] args = ip.split("/", 2);
 
                 Log l1 = new Log("QR", args[1], query.ToString());
 
@@ -381,6 +366,103 @@ public class SP extends Servidor{
         }
 
 
+
     }
 
+    public String BDsize(){
+        int linhas = 0;
+        for(String s : this.BD.keySet()){
+            linhas += this.BD.get(s).size();
+        }
+        return Integer.toString(linhas);
+    }
+
+    public void transf_zone() {
+        try {
+
+            ServerSocket ss = new ServerSocket(24689);
+
+            Socket socket = ss.accept();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream());
+
+            // Recebeu pedido de transf de zona "1;1;dominio"
+            String request = in.readLine();
+            long start = System.currentTimeMillis();
+
+            String[] args = request.split(";", 3);
+            if(args[2].equals(super.getDominio())){
+                String size = BDsize();
+
+                //Envia n de linhas da base de dados "2;1;nlinhas"
+                String response = "2;1;" + size;
+                out.println(response);
+                out.flush();
+
+
+                //Recebe n de linhas de volta da base de dados
+                String responseLinhas = in.readLine();
+                String[] argsLinha = responseLinhas.split(";", 3);
+
+
+                //Não vai receber mais nada do SS
+                socket.shutdownInput();
+
+
+                if(argsLinha[2].equals(size)){
+                    //Se for igual, pode enviar linha a linha
+                    int numero = 1;
+                    for(String st : this.BD.keySet()){
+                        List<Registo> list = this.BD.get(st);
+                        for(Registo r : list){
+                            String registo = r.toString();
+
+                            //enviar registo
+                            String linhaBD = "3;" + Integer.toString(numero) + ";" + registo;
+                            out.println(linhaBD);
+                            out.flush();
+
+                            numero++;
+                        }
+                    }
+                    long elapsedTimeMillis = System.currentTimeMillis()-start;
+                    String dadosEntrada = "SP " + Long.toString(elapsedTimeMillis) +" ms";
+                    String ipSS = socket.getInetAddress().toString();
+                    String[] ip = ipSS.split("/", 2);
+                    // Logs
+                    Log zt = new Log("ZT", ip[1], dadosEntrada);
+                    //Log Terminal
+                    System.out.println(zt);
+                    //Log Ficheiro
+                    zt.logToFile(super.getFicheiroLog());
+
+                }
+
+
+            }
+            else {
+                String response = "1;1;dominioInvalido";
+                out.println(response);
+                out.flush();
+                String ipSS = socket.getInetAddress().toString();
+                String[] ip = ipSS.split("/", 2);
+                // Logs
+                Log ez = new Log("EZ", ip[1], "SP");
+                //Log Terminal
+                System.out.println(ez);
+                //Log Ficheiro
+                ez.logToFile(super.getFicheiroLog());
+            }
+
+
+            socket.shutdownOutput();
+            socket.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+

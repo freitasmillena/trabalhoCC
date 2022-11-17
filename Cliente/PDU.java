@@ -57,9 +57,9 @@ public class PDU {
                 .append(this.nAuthorities).append(",")
                 .append(this.nExtraValues).append(";")
                 .append(this.name).append(",")
-                .append(this.typeOfValue).append(";")
-                .append(this.responseValues).append(";")
-                .append(this.authoritiesValues).append(";")
+                .append(this.typeOfValue).append(";").append("\n")
+                .append(this.responseValues).append(";").append("\n")
+                .append(this.authoritiesValues).append(";").append("\n")
                 .append(this.extraValues).append(";");
 
         return sb.toString();
