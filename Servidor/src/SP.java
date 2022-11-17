@@ -3,7 +3,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class SP extends Servidor{
@@ -162,7 +161,13 @@ public class SP extends Servidor{
         Registo objetivo = null;
 
         for(Registo r : registos){
-            if(r.getNome().equals(nome)) {objetivo = r.clone();break;}
+            if(tag.equals("CNAME")){
+                if(r.getvalor().equals(nome)) {objetivo = r.clone();break;}
+            }
+            else {
+                if(r.getNome().equals(nome)) {objetivo = r.clone();break;}
+            }
+            
         }
 
         return objetivo;
@@ -304,10 +309,22 @@ public class SP extends Servidor{
         */
 
     }
+    
+    
     public void run(){
 
 
-        /*testing();
+        /*
+        pra enviar linha a linha da BD
+        for(String st : this.BD.keySet()){
+            List<Registo> list = this.BD.get(st);
+            for(Registo r : list){
+                String registo = r.toString();
+                //enviar registo
+            }
+        }
+        */
+       
 
         System.out.println("Servidor inicializou");
         while (true) {
@@ -329,7 +346,10 @@ public class SP extends Servidor{
                 PDU query = new PDU(receiver.getData());
 
                 //Logs query recebida
-                Log l1 = new Log("QR", ipCliente.toString(), query.ToString());
+                String ip = ipCliente.toString();
+                String args[] = ip.split("/", 2);
+
+                Log l1 = new Log("QR", args[1], query.ToString());
 
                 //Log terminal
                 System.out.println(l1);
@@ -347,8 +367,8 @@ public class SP extends Servidor{
                 s.send(sender);
                 s.close();
 
-                //Logs resposta
-                Log l2 = new Log("RP", ipCliente.toString(), pdu);
+                            //Logs resposta
+                Log l2 = new Log("RP", args[1], pdu);
                 System.out.println(l2);
                 l2.logToFile(super.getFicheiroLog());
 
@@ -359,7 +379,7 @@ public class SP extends Servidor{
             }
 
         }
-*/
+
 
     }
 
