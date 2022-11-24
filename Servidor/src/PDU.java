@@ -99,9 +99,9 @@ public class PDU {
         this.nExtraValues = fst[5];
         this.name = snd[0];
         this.typeOfValue = snd[1];
-        this.responseValues = "null";
-        this.authoritiesValues = "null";
-        this.extraValues = "null";
+        this.responseValues = "";
+        this.authoritiesValues = "";
+        this.extraValues = "";
     }
 
     //formato conciso
@@ -119,10 +119,10 @@ public class PDU {
                 .append(this.nAuthorities).append(",")
                 .append(this.nExtraValues).append(";")
                 .append(this.name).append(",")
-                .append(this.typeOfValue).append(";");
-        if(!this.responseValues.equals("null")) sb.append(this.responseValues).append(";");
-        if(!this.authoritiesValues.equals("null")) sb.append(this.authoritiesValues).append(";");
-        if(!this.extraValues.equals("null")) sb.append(this.extraValues).append(";");
+                .append(this.typeOfValue).append(";")
+                .append(this.responseValues).append(";")
+                .append(this.authoritiesValues).append(";")
+                .append(this.extraValues).append(";");
 
         return sb.toString();
     }

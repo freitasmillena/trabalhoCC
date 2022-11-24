@@ -237,13 +237,24 @@ public class SS extends Servidor{
         return str;
     }
 
+    public void containsAuth(List<Registo> list, String nome){
+
+        for(Registo r : list){
+            if(r.getvalor().equals(nome)) {
+                list.remove(r);
+                break;
+            }
+        }
+
+
+    }
+
     /**
      * Método responsável por receber uma query de um cliente e por criar o PDU de resposta para o cliente.
      * 
      * @param query PDU recebida a partir de um cliente
      * @return query de resposta do SP para o cliente
      */
-
     public String handleQuery(PDU query){
 
         List<Registo> authorities = fetchTag("NS");
@@ -251,8 +262,8 @@ public class SS extends Servidor{
         String auth = listString(authorities);
         String type = query.getTypeOfValue();
         String nome = query.getName();
-        String response = "null";
-        String extra = "null";
+        String response = "";
+        String extra = "";
         String nValues = "0";
         String nExtra = "0";
         String tags = "";
@@ -265,7 +276,7 @@ public class SS extends Servidor{
             response = r.toString();
             nValues = "1";
             nAuthorities = "0";
-            auth = "null";
+            auth = "";
             extra = fetch(r.getvalor(), "A").toString();
             nExtra = "1";
         }
@@ -285,6 +296,7 @@ public class SS extends Servidor{
                     rcode = "1";
 
                 }
+                containsAuth(authorities,nome);
                 String[] extras = fetchExtra(authorities);
                 extra = extras[0];
                 nExtra = extras[1];
@@ -322,13 +334,15 @@ public class SS extends Servidor{
             tags = "A";
             rcode = "2";
             nAuthorities = "0";
-            auth = "null";
+            auth = "";
 
         }
 
-        PDU resposta = new PDU(query.getMessageID(),nome,type, tags,rcode, nValues, nAuthorities,nExtra,response,auth,extra);
+        PDU resposta = new PDU(query.getMessageID(),nome,type, tags, rcode, nValues, nAuthorities,nExtra,response,auth,extra);
         return resposta.ToString();
     }
+
+
 
 
     /**

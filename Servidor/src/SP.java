@@ -304,6 +304,18 @@ public class SP extends Servidor{
         return str;
     }
 
+    public void containsAuth(List<Registo> list, String nome){
+
+        for(Registo r : list){
+            if(r.getvalor().equals(nome)) {
+                list.remove(r);
+                break;
+            }
+        }
+
+
+    }
+
     /**
      * Método responsável por receber uma query de um cliente e por criar o PDU de resposta para o cliente.
      * 
@@ -317,8 +329,8 @@ public class SP extends Servidor{
         String auth = listString(authorities);
         String type = query.getTypeOfValue();
         String nome = query.getName();
-        String response = "null";
-        String extra = "null";
+        String response = "";
+        String extra = "";
         String nValues = "0";
         String nExtra = "0";
         String tags = "";
@@ -331,7 +343,7 @@ public class SP extends Servidor{
             response = r.toString();
             nValues = "1";
             nAuthorities = "0";
-            auth = "null";
+            auth = "";
             extra = fetch(r.getvalor(), "A").toString();
             nExtra = "1";
         }
@@ -351,6 +363,7 @@ public class SP extends Servidor{
                     rcode = "1";
 
                 }
+                containsAuth(authorities,nome);
                 String[] extras = fetchExtra(authorities);
                 extra = extras[0];
                 nExtra = extras[1];
@@ -388,7 +401,7 @@ public class SP extends Servidor{
             tags = "A";
             rcode = "2";
             nAuthorities = "0";
-            auth = "null";
+            auth = "";
 
         }
 
