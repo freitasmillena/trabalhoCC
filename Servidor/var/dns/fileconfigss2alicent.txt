@@ -1,5 +1,5 @@
 # Configuration file for secondary server for alicent.greens.
 alicent.greens. SP 10.0.13.10
 alicent.greens. DD 10.0.15.10
-alicent.greens. LG var/dns/alicentlogss2.txt
-root ST var/dns/rootservers.txt
+alicent.greens. LG ../var/dns/alicentlogss2.txt
+root ST ../var/dns/rootservers.txt
