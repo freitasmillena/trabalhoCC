@@ -128,7 +128,7 @@ public class SS extends Servidor{
     /**
      * Devolve uma cópia da base de dados do SP
      * 
-     * @param cópia da base de dados do SP
+     * @param BD cópia da base de dados do SP
      */
     public void setBD(Map<String, List<Registo>> BD) {
         this.BD = new HashMap<>();
