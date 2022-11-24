@@ -269,75 +269,77 @@ public class SS extends Servidor{
         String tags = "";
         String rcode = "0";
 
-        if(nome.contains(this.subDominio)){
-            // response code 0, sem tags, sem authorities
-            // response é NS do sub e extra o A do sub
-            Registo r = fetch(this.subDominio,this.subDominio);
-            response = r.toString();
-            nValues = "1";
-            nAuthorities = "0";
-            auth = "";
-            extra = fetch(r.getvalor(), "A").toString();
-            nExtra = "1";
-        }
-        else if(nome.contains(super.getDominio())){
-            // response code 0, tag A -> encontrou resposta
-            // response code 1, tag A -> n encontrei máquina, sem extra, sem resposta, com NS
-
-            //A
-            if(type.equals("A")){
-                Registo r = fetch(nome,"A");
-                if(r != null){
-                    response = r.toString();
-                    nValues = "1";
-
-                }
-                else{
-                    rcode = "1";
-
-                }
-                containsAuth(authorities,nome);
-                String[] extras = fetchExtra(authorities);
-                extra = extras[0];
-                nExtra = extras[1];
-                tags = "A";
-            }
-            else if (type.equals("CNAME")){
-                Registo r = fetch(nome, "CNAME");
-                if(r != null){
-                    response = r.toString();
-                    nValues = "1";
-                    authorities.add(r);
-                }
-                else {
-                    rcode = "1";
-                }
-                String[] extras = fetchExtra(authorities);
-                extra = extras[0];
-                nExtra = extras[1];
-                tags = "A";
-            }
-            else {
-                //MX ou NS
-                List<Registo> r = fetchTag(type);
-                nValues = Integer.toString(r.size());
-                response = listString(r);
-                for (Registo reg : r) authorities.add(reg);
-                String[] extras = fetchExtra(authorities);
-                extra = extras[0];
-                nExtra = extras[1];
-                tags = "A";
-
-            }
-        }
-        else { // response code 2, A, sem extra, sem resposta, sem NS
+        // type of value inválido
+        if(!query.getTypes().contains(type)){
             tags = "A";
-            rcode = "2";
+            rcode = "3";
             nAuthorities = "0";
             auth = "";
-
         }
+        else {
+            if (nome.contains(this.subDominio)) {
+                // response code 0, sem tags, sem authorities
+                // response é NS do sub e extra o A do sub
+                Registo r = fetch(this.subDominio, this.subDominio);
+                response = r.toString();
+                nValues = "1";
+                nAuthorities = "0";
+                auth = "";
+                extra = fetch(r.getvalor(), "A").toString();
+                nExtra = "1";
+            } else if (nome.contains(super.getDominio())) {
+                // response code 0, tag A -> encontrou resposta
+                // response code 1, tag A -> n encontrei máquina, sem extra, sem resposta, com NS
 
+                //A
+                if (type.equals("A")) {
+                    Registo r = fetch(nome, "A");
+                    if (r != null) {
+                        response = r.toString();
+                        nValues = "1";
+
+                    } else {
+                        rcode = "1";
+
+                    }
+                    containsAuth(authorities, nome);
+                    String[] extras = fetchExtra(authorities);
+                    extra = extras[0];
+                    nExtra = extras[1];
+                    tags = "A";
+                } else if (type.equals("CNAME")) {
+                    Registo r = fetch(nome, "CNAME");
+                    if (r != null) {
+                        response = r.toString();
+                        nValues = "1";
+                        authorities.add(r);
+                    } else {
+                        rcode = "1";
+                    }
+                    String[] extras = fetchExtra(authorities);
+                    extra = extras[0];
+                    nExtra = extras[1];
+                    tags = "A";
+                } else {
+                    //MX ou NS
+                    List<Registo> r = fetchTag(type);
+                    nValues = Integer.toString(r.size());
+                    response = listString(r);
+                    for (Registo reg : r) authorities.add(reg);
+                    String[] extras = fetchExtra(authorities);
+                    extra = extras[0];
+                    nExtra = extras[1];
+                    tags = "A";
+
+                }
+            } else { // response code 2, A, sem extra, sem resposta, sem NS
+                tags = "A";
+                rcode = "2";
+                nAuthorities = "0";
+                auth = "";
+
+            }
+        }
         PDU resposta = new PDU(query.getMessageID(),nome,type, tags, rcode, nValues, nAuthorities,nExtra,response,auth,extra);
         return resposta.ToString();
     }
