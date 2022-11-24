@@ -9,7 +9,7 @@ public class PDU {
     private String messageID;
     // Flag da mensagem (Q - query, R- recursivo, A - autoritativo)
     private String flags; //Q - query, R- recursivo, A - autoritativo
-    // Código de erro na resposta a uma query (0 - sem erros; 1 - encontrado erro)
+    // Código de erro na resposta a uma query (0, 1, 2 ou 3)
     private String responseCode;
     // Número de entradas relevantes que respondem diretamente à query e que fazem parte da lista de entradas incluídas no campo RESPONSE VALUES
     private String nValues;
@@ -37,7 +37,7 @@ public class PDU {
      * @param messageID identificador único da mesnagem
      * @param name nome associado ao 'typeOfValue'
      * @param typeOfValue tipo de valor de resposta da query
-     * @param responseCode código de erro na resposta a uma query (0 - sem erros; 1 - encontrado erro)
+     * @param responseCode código de erro na resposta a uma query (0, 1, 2 ou 3)
      * @param nValues número de entradas relevantes que respondem diretamente à query e que fazem parte da lista de entradas incluídas no campo RESPONSE VALUES
      * @param nAuthorities número de entradas que identificam os servidores autoritativos para o domínio incluído no RESULT VALUES
      * @param nExtraValues número de entradas com informação adicional relacionada com os resultados da query ou com os servidores da lista de autoridades
