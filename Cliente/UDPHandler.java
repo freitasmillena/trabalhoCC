@@ -6,6 +6,10 @@ import java.net.SocketTimeoutException;
 
 /**
  * Classe responsável por gerir os PDUs e enviá-los para o Servidor/Cliente correto
+ * 
+ * @author Millena Freitas (a97777) - 60%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 20%
  */
 public class UDPHandler {
 

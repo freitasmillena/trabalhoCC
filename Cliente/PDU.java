@@ -1,5 +1,9 @@
 /**
  * Classe PDU - Protocol Data Unit - para o Cliente
+ * 
+ * @author Millena Freitas (a97777) - 60%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 20%
  */
 public class PDU {
     // Identificador único da mensagem
