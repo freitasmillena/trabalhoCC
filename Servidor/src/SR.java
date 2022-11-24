@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * Claase SR - Servidor de Resolução
+ */
 public class SR extends Servidor{
     private List<String> servidoresDNS;
     private Map<String, Registo> cache;

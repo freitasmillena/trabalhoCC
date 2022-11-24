@@ -5,10 +5,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe Parser - responsável por converter conteúdo de um ficheiro em dados importantes para o programa
+ */
 public class Parser {
 
-
     // Para ficheiros de configuração de SP - Servidores Primários
+    /**
+     * Método responsável por ler o conteúdo de um ficheiro de configuração e inserí-lo no Servidor Primário recebido
+     * Os comentários e as linhas vazias são ignorados.
+     * 
+     * @param nomeFich diretoria do ficheiro de configuração que contém os dados do servidor primário
+     * @param sp estrutura vazia do servidor primário, onde se irão inserir os dados de configuração contidos no respetivo ficheiro 
+     */
     public void fileParserConfigSP(String nomeFich, SP sp){
         
         List<String> linhas = lerFicheiro(nomeFich);
@@ -47,6 +56,14 @@ public class Parser {
 
     // Prioridades aplicáveis apenas para os todos campos
     // prioridade INFINITA: 1 000 000 (1 milhão) 
+    /**
+     * Método responsável por ler o conteúdo de um ficheiro de dados e inserí-lo na base de dados do Servidor Primário recebido.
+     * É necessário realçar o facto de que, quando no ficheiro de dados a linha a visitar não contém um valor de prioridade, será fornecido um valor equivalente a 1 milhão.  
+     * Os comentários e as linhas vazias são ignorados.
+     * 
+     * @param nomeFich diretoria do ficheiro de dados que contém os dados da base de dados do servidor primário
+     * @param sp estrutura do servidor primário, onde se irão inserir os dados de base de dados contidos no respetivo ficheiro 
+     */
     public void fileParserDadosSP(SP sp) {
         List<String> linhas = lerFicheiro(sp.getFicheiroBD());
         int prioridade;
@@ -54,7 +71,7 @@ public class Parser {
         for (String linha : linhas) {
 
             if (linha.trim().isEmpty()) {
-
+                continue;
             }
 
             else {
@@ -125,6 +142,13 @@ public class Parser {
     }
 
     // Para ficheiros de configuração de SS - Servidores Secundários
+    /**
+     * Método responsável por ler o conteúdo de um ficheiro de configuração e inserí-lo no Servidor Secundário recebido.
+     * Os comentários e as linhas vazias são ignorados.
+     * 
+     * @param nomeFich diretoria do ficheiro de configuração que contém os dados do servidor secundário
+     * @param ss estrutura vazia do servidor secundário, onde se irão inserir os dados de configuração contidos no respetivo ficheiro 
+     */
     public void fileParserConfigSS(String nomeFich, SS ss){
 
         List<String> linhas = lerFicheiro(nomeFich);
@@ -157,14 +181,21 @@ public class Parser {
         }
     }
 
-    // Para ficheiros de configuração de SR - Servidores Secundários
+    // Para ficheiros de configuração de SR - Servidores de Resolução
+    /**
+     * Método responsável por ler o conteúdo de um ficheiro de configuração e inserí-lo no Servidor de Resolução recebido.
+     * Os comentários e as linhas vazias são ignorados.
+     * 
+     * @param nomeFich diretoria do ficheiro de configuração que contém os dados do servidor de resolução
+     * @param ss estrutura vazia do servidor de resolução, onde se irão inserir os dados de configuração contidos no respetivo ficheiro 
+     */
     public void fileParserConfigSR(String nomeFich, SR sr){
 
 
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "\n") continue;
+            if (linha.equals("\n")) continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
@@ -189,12 +220,18 @@ public class Parser {
         }
     }
 
-
+    /**
+     * Método responsável por ler o conteúdo de um ficheiro de configuração e inserí-lo no Servidor de Topo recebido (ST).
+     * Os comentários e as linhas vazias são ignorados.
+     * 
+     * @param nomeFich diretoria do ficheiro de configuração que contém os dados do servidor de topo
+     * @param s estrutura vazia do servidor de topo, onde se irão inserir os dados de configuração contidos no respetivo ficheiro 
+     */
     public void fileParserST(String nomeFich, Servidor s) {
         List<String> linhas = lerFicheiro(nomeFich);
 
         for (String linha : linhas) {
-            if (linha == "\n") continue;
+            if (linha.equals("\n")) continue;
             else if (linha.charAt(0) == '#') continue;
 
             else {
@@ -205,6 +242,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Método auxiliar para ler um ficheiro e devolver as linhas do mesmo
+     * 
+     * @param nomeFich diretoria do ficheiro que se deve fazer parser
+     * @return lista de strings com as várias linhas do ficheiro recebido
+     */
     public List<String> lerFicheiro(String nomeFich) {
         List<String> lines;
         try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);}

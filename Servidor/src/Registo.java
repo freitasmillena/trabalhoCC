@@ -1,10 +1,21 @@
+/**
+ * Classe Registo - corrresponde a um pedaço de informação da base de dados dos servidores
+ */
 public class Registo {
+    // Valor associado ao registo
     private String valor;
+    // Tempo de validade do registo : tempo máximo em segundos que os dados podem existir na cache dum servidor
     private int timetolive;
+    // Tag do registo
     private String tag;
+    // Valor da prioridade do registo (varia entre 0 e 1 milhão)
     private int prioridade;
+    // Nome associado ao registo
     private String nome;
 
+    /**
+     * Construtor vazio para um Registo
+     */
     public Registo() {
         this.valor = "";
         this.timetolive = 0;
@@ -13,6 +24,15 @@ public class Registo {
         this.nome = "";
     }
 
+    /**
+     * Construtor para criar um registo com os dados recebidos
+     * 
+     * @param valor Valor associado ao registo
+     * @param timetolive Tempo de validade do registo : tempo máximo em segundos que os dados podem existir na cache dum servidor
+     * @param tag Tag do registo
+     * @param prioridade Valor da prioridade do registo (varia entre 0 e 1 milhão)
+     * @param nome Nome associado ao registo
+     */
     public Registo(String valor, int timetolive, String tag, int prioridade, String nome) {
         this.valor = valor;
         this.timetolive = timetolive;
@@ -21,6 +41,11 @@ public class Registo {
         this.nome = nome;
     }
 
+    /**
+     * Métoodo que permite copiar os campos do registo obtido para o atual
+     * 
+     * @param registo registo que se quer copiar
+     */
     public Registo(Registo registo) {
         this.valor = registo.getvalor();
         this.timetolive = registo.getTimetolive();
@@ -29,6 +54,11 @@ public class Registo {
         this.nome = registo.getNome();
     }
 
+    /**
+     * Conversão de um array de bytes no seu registo
+     * 
+     * @param data array de bytes que representa um registo
+     */
     public Registo(byte[] data){
         String msg =  new String(data).trim();
         String[] arrOfStr = msg.split(" ", 5);
@@ -39,18 +69,38 @@ public class Registo {
         this.prioridade = Integer.parseInt(arrOfStr[4]);
     }
 
+    /**
+     * Devolve nome associado ao registo
+     * 
+     * @return nome associado ao registo
+     */
     public String getNome() {
         return this.nome;
     }
 
+    /**
+     * Define nome associado ao registo
+     * 
+     * @param nome associado ao registo
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Devolve string do valor associado ao registo
+     * 
+     * @return string do valor associado ao registo
+     */
     public String getvalor() {
         return valor;
     }
 
+    /**
+     * Define string do valor associado ao registo
+     * 
+     * @param valor string do valor associado ao registo
+     */
     public void setvalor(String valor) {
         this.valor = valor;
     }
@@ -79,6 +129,11 @@ public class Registo {
         this.prioridade = prioridade;
     }
 
+    /**
+     * Verifica se o registo recebido é igual ao atual
+     * 
+     * @return booleano que diz se ambos os registos são iguais
+     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -91,10 +146,20 @@ public class Registo {
         );
     }
 
+    /**
+     * Cria um clone de um registo
+     * 
+     * @return uma cópia do registo
+     */
     public Registo clone(){
         return new Registo(this);
     }
 
+    /**
+     * Converet o registo nuam string comapctadad com todos os seus campos
+     * 
+     * @return string compacta com todos os campos do registo
+     */
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append(this.nome)

@@ -1,5 +1,6 @@
-import java.io.IOException;
-
+/**
+ * Classe Main principal que recebe os argumentos do terminal, os Servidores
+ */
 public class Main {
     public static void main(String[] args) {
         String portaAtendimento = args[0];

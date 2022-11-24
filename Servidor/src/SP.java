@@ -5,18 +5,27 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.*;
 
+/**
+ * Classe SP - de um Servidor Primário (extensão de Servidor)
+ */
 public class SP extends Servidor{
+    // Diretoria do ficheiro de base de dados do servidor primário
     private String ficheiroBD;
     private String segurancaBD;
+    // Lista dos Servidores Secundários associados ao Servidor Primário
     private List<String> servidoresSecundarios;
 
+    // Mapa dos registos da base de dados 
     private Map<String,List<Registo>> BD; // a String corresponde ao Tipo de Valor do Registo
                                     // à exceção do A em que é igual ao nome do parametro + dominio
-
+    // Valor da versão da base de dados
     private int versaoBD;
 
 
     // Construtor vazio
+    /**
+     * Construtor vazio para um Servidor Primário
+     */
     public SP() {
         super();
         this.ficheiroBD = "";
@@ -28,6 +37,19 @@ public class SP extends Servidor{
 
 
     // Construtor completo
+    /**
+     * Construtor que cria um Servidor Primário a partir dos dados recebidos
+     * 
+     * @param dominio nome de domínio do servidor primário
+     * @param timeout tempo máximo de espera pela resposta a uma query
+     * @param portaAtendimento
+     * @param ficheiroLog
+     * @param servidoresTopo
+     * @param ficheiroBD
+     * @param segurancaBD
+     * @param servidoresSecundarios lista dos Servidores Secundários associados ao Servidor Primário
+     * @param versaoBD valor da versão da base de dados
+     */
     public SP(String dominio, String timeout, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, String ficheiroBD, String segurancaBD, List<String> servidoresSecundarios, int versaoBD) {
         super(dominio, portaAtendimento, ficheiroLog, servidoresTopo, timeout);
         this.ficheiroBD = ficheiroBD;
@@ -43,18 +65,38 @@ public class SP extends Servidor{
 
     }
 
+    /**
+     * Devolve o inteiro com a versão da base de dados atual do servidor primário
+     * 
+     * @return inteiro com a versão da base de dados atual do servidor primário
+     */
     public int getVersaoBD() {
         return versaoBD;
     }
 
+    /**
+     * Define o valor da versão da base de dados
+     * 
+     * @param versaoBD valor da versão da base de dados
+     */
     public void setVersaoBD(int versaoBD) {
         this.versaoBD = versaoBD;
     }
 
+    /**
+     * Devolve a diretoria onde está o ficheiro da base de dados do SP
+     * 
+     * @return string com a diretoria onde está o ficheiro da base de dados do SP
+     */
     public String getFicheiroBD() {
         return ficheiroBD;
     }
 
+    /**
+     * Define a diretoria onde está o ficheiro da base de dados do SP
+     * 
+     * @param ficheiroBD string com a diretoria onde está o ficheiro da base de dados do SP
+     */
     public void setFicheiroBD(String ficheiroBD) {
         this.ficheiroBD = ficheiroBD;
     }
@@ -67,6 +109,11 @@ public class SP extends Servidor{
         this.segurancaBD = segurancaBD;
     }
 
+    /**
+     * Devolve a lista dos servidores secundários que estão associados ao servidor primário
+     * 
+     * @return lista dos servidores secundários que estão associados ao servidor primário
+     */
     public List<String> getServidoresSecundarios() {
         List<String> res = new ArrayList<>();
         for(String st : this.servidoresSecundarios) {
@@ -75,6 +122,11 @@ public class SP extends Servidor{
         return res;
     }
 
+    /**
+     * Define a lista dos servidores secundários do SP
+     * 
+     * @param servidoresSecundarios lista dos servidores secundários que queremos adicionar
+     */
     public void setServidoresSecundarios(List<String> servidoresSecundarios) {
         this.servidoresSecundarios = new ArrayList<>();
         for(String st : servidoresSecundarios) {
@@ -82,10 +134,20 @@ public class SP extends Servidor{
         }
     }
 
+    /**
+     * Adiciona um servidor secundário à lista de servidores secundários do SP
+     * 
+     * @param ss servidor secundário que se quer adicionar
+     */
     public void addServidorSecundario(String ss) {
         this.servidoresSecundarios.add(ss);
     }
 
+    /**
+     * Devolve uma cópia da base de dados do SP
+     * 
+     * @return cópia da base de dados do SP
+     */
     public Map<String, List<Registo>> getBD() {
         Map<String,List<Registo>> res = new HashMap<>();
 
@@ -100,6 +162,11 @@ public class SP extends Servidor{
         return res;
     }
 
+    /**
+     * Copia a base de dados recebida para o Servidor Primário
+     * 
+     * @param BD base de dados que queremos copiar
+     */
     public void setBD(Map<String, List<Registo>> BD) {
         this.BD = new HashMap<>();
 
@@ -112,6 +179,12 @@ public class SP extends Servidor{
         }
     }
 
+    /**
+     * Adicionar o registo recebido à base de dados do SP
+     * 
+     * @param tipoValor valor do registo, para inserir no sítio correto da base de dados
+     * @param r registo que se deseja adicionar
+     */
     public void addRegistoBD(String tipoValor, Registo r) {
         if(this.BD.containsKey(tipoValor)){
             this.BD.get(tipoValor).add(r.clone());
@@ -123,6 +196,12 @@ public class SP extends Servidor{
         }
     }
 
+    /**
+     * Veririca se dois servidores primários são iguais
+     * 
+     * @param o servidor primário que se quer comparar 
+     * @return boolean que diz se os dois servidores primários sáo iguais
+     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -135,6 +214,12 @@ public class SP extends Servidor{
     }
 
 
+    /**
+     * Recebendo a tag, devolve a lista dos registos que possuem a respetiva tag
+     * 
+     * @param tag tag dos registos que o métood tem de devolver
+     * @return lista dos registos com a tag recebida
+     */
     public List<Registo> fetchTag(String tag){
         List<Registo> registos = new ArrayList<>();
 
@@ -146,6 +231,12 @@ public class SP extends Servidor{
 
     }
 
+    /**
+     * Converte uma lista de registos numa string compactada
+     * 
+     * @param registos lista de registos
+     * @return string compacta com todos os registos nela
+     */
     public String listString(List<Registo> registos){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < registos.size();i++){
@@ -155,6 +246,13 @@ public class SP extends Servidor{
         return sb.toString();
     }
 
+    /**
+     * Devolve o registo com o mesmo nome e tag
+     * 
+     * @param nome nome do registo desejado
+     * @param tag tag do registo desejado
+     * @return registo com o nome e a tag pedidos 
+     */
     public Registo fetch(String nome, String tag){
         List<Registo> registos = this.BD.get(tag);
         Registo objetivo = null;
@@ -172,7 +270,12 @@ public class SP extends Servidor{
         return objetivo;
     }
 
-
+    /**
+     * Método com o objetivo de devolver os registos para ExtraValues, mas garantindo que não registos repetidos na string final
+     * 
+     * @param registos registos que queremos avaliar e adicionar na string final dos ExtraValues
+     * @return string compactada com os todos registos que se deverão adicionar no campo ExtraValues
+     */
     public String[] fetchExtra(List<Registo> registos){
         List<Registo> res = new ArrayList<>();
         String[] str = new String[2];
@@ -192,6 +295,12 @@ public class SP extends Servidor{
         return str;
     }
 
+    /**
+     * Método responsável por receber uma query de um cliente e por criar o PDU de resposta para o cliente.
+     * 
+     * @param query PDU recebida a partir de um cliente
+     * @return query de resposta do SP para o cliente
+     */
     public String handleQuery(PDU query){
 
             List<Registo> authorities = fetchTag("NS");
@@ -247,7 +356,9 @@ public class SP extends Servidor{
     }
 
 
-
+    /**
+     * Método auxiliar para testar como o Servidor Primário responde a possíveis pedidos de Clientes
+     */
     public void testing(){
 
         System.out.println(super.getDominio());
@@ -309,9 +420,10 @@ public class SP extends Servidor{
 
     }
     
-    
+    /**
+     * Método que permite ao Servidor Primário estar sempre à espera de pedidos e de responder aos mesmos pedidos. 
+     */
     public void run(){
-
 
         while (true) {
             byte[] buffer = new byte[512];
@@ -365,10 +477,13 @@ public class SP extends Servidor{
 
         }
 
-
-
     }
 
+    /**
+     * Devolve o tamanho da base de dados do servidor (em formato String)
+     * 
+     * @return tamanho da base de dados do servidor (em formato String)
+     */
     public String BDsize(){
         int linhas = 0;
         for(String s : this.BD.keySet()){
@@ -377,6 +492,10 @@ public class SP extends Servidor{
         return Integer.toString(linhas);
     }
 
+    /**
+     * Método responsável por receber um pedido de um Servidor Secundário (SS) para obter uma cópia da base de dados do Servidor Primário e por enviar a cópia para o SS.
+     * Simulação da Transferência de Zona quando o SP envia a cópia da sua base de dados para o SS.
+     */
     public void transf_zone() {
         try {
 
@@ -438,7 +557,6 @@ public class SP extends Servidor{
                     zt.logToFile(super.getFicheiroLog());
 
                 }
-
 
             }
             else {
