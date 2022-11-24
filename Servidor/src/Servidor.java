@@ -4,7 +4,10 @@ import java.util.List;
 /**
  * Classe abstrata para os Servidores.
  * Pode ser um Servidor Primário (SP), Secundário (SS) ou de Resolução (SR).
- * Um Servidor de Topo (ST)
+ * 
+ * @author Millena Freitas (a97777) - 50%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 30%
  */
 abstract class Servidor {
     // Nome de domínio do servidor

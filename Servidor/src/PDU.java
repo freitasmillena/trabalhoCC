@@ -3,6 +3,10 @@ import java.util.List;
 
 /**
  * Classe PDU - Protocol Data Unit - para construção de um PDU de resposta do Servidor
+ * 
+ * @author Millena Freitas (a97777) - 60%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 20%
  */
 public class PDU {
     // Identificador único da mesnagem

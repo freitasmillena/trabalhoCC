@@ -6,6 +6,10 @@ import java.util.Date;
 
 /**
  * Classe Log
+ * 
+ * @author Millena Freitas (a97777) - 10%
+ * @author Guilherme Martins (a92847) - 10%
+ * @author Vasco Oliveira (a96361) - 80%
  */
 public class Log {
     // Data e hora completa do sistema operativo na altura em que aconteceu a atividade registada

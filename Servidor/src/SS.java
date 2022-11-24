@@ -10,6 +10,10 @@ import java.util.Map;
 
 /**
  * Classe SS - Servidor Secundário
+ * 
+ * @author Millena Freitas (a97777) - 50%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 30%
  */
 public class SS extends Servidor{
     // Servidor primário associado ao Servidor secundário

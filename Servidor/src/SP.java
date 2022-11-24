@@ -7,6 +7,10 @@ import java.util.*;
 
 /**
  * Classe SP - de um Servidor Primário (extensão de Servidor)
+ * 
+ * @author Millena Freitas (a97777) - 50%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 30%
  */
 public class SP extends Servidor{
     // Diretoria do ficheiro de base de dados do servidor primário

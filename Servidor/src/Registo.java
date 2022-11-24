@@ -1,5 +1,9 @@
 /**
  * Classe Registo - corrresponde a um pedaço de informação da base de dados dos servidores
+ * 
+ * @author Millena Freitas (a97777) - 50%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 30%
  */
 public class Registo {
     // Valor associado ao registo

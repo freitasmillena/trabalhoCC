@@ -2,6 +2,10 @@ import java.util.*;
 
 /**
  * Claase SR - Servidor de Resolução (extensão da classe Servidor)
+ * 
+ * @author Millena Freitas (a97777) - 50%
+ * @author Guilherme Martins (a92847) - 20%
+ * @author Vasco Oliveira (a96361) - 30%
  */
 public class SR extends Servidor{
     // Lista de servidores associados ao SR

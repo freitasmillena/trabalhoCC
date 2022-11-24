@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Classe Parser - responsável por converter conteúdo de um ficheiro em dados importantes para o programa
+ * 
+ * @author Guilherme Martins (a92847)
  */
 public class Parser {
 
