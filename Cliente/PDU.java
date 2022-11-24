@@ -6,7 +6,7 @@ public class PDU {
     private String messageID;
     // Flag da mensagem (Q - query, R- recursivo, A - autoritativo)
     private String flags; //Q - query, R- recursivo, A - autoritativo
-    // Código de erro na resposta a uma query (0 - sem erros; 1 - encontrado erro)
+    // Código de erro na resposta a uma query (0, 1, 2 ou 3)
     private String responseCode;
     // Número de entradas relevantes que respondem diretamente à query e que fazem parte da lista de entradas incluídas no campo RESPONSE VALUES
     private String nValues;
