@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe PDU - Protocol Data Unit - para construção de um PDU de resposta do Servidor
  */
@@ -24,6 +27,8 @@ public class PDU {
     private String name;
     // Tipo de valor de resposta da query (MX, NS, A, CNAME)
     private String typeOfValue;
+
+    private List<String> types;
 
     //servidor cria pdu qdo responde query
     /**
@@ -53,6 +58,15 @@ public class PDU {
         this.authoritiesValues = authoritiesValues;
         this.extraValues = extraValues;
     }
+
+    public List<String> getTypes() {
+        List<String> res = new ArrayList<>();
+        for(String s : this.types){
+            res.add(s);
+        }
+        return types;
+    }
+
 
     /**
      * Devolve a string do identificador único da mensagem
@@ -102,6 +116,12 @@ public class PDU {
         this.responseValues = "";
         this.authoritiesValues = "";
         this.extraValues = "";
+
+        this.types = new ArrayList<>();
+        this.types.add("NS");
+        this.types.add("MX");
+        this.types.add("CNAME");
+        this.types.add("A");
     }
 
     //formato conciso
