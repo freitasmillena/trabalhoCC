@@ -105,26 +105,54 @@ public class Registo {
         this.valor = valor;
     }
 
+    /**
+     * Devolve o Tempo de validade do registo
+     * @return Tempo de validade do registo
+     */
     public int getTimetolive() {
         return timetolive;
     }
 
+    /**
+     * Define o Tempo de validade do registo
+     * @param timetolive Tempo de validade do registo
+     */
     public void setTimetolive(int timetolive) {
         this.timetolive = timetolive;
     }
 
+    /**
+     * Devolve a Tag do registo 
+     * 
+     * @return Tag do registo
+     */
     public String getTag(){
         return this.tag;
     }
 
+    /**
+     * Define a Tag do registo
+     * 
+     * @param tag Tag do registo 
+     */
     public void setTag(String tag) {
         this.tag = tag;
     }
 
+    /**
+     * Devolve o valor da priridade do registo
+     * 
+     * @return valor da prioridade do registo
+     */
     public int getPrioridade() {
         return this.prioridade;
     }
 
+    /**
+     * Define o valor da priridade do registo
+     * 
+     * @param prioridade valor da prioridade do registo
+     */
     public void setPrioridade(int prioridade) {
         this.prioridade = prioridade;
     }

@@ -227,7 +227,7 @@ public class SP extends Servidor{
     /**
      * Recebendo a tag, devolve a lista dos registos que possuem a respetiva tag
      * 
-     * @param tag tag dos registos que o métood tem de devolver
+     * @param tag tag dos registos que o método tem de devolver
      * @return lista dos registos com a tag recebida
      */
     public List<Registo> fetchTag(String tag){
@@ -305,6 +305,11 @@ public class SP extends Servidor{
         return str;
     }
 
+    /**
+     * Recebendo uma lista de registos para o campo Authorities, elimina o registo com o mesmo nome ao recebido pelo método
+     * @param list lista com os registos para o campo Authorities
+     * @param nome nome do registo que se quer eliminar
+     */
     public void containsAuth(List<Registo> list, String nome){
 
         for(Registo r : list){
@@ -313,7 +318,6 @@ public class SP extends Servidor{
                 break;
             }
         }
-
 
     }
 
