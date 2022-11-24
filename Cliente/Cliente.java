@@ -24,7 +24,7 @@ public class Cliente {
 
         PDU query = new PDU(Integer.toString(msgID), name, type);
         String enviar = query.toString();
-        System.out.println(enviar);
+
 
         UDPHandler handler = new UDPHandler(serverAdd, serverPort);
         String resposta = handler.connectionHandler(enviar);

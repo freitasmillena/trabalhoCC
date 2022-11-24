@@ -44,9 +44,9 @@ public class PDU {
         this.nValues = "0";
         this.nAuthorities = "0";
         this.nExtraValues = "0";
-        this.responseValues = "null";
-        this.authoritiesValues = "null";
-        this.extraValues = "null";
+        this.responseValues = "";
+        this.authoritiesValues = "";
+        this.extraValues = "";
     }
 
     //recebeu resposta
@@ -88,10 +88,20 @@ public class PDU {
                 .append(this.nAuthorities).append(",")
                 .append(this.nExtraValues).append(";")
                 .append(this.name).append(",")
-                .append(this.typeOfValue).append(";").append("\n");
-        if(!this.responseValues.equals("null")) sb.append(this.responseValues).append(";").append("\n");
-        if(!this.authoritiesValues.equals("null")) sb.append(this.authoritiesValues).append(";").append("\n");
-        if(!this.extraValues.equals("null")) sb.append(this.extraValues).append(";").append("\n");
+                .append(this.typeOfValue).append(";");
+        if(this.flags.equals("Q")){
+            sb.append(this.responseValues).append(";");
+            sb.append(this.authoritiesValues).append(";");
+            sb.append(this.extraValues).append(";");
+        }
+        else{
+            sb.append("\n");
+            if(!this.responseValues.equals("")) sb.append(this.responseValues).append(";").append("\n");
+            if(!this.authoritiesValues.equals("")) sb.append(this.authoritiesValues).append(";").append("\n");
+            if(!this.extraValues.equals("")) sb.append(this.extraValues).append(";").append("\n");
+
+        }
+
 
 
 
