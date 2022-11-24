@@ -34,6 +34,7 @@ public class SP extends Servidor{
         this.servidoresSecundarios = new ArrayList<>();
         this.BD = new HashMap<>();
         this.versaoBD = 0;
+        this.subDominio = null;
     }
 
 
@@ -345,7 +346,7 @@ public class SP extends Servidor{
         }
 
         else {
-            if (nome.contains(this.subDominio)) {
+            if (this.subDominio != null && nome.contains(this.subDominio)) {
                 // response code 0, sem tags, sem authorities
                 // response é NS do sub e extra o A do sub
                 Registo r = fetch(this.subDominio, this.subDominio);
