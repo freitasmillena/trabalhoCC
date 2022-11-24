@@ -4,27 +4,42 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 
+/**
+ * Classe responsável por gerir os PDUs e enviá-los para o Servidor/Cliente correto
+ */
 public class UDPHandler {
 
+    // Endereço IP do servidor que se deseja conectar
     private String serverIP;
+    // Número da porta do servidor que se deseja conectar (sempre 5555)
     private String serverPort;
 
+
+    /**
+     * Construtor de um UDPHandler responsável por guardar nos seus atributos o endereço IP e o número da porta do servidor que se deseja conectar
+     *
+     * @param serverIP endereço IP do servidor que se deseja conectar
+     * @param serverPort número da porta do servidor que se deseja conectar (sempre 5555)
+     */
     public UDPHandler(String serverIP, String serverPort) {
         this.serverIP = serverIP;
         this.serverPort = serverPort;
     }
 
 
+    /**
+     * Método responsável por receber uma Query de um Cliente  e de enviá-lo para o respetivo Servidor
+     * 
+     * @param query String de um PDU em formato conciso
+     * @return String que contém a resposta do Servidor para o pedido efetuado pelo Cliente
+     */
     public String connectionHandler(String query) {
 
-
         byte[] buffer = new byte[512];
-
 
         PDU resposta = null;
 
         try {
-
 
             //Enviar
             InetAddress serverAdd = InetAddress.getByName(serverIP);
@@ -32,16 +47,13 @@ public class UDPHandler {
             DatagramSocket s = new DatagramSocket();
             s.send(request);
 
-
             //Receber
             DatagramPacket response = new DatagramPacket(buffer, buffer.length);
             s.receive(response);
 
             resposta = new PDU(response.getData());
 
-
             s.close();
-
 
         } catch (SocketTimeoutException ex) {
             System.out.println("Timeout error: " + ex.getMessage());

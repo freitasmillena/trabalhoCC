@@ -1,7 +1,17 @@
 import java.util.Random;
 
+/**
+ * Classe do Cliente
+ */
 public class Cliente {
 
+    /**
+     * Função ativada quando um Cliente escreve um pedido através do terminal.
+     * O pedido recebido é transformado num PDU (em formato String) para que este possa chegar ao Servidor destino.
+     * Depois de enviado, o Cliente fica à espera pela resposta do Servidor.
+     * 
+     * @param args - argumentos recebidos pelo terminal 
+     */
     public static void main(String[] args){
         String serverAdd = args[1];
         String name = args[2];
@@ -19,7 +29,5 @@ public class Cliente {
         UDPHandler handler = new UDPHandler(serverAdd, serverPort);
         String resposta = handler.connectionHandler(enviar);
         System.out.println(resposta);
-
-
     }
 }
