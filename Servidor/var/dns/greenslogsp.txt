@@ -1,0 +1,14 @@
+24:11:2022.13:13:50:915 QR 127.0.0.1 40946,Q,0,0,0,0;m.greens.,A;null;null;null;
+24:11:2022.13:13:50:917 RP 127.0.0.1 40946,A,1,0,3,3;m.greens.,A;null;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000;
+24:11:2022.13:17:27:865 QR 127.0.0.1 40492,Q,0,0,0,0;m.greens.,A;null;null;null;
+24:11:2022.13:17:27:867 RP 127.0.0.1 40492,A,1,0,3,3;m.greens.,A;null;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000;
+24:11:2022.13:20:39:644 QR 127.0.0.1 18794,Q,0,0,0,0;m.greens.,A;
+24:11:2022.13:20:39:645 RP 127.0.0.1 18794,A,1,0,3,3;m.greens.,A;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000;
+24:11:2022.13:21:34:91 QR 127.0.0.1 10167,Q,0,0,0,0;m.greens.,A;
+24:11:2022.13:21:34:92 RP 127.0.0.1 10167,A,1,0,3,3;m.greens.,A;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000;
+24:11:2022.13:22:00:503 QR 127.0.0.1 44869,Q,0,0,0,0;m.greens.,A;
+24:11:2022.13:22:00:504 RP 127.0.0.1 44869,A,1,0,3,3;m.greens.,A;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000;
+24:11:2022.13:22:17:251 QR 127.0.0.1 6479,Q,0,0,0,0;m.greens.,A;
+24:11:2022.13:22:17:252 RP 127.0.0.1 6479,A,1,0,3,3;m.greens.,A;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000;
+24:11:2022.13:25:24:269 QR 127.0.0.1 37343,Q,0,0,0,0;.greens.,MX;
+24:11:2022.13:25:24:272 RP 127.0.0.1 37343,A,0,2,3,5;.greens.,MX;.greens. MX mx1.greens. 86400 1000000,.greens. MX mx2.greens. 86400 1000000;.greens. NS ns1.greens. 86400 1000000,.greens. NS ns2.greens. 86400 1000000,.greens. NS ns3.greens. 86400 1000000;ns1.greens. A 10.0.0.10 86400 1000000,ns2.greens. A 10.0.9.10 86400 1000000,ns3.greens. A 10.0.11.10 86400 1000000,mx1.greens. A 10.0.0.12 86400 1000000,mx2.greens. A 10.0.0.13 86400 1000000;

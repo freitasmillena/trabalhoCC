@@ -34,7 +34,7 @@ public class Main {
         }
 
         //assert serv != null;
-        serv.transf_zone();
+        //serv.transf_zone();
         serv.run();
 
 

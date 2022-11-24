@@ -40,11 +40,11 @@ public class PDU {
      * @param authoritiesValues string compacta das entradas que fazem match com o NAME e com o tipo de valor igual a NS incluídos na cache ou na base de dados do servidor autoritativo
      * @param extraValues string compacta das entradas do tipo A  e que fazem match no parâmetro com todos os valores no campo RESPONSE VALUES e no campo AUTHORITIES VALUES
      */
-    public PDU(String messageID, String name, String typeOfValue, String responseCode, String nValues, String nAuthorities, String nExtraValues, String responseValues, String authoritiesValues, String extraValues) {
+    public PDU(String messageID, String name, String typeOfValue, String flags,String responseCode, String nValues, String nAuthorities, String nExtraValues, String responseValues, String authoritiesValues, String extraValues) {
         this.messageID = messageID;
         this.name = name;
         this.typeOfValue = typeOfValue;
-        this.flags = "A";
+        this.flags = flags;
         this.responseCode = responseCode;
         this.nValues = nValues;
         this.nAuthorities = nAuthorities;
@@ -99,6 +99,9 @@ public class PDU {
         this.nExtraValues = fst[5];
         this.name = snd[0];
         this.typeOfValue = snd[1];
+        this.responseValues = "null";
+        this.authoritiesValues = "null";
+        this.extraValues = "null";
     }
 
     //formato conciso
@@ -116,10 +119,10 @@ public class PDU {
                 .append(this.nAuthorities).append(",")
                 .append(this.nExtraValues).append(";")
                 .append(this.name).append(",")
-                .append(this.typeOfValue).append(";")
-                .append(this.responseValues).append(";")
-                .append(this.authoritiesValues).append(";")
-                .append(this.extraValues).append(";");
+                .append(this.typeOfValue).append(";");
+        if(!this.responseValues.equals("null")) sb.append(this.responseValues).append(";");
+        if(!this.authoritiesValues.equals("null")) sb.append(this.authoritiesValues).append(";");
+        if(!this.extraValues.equals("null")) sb.append(this.extraValues).append(";");
 
         return sb.toString();
     }

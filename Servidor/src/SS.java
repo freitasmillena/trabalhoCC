@@ -15,6 +15,7 @@ public class SS extends Servidor{
     // Servidor primário associado ao Servidor secundário
     private String servidorPrimario;
     private String segurancaSP;
+    private String subDominio;
     // Cópia da Base de Dados do respetivo Servidor Primário
     private Map<String, List<Registo>> BD; // cópia da BD do respetivo SP
     // Versão da base de dados
@@ -51,6 +52,14 @@ public class SS extends Servidor{
 
         this.BD = new HashMap<>();
 
+    }
+
+    public String getSubDominio() {
+        return subDominio;
+    }
+
+    public void setSubDominio(String subDominio) {
+        this.subDominio = subDominio;
     }
 
     /**
@@ -234,6 +243,7 @@ public class SS extends Servidor{
      * @param query PDU recebida a partir de um cliente
      * @return query de resposta do SP para o cliente
      */
+
     public String handleQuery(PDU query){
 
         List<Registo> authorities = fetchTag("NS");
@@ -241,52 +251,85 @@ public class SS extends Servidor{
         String auth = listString(authorities);
         String type = query.getTypeOfValue();
         String nome = query.getName();
-        String response = "";
-        String extra = "";
-        String nValues = "";
-        String nExtra = "";
+        String response = "null";
+        String extra = "null";
+        String nValues = "0";
+        String nExtra = "0";
+        String tags = "";
+        String rcode = "0";
 
-        //A
-        if(type.equals("A")){
-            response = fetch(nome,"A").toString();
-            nValues = "1";
-            extra = fetchExtra(authorities)[0];
-        }
-        else if (type.equals("CNAME")){
-            Registo r = fetch(nome, "CNAME");
+        if(nome.contains(this.subDominio)){
+            // response code 0, sem tags, sem authorities
+            // response é NS do sub e extra o A do sub
+            Registo r = fetch(this.subDominio,this.subDominio);
             response = r.toString();
             nValues = "1";
-            authorities.add(r);
-            String[] extras = fetchExtra(authorities);
-            extra = extras[0];
-            nExtra = extras[1];
+            nAuthorities = "0";
+            auth = "null";
+            extra = fetch(r.getvalor(), "A").toString();
+            nExtra = "1";
         }
-        else {
-            //MX ou NS
-            if(!nome.equals(this.getDominio())){
-                Registo r = fetch(nome, nome);
-                response = r.toString();
-                nValues = "1";
-                authorities.add(r);
+        else if(nome.contains(super.getDominio())){
+            // response code 0, tag A -> encontrou resposta
+            // response code 1, tag A -> n encontrei máquina, sem extra, sem resposta, com NS
+
+            //A
+            if(type.equals("A")){
+                Registo r = fetch(nome,"A");
+                if(r != null){
+                    response = r.toString();
+                    nValues = "1";
+
+                }
+                else{
+                    rcode = "1";
+
+                }
                 String[] extras = fetchExtra(authorities);
                 extra = extras[0];
                 nExtra = extras[1];
+                tags = "A";
+            }
+            else if (type.equals("CNAME")){
+                Registo r = fetch(nome, "CNAME");
+                if(r != null){
+                    response = r.toString();
+                    nValues = "1";
+                    authorities.add(r);
+                }
+                else {
+                    rcode = "1";
+                }
+                String[] extras = fetchExtra(authorities);
+                extra = extras[0];
+                nExtra = extras[1];
+                tags = "A";
             }
             else {
+                //MX ou NS
                 List<Registo> r = fetchTag(type);
                 nValues = Integer.toString(r.size());
                 response = listString(r);
-                for(Registo reg : r) authorities.add(reg);
+                for (Registo reg : r) authorities.add(reg);
                 String[] extras = fetchExtra(authorities);
                 extra = extras[0];
                 nExtra = extras[1];
+                tags = "A";
+
             }
+        }
+        else { // response code 2, A, sem extra, sem resposta, sem NS
+            tags = "A";
+            rcode = "2";
+            nAuthorities = "0";
+            auth = "null";
 
         }
 
-        PDU resposta = new PDU(query.getMessageID(),nome,type, "0", nValues, nAuthorities,nExtra,response,auth,extra);
+        PDU resposta = new PDU(query.getMessageID(),nome,type, tags,rcode, nValues, nAuthorities,nExtra,response,auth,extra);
         return resposta.ToString();
     }
+
 
     /**
      * Método que permite ao Servidor Secundário estar sempre à espera de pedidos e de responder aos mesmos pedidos. 
@@ -386,6 +429,7 @@ public class SS extends Servidor{
     public void transfZonaLinha(Registo r){
         if(  (!super.getDominio().equals(r.getNome()) )  && r.getTag().equals("NS")){
             addRegistoBD(r.getNome(), r.clone());
+            this.subDominio = r.getNome();
         }
         else {
             addRegistoBD(r.getTag(), r.clone());
@@ -405,7 +449,7 @@ public class SS extends Servidor{
 
             try {
                 //Receber
-                serverS = new DatagramSocket(5556);
+                serverS = new DatagramSocket(5555);
                 DatagramPacket receiver = new DatagramPacket(buffer, buffer.length);
                 serverS.receive(receiver);
                 serverS.close();

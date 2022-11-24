@@ -121,6 +121,7 @@ public class Parser {
                             } else {
                                 Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, linhaPartida[0]);
                                 sp.addRegistoBD(linhaPartida[0], ns);
+                                sp.setSubDominio(linhaPartida[0]);
                             }
                             break;
                         case "A":
@@ -252,7 +253,7 @@ public class Parser {
         List<String> lines;
         try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);}
         catch(IOException exc) {
-            System.out.println("n achou");
+            System.out.println("n achou " + nomeFich);
             lines = new ArrayList<>();
         }
         return lines;

@@ -13,7 +13,7 @@
 .blacks. NS ns2.blacks. 86400
 .blacks. NS ns3.blacks. 86400
 
-Rhaenyra.blacks. NS sp.rhaenyra.blacks. 86400
+rhaenyra.blacks. NS sp.rhaenyra.blacks. 86400
 
 .blacks. MX mx1.blacks. 86400
 .blacks. MX mx2.blacks. 86400
