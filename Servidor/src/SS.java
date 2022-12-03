@@ -195,8 +195,8 @@ public class SS extends Servidor{
                 //Log ficheiro
                 l1.logToFile(super.getFicheiroLog());
 
-                UDPComm udp = new UDPComm(this.BD,query,ipCliente,portClient,super.getFicheiroLog());
-                udp.run();
+                Thread tudp = new Thread(new UDPComm(this.BD,query,ipCliente,portClient,super.getFicheiroLog()));
+                tudp.start();
             } catch (SocketException ex) {
                 System.out.println("Socket error: " + ex.getMessage());
             } catch (IOException ex) {

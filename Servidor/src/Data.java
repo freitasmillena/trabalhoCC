@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Data {
 
@@ -10,6 +11,7 @@ public class Data {
     private int versaoBD;
     private String dominio;
     private String subdominio;
+    private ReentrantReadWriteLock l = new ReentrantReadWriteLock();
 
     private Data(String dominio){
         this.BD = new HashMap<>();
@@ -44,13 +46,18 @@ public class Data {
      * @param r registo que se deseja adicionar
      */
     public void addRegistoBD(String tipoValor, Registo r) {
-        if(this.BD.containsKey(tipoValor)){
-            this.BD.get(tipoValor).add(r.clone());
+        this.l.writeLock().lock();
+        try {
+            if (this.BD.containsKey(tipoValor)) {
+                this.BD.get(tipoValor).add(r.clone());
+            } else {
+                List<Registo> reg = new ArrayList<>();
+                reg.add(r.clone());
+                this.BD.put(tipoValor, reg);
+            }
         }
-        else{
-            List<Registo> reg = new ArrayList<>();
-            reg.add(r.clone());
-            this.BD.put(tipoValor,reg);
+        finally {
+            this.l.writeLock().unlock();
         }
     }
 
@@ -62,12 +69,17 @@ public class Data {
      */
     public List<Registo> fetchTag(String tag){
         List<Registo> registos = new ArrayList<>();
+        this.l.readLock().lock();
+        try{
+            for(Registo r : this.BD.get(tag)){
+                registos.add(r.clone());
+            }
 
-        for(Registo r : this.BD.get(tag)){
-            registos.add(r.clone());
+            return registos;
         }
-
-        return registos;
+        finally {
+            this.l.readLock().unlock();
+        }
 
     }
 
@@ -93,16 +105,25 @@ public class Data {
      * @param tag tag do registo desejado
      * @return registo com o nome e a tag pedidos
      */
-    public Registo fetch(String nome, String tag){
-        List<Registo> registos = this.BD.get(tag);
+    public Registo fetch(String nome, String tag) {
+        this.l.readLock().lock();
+        List<Registo> registos = new ArrayList<>();
+        for(Registo r : this.BD.get(tag)) registos.add(r.clone());
+        this.l.readLock().unlock();
+
         Registo objetivo = null;
 
-        for(Registo r : registos){
-            if(tag.equals("CNAME")){
-                if(r.getvalor().equals(nome)) {objetivo = r.clone();break;}
-            }
-            else {
-                if(r.getNome().equals(nome)) {objetivo = r.clone();break;}
+        for (Registo r : registos) {
+            if (tag.equals("CNAME")) {
+                if (r.getvalor().equals(nome)) {
+                    objetivo = r;
+                    break;
+                }
+            } else {
+                if (r.getNome().equals(nome)) {
+                    objetivo = r;
+                    break;
+                }
             }
 
         }
@@ -255,21 +276,33 @@ public class Data {
      */
     public String BDsize(){
         int linhas = 0;
-        for(String s : this.BD.keySet()){
-            linhas += this.BD.get(s).size();
+        this.l.readLock().lock();
+        try {
+            for (String s : this.BD.keySet()) {
+                linhas += this.BD.get(s).size();
+            }
+            return Integer.toString(linhas);
         }
-        return Integer.toString(linhas);
+        finally {
+            this.l.readLock().unlock();
+        }
     }
 
     public List<Registo> getAllRegistos(){
         List<Registo> res = new ArrayList<>();
-        for(String st : this.BD.keySet()) {
-            List<Registo> list = this.BD.get(st);
-            for (Registo r : list) {
-                res.add(r.clone());
+        this.l.readLock().lock();
+        try {
+            for (String st : this.BD.keySet()) {
+                List<Registo> list = this.BD.get(st);
+                for (Registo r : list) {
+                    res.add(r.clone());
+                }
             }
+            return res;
         }
-        return res;
+        finally {
+            this.l.readLock().unlock();
+        }
     }
 
     /**

@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.*;
 import java.util.*;
 
@@ -168,8 +165,9 @@ public class SP extends Servidor{
                 //Log ficheiro
                 l1.logToFile(super.getFicheiroLog());
 
-                UDPComm udp = new UDPComm(this.BD,query,ipCliente,portClient,super.getFicheiroLog());
-                udp.run();
+                Thread tudp = new Thread(new UDPComm(this.BD,query,ipCliente,portClient,super.getFicheiroLog()));
+                tudp.start();
+
             } catch (SocketException ex) {
                 System.out.println("Socket error: " + ex.getMessage());
             } catch (IOException ex) {
@@ -186,18 +184,23 @@ public class SP extends Servidor{
      * Simulação da Transferência de Zona quando o SP envia a cópia da sua base de dados para o SS.
      */
     public void transf_zone() {
-        try {
 
-            ServerSocket ss = new ServerSocket(24689);
+            try {
+                ServerSocket ss = new ServerSocket(24689);
+                while(true) {
 
-            Socket socket = ss.accept();
+                    Socket socket = ss.accept();
 
-            TCPComm tcp = new TCPComm(this.BD, socket, super.getFicheiroLog());
-            tcp.run();
+                    Thread t = new Thread(new TCPComm(this.BD, socket, super.getFicheiroLog()));
+                    t.start();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
     }
 }
 

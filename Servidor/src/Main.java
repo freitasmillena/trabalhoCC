@@ -34,7 +34,13 @@ public class Main {
         }
 
         //assert serv != null;
-        serv.transf_zone();
+        Servidor finalServ = serv;
+        Runnable worker = () -> {
+            finalServ.transf_zone();
+        };
+        Thread tcp = new Thread(worker);
+        tcp.start();
+
         serv.query();
 
     }

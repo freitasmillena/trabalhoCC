@@ -3,6 +3,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Classe Log
@@ -20,6 +22,7 @@ public class Log {
     private String ip;
     // Dados de entrada do Log
     private String dadosLog;
+    private Lock l = new ReentrantLock();
 
     /**
      * 
@@ -161,12 +164,19 @@ public class Log {
      * @throws IOException lança erro se não conseguir criar o ficheiro desejado
      */
     public void logToFile(String pathFile) throws IOException {
-        File logfile = new File(pathFile);
-        logfile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(logfile, true);
-        fos.write(this.toString().getBytes());
-        fos.flush();
-        fos.close();
+        l.lock();
+        try {
+            File logfile = new File(pathFile);
+            logfile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(logfile, true);
+            fos.write(this.toString().getBytes());
+            fos.flush();
+            fos.close();
+        }
+        finally {
+            l.unlock();
+        }
+
     }
 
 
