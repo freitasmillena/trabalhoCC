@@ -112,4 +112,30 @@ public class PDU {
         return sb.toString();
     }
 
+
+    public String imprime(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n").append("Message id: " + this.messageID)
+                .append("\n")
+                .append("Flags: " + this.flags).append("\n")
+                .append("Response code: " + this.responseCode).append("\n")
+                .append("Number of Values: " + this.nValues).append("\n")
+                .append("Number of Authorities: " + this.nAuthorities).append("\n")
+                .append("Number of Extra Values: " + this.nExtraValues).append("\n").append("\n")
+                .append("Query Info:").append("\n")
+                .append("Name: " + this.name).append(" ")
+                .append("Type of Value: " + this.typeOfValue).append(";").append("\n");
+
+        if(!this.responseValues.equals("")) {
+            sb.append("\n").append("Response Values: ").append("\n").append(this.responseValues).append(";").append("\n");
+        }
+        if(!this.authoritiesValues.equals("")) {
+            sb.append("\n").append("Authorities Values: ").append("\n").append(this.authoritiesValues).append(";").append("\n");
+        }
+        if(!this.extraValues.equals("")) {
+            sb.append("\n").append("Extra Values: ").append("\n").append(this.extraValues).append(";").append("\n");
+        }
+
+        return sb.toString();
+    }
 }

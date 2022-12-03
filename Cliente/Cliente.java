@@ -16,7 +16,7 @@ public class Cliente {
         String serverAdd = args[1];
         String name = args[2];
         String type = args[3];
-        String serverPort = "5555";
+        String serverPort = "5556";
 
         Random r = new Random();
         int msgID = r.nextInt(65535-1) + 1;
@@ -24,10 +24,12 @@ public class Cliente {
 
         PDU query = new PDU(Integer.toString(msgID), name, type);
         String enviar = query.toString();
-        System.out.println(enviar);
+        System.out.println("Query enviada:");
+        System.out.println(query.imprime());
 
         UDPHandler handler = new UDPHandler(serverAdd, serverPort);
-        String resposta = handler.connectionHandler(enviar);
-        System.out.println(resposta);
+        PDU resposta = handler.connectionHandler(enviar);
+        System.out.println("Resposta recebida:");
+        System.out.println(resposta.imprime());
     }
 }

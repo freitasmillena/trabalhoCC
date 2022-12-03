@@ -37,7 +37,7 @@ public class UDPHandler {
      * @param query String de um PDU em formato conciso
      * @return String que contém a resposta do Servidor para o pedido efetuado pelo Cliente
      */
-    public String connectionHandler(String query) {
+    public PDU connectionHandler(String query) {
 
         byte[] buffer = new byte[512];
 
@@ -66,7 +66,7 @@ public class UDPHandler {
             System.out.println("Client error: " + ex.getMessage());
             ex.printStackTrace();
         }
-        return resposta.toString();
+        return resposta;
     }
 
 
