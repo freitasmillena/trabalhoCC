@@ -66,15 +66,14 @@ public class Parser {
      * Método responsável por ler o conteúdo de um ficheiro de dados e inserí-lo na base de dados do Servidor Primário recebido.
      * É necessário realçar o facto de que, quando no ficheiro de dados a linha a visitar não contém um valor de prioridade, será fornecido um valor equivalente a 1 milhão.  
      * Os comentários e as linhas vazias são ignorados.
-     * 
-     * @param nomeFich diretoria do ficheiro de dados que contém os dados da base de dados do servidor primário
+     *
      * @param sp estrutura do servidor primário, onde se irão inserir os dados de base de dados contidos no respetivo ficheiro 
      */
     public void fileParserDadosSP(SP sp) {
         List<String> linhas = lerFicheiro(sp.getFicheiroBD());
         int prioridade;
         HashMap<String, String> defaults = new HashMap<>();
-
+        Data BD = Data.getInstance(sp.getDominio());
         String ar = null; // Para o DEFAULT @
 
         for (String linha : linhas) {
@@ -129,32 +128,33 @@ public class Parser {
                             break;
                         case "SOASP":
                             Registo soap = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOASP", prioridade, sp.getDominio());
-                            sp.addRegistoBD("SOASP", soap);
+                            BD.addRegistoBD("SOASP", soap);
                             //System.out.println(soap.toString());
                             break;
                         case "SOAADMIN":
                             Registo soadmin = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAADMIN", prioridade, sp.getDominio());
-                            sp.addRegistoBD("SOAADMIN", soadmin);
+                            BD.addRegistoBD("SOAADMIN", soadmin);
                             //System.out.println(soadmin.toString());
                             break;
                         case "SOASERIAL":
                             Registo soaserial = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOASERIAL", prioridade, sp.getDominio());
-                            sp.addRegistoBD("SOASERIAL", soaserial);
+                            BD.addRegistoBD("SOASERIAL", soaserial);
+                            BD.setVersaoBD(Integer.parseInt(new_linhaPartida3));
                             //System.out.println(soaserial.toString());
                             break;
                         case "SOAREFRESH":
                             Registo soarefresh = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAREFRESH", prioridade, sp.getDominio());
-                            sp.addRegistoBD("SOAREFRESH", soarefresh);
+                            BD.addRegistoBD("SOAREFRESH", soarefresh);
                             //System.out.println(soarefresh.toString());
                             break;
                         case "SOARETRY":
                             Registo soaretry = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOARETRY", prioridade, sp.getDominio());
-                            sp.addRegistoBD("SOARETRY", soaretry);
+                            BD.addRegistoBD("SOARETRY", soaretry);
                             //System.out.println(soaretry.toString());
                             break;
                         case "SOAEXPIRE":
                             Registo soaexpire = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAEXPIRE", prioridade, sp.getDominio());
-                            sp.addRegistoBD("SOAEXPIRE", soaexpire);
+                            BD.addRegistoBD("SOAEXPIRE", soaexpire);
                             //System.out.println(soaexpire.toString());
                             break;
                         case "NS":
@@ -162,24 +162,26 @@ public class Parser {
                             if (ar == null) {
                                 if (linhaPartida[0].equals(sp.getDominio())) {
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, sp.getDominio());
-                                    sp.addRegistoBD("NS", ns);
+                                    BD.addRegistoBD("NS", ns);
                                 }
                                 else {
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, linhaPartida[0]);
-                                    sp.addRegistoBD(linhaPartida[0], ns);
+                                    BD.addRegistoBD(linhaPartida[0], ns);
+                                    BD.setSubdominio(linhaPartida[0]);
                                     sp.setSubDominio(linhaPartida[0]);
                                 }
                             }
                             else { // ar != null
                                 if (linhaPartida[0].equals("@")) {
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, sp.getDominio());
-                                    sp.addRegistoBD("NS", ns);
+                                    BD.addRegistoBD("NS", ns);
                                 }
                                 else {
                                     String[] splitlinha = linhaPartida[0].split("@", 2);
                                     String new_linhaPartida0 = splitlinha[0] + ar;
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, new_linhaPartida0);
-                                    sp.addRegistoBD(new_linhaPartida0, ns);
+                                    BD.addRegistoBD(new_linhaPartida0, ns);
+                                    BD.setSubdominio(new_linhaPartida0);
                                     sp.setSubDominio(new_linhaPartida0);
                                 }
                             }
@@ -195,7 +197,7 @@ public class Parser {
                             else {
                                 a = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "A", prioridade, linhaPartida[0] + "." + ar);
                             }
-                            sp.addRegistoBD("A", a); // Formato ns1.example.com.
+                            BD.addRegistoBD("A", a); // Formato ns1.example.com.
                             //System.out.println(a.toString());
                             break;
                         case "CNAME":
@@ -206,18 +208,19 @@ public class Parser {
                             else {
                                 cname = new Registo(new_linhaPartida2 + "." + ar, Integer.parseInt(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0] + "." + ar);
                             }
-                            sp.addRegistoBD("CNAME", cname);
+                            BD.addRegistoBD("CNAME", cname);
                             //System.out.println(cname.toString());
                             break;
                         case "MX":
                             Registo mx = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "MX", prioridade, sp.getDominio());
-                            sp.addRegistoBD("MX", mx);
+                            BD.addRegistoBD("MX", mx);
                             //System.out.println(mx.toString());
                             break;
                     }
                 }
             }
         }
+        sp.setData(BD);
     }
 
     // Para ficheiros de configuração de SS - Servidores Secundários
@@ -266,7 +269,7 @@ public class Parser {
      * Os comentários e as linhas vazias são ignorados.
      * 
      * @param nomeFich diretoria do ficheiro de configuração que contém os dados do servidor de resolução
-     * @param ss estrutura vazia do servidor de resolução, onde se irão inserir os dados de configuração contidos no respetivo ficheiro 
+     * @param sr estrutura vazia do servidor de resolução, onde se irão inserir os dados de configuração contidos no respetivo ficheiro
      */
     public void fileParserConfigSR(String nomeFich, SR sr){
 

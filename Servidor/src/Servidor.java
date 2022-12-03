@@ -185,5 +185,5 @@ public abstract void transf_zone();
 /**
  * Método abstrato para colocar o servidor constantemente à espera de pedidos de um cliente
  */
-public abstract void run();
+public abstract void query();
 }

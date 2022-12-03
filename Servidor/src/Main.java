@@ -35,11 +35,8 @@ public class Main {
 
         //assert serv != null;
         serv.transf_zone();
-        serv.run();
-
-
-
-       // Ficheiros de LOG "C:/Users/Mimi/UMinho/CC/trabalhoCC-main/path.txt"
+        serv.query();
 
     }
 }
+

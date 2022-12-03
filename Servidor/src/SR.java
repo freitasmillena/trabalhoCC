@@ -118,7 +118,7 @@ public class SR extends Servidor{
     }
 
     @Override
-    public void run() {
+    public void query() {
         System.out.println("sou um SR e ainda n tenho run");
     }
 
