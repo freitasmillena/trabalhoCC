@@ -3,7 +3,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Classe Parser - responsável por converter conteúdo de um ficheiro em dados importantes para o programa
@@ -71,6 +73,9 @@ public class Parser {
     public void fileParserDadosSP(SP sp) {
         List<String> linhas = lerFicheiro(sp.getFicheiroBD());
         int prioridade;
+        HashMap<String, String> defaults = new HashMap<>();
+
+        String ar = null; // Para o DEFAULT @
 
         for (String linha : linhas) {
 
@@ -88,56 +93,98 @@ public class Parser {
                 }
                 else {
 
+                    // Chaves recebidas do DEFAULT
+                    Set<String> nomes_defaults = defaults.keySet();
+
+                    // Valor de Prioridade
                     if (linhaPartida.length < 5) { // não tem prioridade
                         prioridade = 1000000;
-                    } else prioridade = Integer.parseInt(linhaPartida[4]);
+                    } 
+                    else if (nomes_defaults.contains(linhaPartida[4])) {
+                        prioridade = Integer.parseInt(defaults.get(linhaPartida[4]));
+                    }
+                    else prioridade = Integer.parseInt(linhaPartida[4]);
+
+
+                    String new_linhaPartida2 = null;
+                    String new_linhaPartida3 = null;
+
+                    if (nomes_defaults.contains(linhaPartida[2])){
+                        new_linhaPartida3 = defaults.get(linhaPartida[2]);
+                    }
+                    else new_linhaPartida3 = linhaPartida[2];
+                    if (nomes_defaults.contains(linhaPartida[3])){
+                        new_linhaPartida3 = defaults.get(linhaPartida[3]);
+                    }
+                    else new_linhaPartida3 = linhaPartida[3];
+
 
 
                     switch (linhaPartida[1]) {
+                        case "DEFAULT":
+                            if (linhaPartida[0].equals("@")) ar = linhaPartida[0];
+                            else defaults.put(linhaPartida[0], linhaPartida[2]);
+                            break;
                         case "SOASP":
-                            Registo soap = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASP", prioridade, sp.getDominio());
+                            Registo soap = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOASP", prioridade, sp.getDominio());
                             sp.addRegistoBD("SOASP", soap);
                             break;
                         case "SOAADMIN":
-                            Registo soadmin = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAADMIN", prioridade, sp.getDominio());
+                            Registo soadmin = null;
+                            soadmin = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAADMIN", prioridade, sp.getDominio());
                             sp.addRegistoBD("SOAADMIN", soadmin);
                             break;
                         case "SOASERIAL":
-                            Registo soaserial = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOASERIAL", prioridade, sp.getDominio());
+                            Registo soaserial = null;
+                            new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOASERIAL", prioridade, sp.getDominio());
                             sp.addRegistoBD("SOASERIAL", soaserial);
                             break;
                         case "SOAREFRESH":
-                            Registo soarefresh = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAREFRESH", prioridade, sp.getDominio());
+                            Registo soarefresh = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAREFRESH", prioridade, sp.getDominio());
                             sp.addRegistoBD("SOAREFRESH", soarefresh);
                             break;
                         case "SOARETRY":
-                            Registo soaretry = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOARETRY", prioridade, sp.getDominio());
+                            Registo soaretry = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOARETRY", prioridade, sp.getDominio());
                             sp.addRegistoBD("SOARETRY", soaretry);
                             break;
                         case "SOAEXPIRE":
-                            Registo soaexpire = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "SOAEXPIRE", prioridade, sp.getDominio());
+                            Registo soaexpire = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAEXPIRE", prioridade, sp.getDominio());
                             sp.addRegistoBD("SOAEXPIRE", soaexpire);
                             break;
                         case "NS":
-                            if (linhaPartida[0].equals(sp.getDominio())) {
-                                Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, sp.getDominio());
+                            Registo ns = null;
+                            if (linhaPartida[0].equals(sp.getDominio()) || ar != null) {
+                                ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, sp.getDominio());
                                 sp.addRegistoBD("NS", ns);
-                            } else {
-                                Registo ns = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "NS", prioridade, linhaPartida[0]);
+                            } 
+                            else {
+                                ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, linhaPartida[0]);
                                 sp.addRegistoBD(linhaPartida[0], ns);
                                 sp.setSubDominio(linhaPartida[0]);
                             }
                             break;
                         case "A":
-                            Registo a = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "A", prioridade, linhaPartida[0]);
+                            Registo a = null;
+                            if (ar == null) {
+                                a = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "A", prioridade, linhaPartida[0]);
+                            }
+                            else {
+                                a = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "A", prioridade, linhaPartida[0] + "." + ar);
+                            }
                             sp.addRegistoBD("A", a); // Formato ns1.example.com.
                             break;
                         case "CNAME":
-                            Registo cname = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "CNAME", prioridade, linhaPartida[0]);
+                            Registo cname = null;
+                            if (ar == null) {
+                                cname = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0]);
+                            }
+                            else {
+                                cname = new Registo(new_linhaPartida2 + "." + ar, Integer.parseInt(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0] + "." + ar);
+                            }
                             sp.addRegistoBD("CNAME", cname);
                             break;
                         case "MX":
-                            Registo mx = new Registo(linhaPartida[2], Integer.parseInt(linhaPartida[3]), "MX", prioridade, sp.getDominio());
+                            Registo mx = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "MX", prioridade, sp.getDominio());
                             sp.addRegistoBD("MX", mx);
                             break;
                     }
