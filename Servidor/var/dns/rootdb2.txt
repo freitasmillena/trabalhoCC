@@ -8,8 +8,11 @@
 
 .root2. NS ns1.root2. 86400
 
-ns1.root2. A 10.0.18.10 86400
-.greens. A 10.0.0.10 86400
-.blacks. A 10.0.10.15 86400
+.greens. NS sp.greens. 86400
+.blacks. NS sp.blacks. 86400
+
+ns2.root2. A 10.0.17.10 86400
+sp.greens. A 10.0.0.10 86400
+sp.blacks. A 10.0.10.15 86400
 
 sp.root2. CNAME ns1.root2. 86400
