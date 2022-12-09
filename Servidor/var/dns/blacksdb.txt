@@ -1,33 +1,33 @@
-# DNS database file for domain .blacks.
+# DNS database file for domain .blacks.dance.
 # It also includes a pointer to the primary server
 # of the rhaenyra.blacks subdomain
 
-.blacks. SOASP ns1.blacks. 86400
-.blacks. SOAADMIN dns\.admin.blacks. 86400
-.blacks. SOASERIAL 0117102022 86400
-.blacks. SOAREFRESH 14400 86400
-.blacks. SOARETRY 3600 86400
-.blacks. SOAEXPIRE 604800 86400
+.blacks.dance. SOASP ns1.blacks.dance. 86400
+.blacks.dance. SOAADMIN dns\.admin.blacks.dance. 86400
+.blacks.dance. SOASERIAL 0117102022 86400
+.blacks.dance. SOAREFRESH 14400 86400
+.blacks.dance. SOARETRY 3600 86400
+.blacks.dance. SOAEXPIRE 604800 86400
 
-.blacks. NS ns1.blacks. 86400
-.blacks. NS ns2.blacks. 86400
-.blacks. NS ns3.blacks. 86400
+.blacks.dance. NS ns1.blacks. 86400
+.blacks.dance. NS ns2.blacks. 86400
+.blacks.dance. NS ns3.blacks. 86400
 
-rhaenyra.blacks. NS sp.rhaenyra.blacks. 86400
+rhaenyra.blacks. NS sp.rhaenyra.blacks.dance. 86400
 
-.blacks. MX mx1.blacks. 86400
-.blacks. MX mx2.blacks. 86400
+.blacks. MX mx1.blacks.dance. 86400
+.blacks. MX mx2.blacks.dance. 86400
 
-ns1.blacks. A 10.0.10.15 86400
-ns2.blacks. A 10.0.20.10 86400
-ns3.blacks. A 10.0.21.10 86400
-sp.rhaenyra.blacks. A 10.0.12.10 86400
-mx1.blacks. A 10.0.10.11 86400
-mx2.blacks. A 10.0.10.10 86400
-www.blacks. A 10.0.10.13 86400
+ns1.blacks.dance. A 10.0.10.15 86400
+ns2.blacks.dance. A 10.0.20.10 86400
+ns3.blacks.dance. A 10.0.21.10 86400
+sp.rhaenyra.blacks.dance. A 10.0.12.10 86400
+mx1.blacks.dance. A 10.0.10.11 86400
+mx2.blacks.dance. A 10.0.10.10 86400
+www.blacks.dance. A 10.0.10.13 86400
 
-sp.blacks. CNAME ns1.blacks. 86400
-ss1.blacks. CNAME ns2.blacks. 86400
+sp.blacks.dance. CNAME ns1.blacks.dance. 86400
+ss1.blacks.dance. CNAME ns2.blacks.dance. 86400
 ss2.blacks. CNAME ns3.blacks. 86400
 mail1.blacks. CNAME mx1.blacks. 86400
 mail2.blacks. CNAME mx2.blacks. 86400
