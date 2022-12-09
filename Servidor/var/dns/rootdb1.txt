@@ -8,11 +8,11 @@
 
 .dance. NS ns1.root1. 86400
 
-.greens. NS sp.greens. 86400
-.blacks. NS sp.blacks. 86400
+.greens.dance. NS sp.greens. 86400
+.blacks.dance. NS sp.blacks. 86400
 
 ns1.dance. A 10.0.17.10 86400
-sp.greens. A 10.0.0.10 86400
-sp.blacks. A 10.0.10.15 86400
+sp.greens.dance. A 10.0.0.10 86400
+sp.blacks.dance. A 10.0.10.15 86400
 
 sp.dance. CNAME ns1.root1. 86400
