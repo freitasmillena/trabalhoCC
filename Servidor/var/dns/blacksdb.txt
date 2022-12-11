@@ -9,11 +9,11 @@
 .blacks.dance. SOARETRY 3600 86400
 .blacks.dance. SOAEXPIRE 604800 86400
 
-.blacks.dance. NS ns1.blacks. 86400
-.blacks.dance. NS ns2.blacks. 86400
-.blacks.dance. NS ns3.blacks. 86400
+.blacks.dance. NS ns1.blacks.dance. 86400
+.blacks.dance. NS ns2.blacks.dance. 86400
+.blacks.dance. NS ns3.blacks.dance. 86400
 
-rhaenyra.blacks. NS sp.rhaenyra.blacks.dance. 86400
+rhaenyra.blacks.dance. NS sp.rhaenyra.blacks.dance. 86400
 
 .blacks. MX mx1.blacks.dance. 86400
 .blacks. MX mx2.blacks.dance. 86400
@@ -28,7 +28,7 @@ www.blacks.dance. A 10.0.10.13 86400
 
 sp.blacks.dance. CNAME ns1.blacks.dance. 86400
 ss1.blacks.dance. CNAME ns2.blacks.dance. 86400
-ss2.blacks. CNAME ns3.blacks. 86400
-mail1.blacks. CNAME mx1.blacks. 86400
-mail2.blacks. CNAME mx2.blacks. 86400
-web.blacks. CNAME www.blacks. 86400
+ss2.blacks. CNAME ns3.blacks.dance. 86400
+mail1.blacks. CNAME mx1.blacks.dance. 86400
+mail2.blacks. CNAME mx2.blacks.dance. 86400
+web.blacks. CNAME www.blacks.dance. 86400
