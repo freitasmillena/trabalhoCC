@@ -7,12 +7,12 @@ alicent.greens.dance. SOAREFRESH 14400 86400
 alicent.greens.dance. SOARETRY 3600 86400
 alicent.greens.dance. SOAEXPIRE 604800 86400
 
-alicent.greens.dance. NS ns1.alicent.greens. 86400
-alicent.greens.dance. NS ns2.alicent.greens. 86400
-alicent.greens.dance. NS ns3.alicent.greens. 86400
+alicent.greens.dance. NS ns1.alicent.greens.dance. 86400
+alicent.greens.dance. NS ns2.alicent.greens.dance. 86400
+alicent.greens.dance. NS ns3.alicent.greens.dance. 86400
 
-alicent.greens.dance. MX mx1.alicent.greens. 86400 
-alicent.greens.dance. MX mx2.alicent.greens. 86400 
+alicent.greens.dance. MX mx1.alicent.greens.dance. 86400 
+alicent.greens.dance. MX mx2.alicent.greens.dance. 86400 
 
 ns1.alicent.greens.dance. A 10.0.13.14 86400
 ns2.alicent.greens.dance. A 10.0.14.10 86400
@@ -21,9 +21,9 @@ mx1.alicent.greens.dance. A 10.0.13.11 86400
 mx2.alicent.greens.dance. A 10.0.13.13 86400
 www.alicent.greens.dance. A 10.0.13.12 86400 
 
-sp.alicent.greens.dance. CNAME ns1.alicent.greens. 86400
-ss1.alicent.greens.dance. CNAME ns2.alicent.greens. 86400
-ss2.alicent.greens.dance. CNAME ns3.alicent.greens. 86400
-mail1.alicent.greens.dance. CNAME mx1.alicent.greens. 86400
-mail2.alicent.greens.dance. CNAME mx2.alicent.greens. 86400 
-web.alicent.greens.dance. CNAME www.alicent.greens. 86400
+sp.alicent.greens.dance. CNAME ns1.alicent.greens.dance. 86400
+ss1.alicent.greens.dance. CNAME ns2.alicent.greens.dance. 86400
+ss2.alicent.greens.dance. CNAME ns3.alicent.greens.dance. 86400
+mail1.alicent.greens.dance. CNAME mx1.alicent.greens.dance. 86400
+mail2.alicent.greens.dance. CNAME mx2.alicent.greens.dance. 86400 
+web.alicent.greens.dance. CNAME www.alicent.greens.dance. 86400
