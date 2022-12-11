@@ -21,28 +21,32 @@ public class UDPComm implements Runnable{
 
 
     public void run() {
-        //handle Query
-        String pdu = this.bd.handleQuery(query);
+        if(bd.isSR()){
 
-        try {
-            //Enviar
-            DatagramPacket sender = new DatagramPacket(pdu.getBytes(), pdu.getBytes().length, this.ipCliente, this.portClient);
-            DatagramSocket s = new DatagramSocket();
-            s.send(sender);
-            s.close();
-
-            String ip = this.ipCliente.toString();
-            String[] args = ip.split("/", 2);
-
-            //Logs resposta
-            Log l2 = new Log("RP", args[1], pdu);
-            System.out.println(l2);
-            l2.logToFile(logFile);
         }
-        catch (SocketException ex) {
-            System.out.println("Socket error: " + ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println("I/O error: " + ex.getMessage());
+        else {
+            //handle Query
+            String pdu = this.bd.handleQuery(query);
+
+            try {
+                //Enviar
+                DatagramPacket sender = new DatagramPacket(pdu.getBytes(), pdu.getBytes().length, this.ipCliente, this.portClient);
+                DatagramSocket s = new DatagramSocket();
+                s.send(sender);
+                s.close();
+
+                String ip = this.ipCliente.toString();
+                String[] args = ip.split("/", 2);
+
+                //Logs resposta
+                Log l2 = new Log("RP", args[1], pdu);
+                System.out.println(l2);
+                l2.logToFile(logFile);
+            } catch (SocketException ex) {
+                System.out.println("Socket error: " + ex.getMessage());
+            } catch (IOException ex) {
+                System.out.println("I/O error: " + ex.getMessage());
+            }
         }
     }
 }

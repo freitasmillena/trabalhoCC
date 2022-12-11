@@ -16,6 +16,8 @@ public class Registo {
     private int prioridade;
     // Nome associado ao registo
     private String nome;
+    private boolean valid; //valid or not valid
+    private String origem;
 
     /**
      * Construtor vazio para um Registo
@@ -37,12 +39,14 @@ public class Registo {
      * @param prioridade Valor da prioridade do registo (varia entre 0 e 1 milhão)
      * @param nome Nome associado ao registo
      */
-    public Registo(String valor, int timetolive, String tag, int prioridade, String nome) {
+    public Registo(String valor, int timetolive, String tag, int prioridade, String nome, String origem) {
         this.valor = valor;
         this.timetolive = timetolive;
         this.tag = tag;
         this.prioridade = prioridade;
         this.nome = nome;
+        this.origem = origem;
+        this.valid = true;
     }
 
     /**
@@ -56,6 +60,8 @@ public class Registo {
         this.tag = registo.getTag();
         this.prioridade = registo.getPrioridade();
         this.nome = registo.getNome();
+        this.origem = registo.getOrigem();
+        this.valid = registo.isValid();
     }
 
     /**
@@ -71,6 +77,18 @@ public class Registo {
         this.valor = arrOfStr[2];
         this.timetolive = Integer.parseInt(arrOfStr[3]);
         this.prioridade = Integer.parseInt(arrOfStr[4]);
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    public String getOrigem() {
+        return origem;
     }
 
     /**

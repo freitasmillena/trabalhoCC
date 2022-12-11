@@ -11,7 +11,8 @@ public class SR extends Servidor{
     // Lista de servidores associados ao SR
     private List<String> servidoresDNS;
     // Cache / Base de dados do SR
-    private Map<String, Registo> cache;
+    private Data cache;
+    private String DD;
 
     /**
      * Construtor vazio para um Servidor de Resolução
@@ -19,7 +20,6 @@ public class SR extends Servidor{
     public SR() {
         super();
         this.servidoresDNS = new ArrayList<>();
-        this.cache = new HashMap<>();
     }
 
     /**
@@ -31,18 +31,21 @@ public class SR extends Servidor{
      * @param servidoresTopo lista dos servidores de topo
      * @param timeout tempo máximo de espera pela resposta a uma query
      * @param servidoresDNS Lista de servidores associados ao SR
-     * @param cache Cache / Base de dados do SR
      */
-    public SR(String dominio, String timeout, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, List<String> servidoresDNS, Map<String, Registo> cache) {
+    public SR(String dominio, String timeout, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, List<String> servidoresDNS) {
         super(dominio, portaAtendimento, ficheiroLog, servidoresTopo, timeout);
         this.servidoresDNS = new ArrayList<>();
         for(String dns : servidoresDNS){
             this.servidoresDNS.add(dns);
         }
-        this.cache = new HashMap<>();
-        for(String st : cache.keySet()){
-            this.cache.put(st, cache.get(st).clone());
-        }
+    }
+
+    public String getDD() {
+        return DD;
+    }
+
+    public void setDD(String DD) {
+        this.DD = DD;
     }
 
     /**
@@ -69,31 +72,14 @@ public class SR extends Servidor{
         }
     }
 
-    /**
-     * Devolve uma cópia da HasMap com a cache do Servidor de Resolução
-     * 
-     * @return Cópia da HasMap com a cache do Servidor de Resolução
-     */
-    public Map<String, Registo> getCache() {
-        Map<String, Registo> res = new HashMap<>();
-
-        for(String st : this.cache.keySet()){
-            res.put(st, this.cache.get(st).clone());
-        }
-        return res;
-    }
 
     /**
      * Define a cache do Servidor de Resolução
      * 
      * @param cache HasMap com a cache do Servidor de Resolução
      */
-    public void setCache(Map<String, Registo> cache) {
-        this.cache = new HashMap<>();
-
-        for(String st : cache.keySet()){
-            this.cache.put(st, cache.get(st).clone());
-        }
+    public void setCache(Data cache) {
+        this.cache = cache;
     }
 
     /**
@@ -107,8 +93,7 @@ public class SR extends Servidor{
         if (o == null || getClass() != o.getClass()) return false;
         SR sr = (SR) o;
         return (super.equals(sr) &&
-                this.servidoresDNS.equals(sr.getServidoresDNS()) &&
-                this.cache.equals(sr.getCache())
+                this.servidoresDNS.equals(sr.getServidoresDNS())
         );
     }
 

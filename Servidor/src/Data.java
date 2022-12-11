@@ -8,19 +8,39 @@ public class Data {
 
     private static Data single_instance = null;
     private Map<String, List<Registo>> BD;
-    private int versaoBD;
     private String dominio;
     private String subdominio;
+    private String DD;
     private ReentrantReadWriteLock l = new ReentrantReadWriteLock();
+    private List<String> ST = new ArrayList<>();
+    private boolean SR;
 
     private Data(String dominio){
         this.BD = new HashMap<>();
         this.dominio = dominio;
     }
 
-    public void setVersaoBD(int versaoBD) {
-        this.versaoBD = versaoBD;
+    public void addST(String ip){
+        this.ST.add(ip);
     }
+
+    public void setSR(boolean SR) {
+        this.SR = SR;
+    }
+
+    public boolean isSR() {
+        return SR;
+    }
+
+    public String getDD() {
+        return DD;
+    }
+
+    public void setDD(String DD) {
+        this.DD = DD;
+    }
+
+
 
     public void setSubdominio(String subdominio) {
         this.subdominio = subdominio;
@@ -38,6 +58,71 @@ public class Data {
         if(single_instance == null) single_instance = new Data(dominio);
         return single_instance;
     }
+
+    public String getSOASERIAL(){
+        String res = "-1";
+        this.l.readLock().lock();
+        try {
+            if (this.BD.containsKey("SOASERIAL")) {
+                for (Registo r : this.BD.get("SOASERIAL")) {
+                    res = r.getvalor();
+                }
+            }
+            return res;
+        }
+        finally {
+            this.l.readLock().unlock();
+        }
+    }
+
+    public String getSOAREFRESH(String timeout){
+        String res = timeout;
+        this.l.readLock().lock();
+        try {
+            if (this.BD.containsKey("SOAREFRESH")) {
+                for (Registo r : this.BD.get("SOAREFRESH")) {
+                    res = r.getvalor();
+                }
+            }
+            return res;
+        }
+        finally {
+            this.l.readLock().unlock();
+        }
+    }
+
+    public String getSOARETRY(String timeout){
+        String res = timeout;
+        this.l.readLock().lock();
+        try {
+            if (this.BD.containsKey("SOARETRY")) {
+                for (Registo r : this.BD.get("SOARETRY")) {
+                    res = r.getvalor();
+                }
+            }
+            return res;
+        }
+        finally {
+            this.l.readLock().unlock();
+        }
+    }
+
+    public String getSOAEXPIRE(String timeout){
+        String res = timeout;
+        this.l.readLock().lock();
+        try {
+            if (this.BD.containsKey("SOAEXPIRE")) {
+                for (Registo r : this.BD.get("SOAEXPIRE")) {
+                    res = r.getvalor();
+                }
+            }
+            return res;
+        }
+        finally {
+            this.l.readLock().unlock();
+        }
+    }
+
 
     /**
      * Adicionar o registo recebido à base de dados do SP
@@ -60,6 +145,32 @@ public class Data {
             this.l.writeLock().unlock();
         }
     }
+
+
+    public void clear(){
+        this.l.writeLock().lock();
+        this.BD.clear();
+        this.l.writeLock().unlock();
+    }
+
+    public void changeValid(boolean valid){
+        this.l.writeLock().lock();
+        try {
+            for (String s : this.BD.keySet()) {
+                for (Registo r : this.BD.get(s)) {
+                    r.setValid(valid);
+                }
+            }
+        }
+        finally {
+            this.l.writeLock().unlock();
+        }
+    }
+
+
+
+
+
 
     /**
      * Recebendo a tag, devolve a lista dos registos que possuem a respetiva tag
@@ -206,6 +317,7 @@ public class Data {
                 // response é NS do sub e extra o A do sub
                 Registo r = fetch(this.subdominio, this.subdominio);
                 response = r.toString();
+                tags = "P";
                 nValues = "1";
                 nAuthorities = "0";
                 auth = "";
