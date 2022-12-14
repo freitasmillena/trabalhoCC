@@ -180,12 +180,14 @@ public class Data {
      * @param tag tag dos registos que o método tem de devolver
      * @return lista dos registos com a tag recebida
      */
-    public List<Registo> fetchTag(String tag){
+    public List<Registo> fetchTag(String tag, String name){
         List<Registo> registos = new ArrayList<>();
         this.l.readLock().lock();
         try{
             for(Registo r : this.BD.get(tag)){
-                registos.add(r.clone());
+                if(r.getNome().equals(name)) {
+                    registos.add(r.clone());
+                }
             }
 
             return registos;
@@ -293,7 +295,7 @@ public class Data {
      */
     public String handleQuery(PDU query){
 
-        List<Registo> authorities = fetchTag("NS");
+        List<Registo> authorities = fetchTag("NS", this.dominio);
         String nAuthorities = Integer.toString(authorities.size());
         String auth = listString(authorities);
         String type = query.getTypeOfValue();
@@ -318,13 +320,15 @@ public class Data {
                 // response code 0, sem tags, sem authorities
                 // response é NS do sub e extra o A do sub
                 Registo r = fetch(this.subdominio, this.subdominio);
-                response = r.toString();
-                tags = "P";
-                nValues = "1";
-                nAuthorities = "0";
-                auth = "";
-                extra = fetch(r.getvalor(), "A").toString();
-                nExtra = "1";
+                rcode = "1";
+                response = "";
+                tags = "A";
+                authorities.add(r);
+                nAuthorities = Integer.toString(authorities.size());
+                auth = listString(authorities);
+                String[] extras = fetchExtra(authorities);
+                extra = extras[0];
+                nExtra = extras[1];
             } else if (nome.contains(this.dominio)) {
                 // response code 0, tag A -> encontrou resposta
                 // response code 1, tag A -> n encontrei máquina, sem extra, sem resposta, com NS
@@ -360,7 +364,7 @@ public class Data {
                     tags = "A";
                 } else {
                     //MX ou NS
-                    List<Registo> r = fetchTag(type);
+                    List<Registo> r = fetchTag(type, this.dominio);
                     nValues = Integer.toString(r.size());
                     response = listString(r);
                     for (Registo reg : r) authorities.add(reg);
@@ -370,11 +374,12 @@ public class Data {
                     tags = "A";
 
                 }
-            } else { // response code 2, A, sem extra, sem resposta, sem NS
+            } else { // response code 2, A
                 tags = "A";
                 rcode = "2";
-                nAuthorities = "0";
-                auth = "";
+                String[] extras = fetchExtra(authorities);
+                extra = extras[0];
+                nExtra = extras[1];
 
             }
         }
