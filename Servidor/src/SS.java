@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -92,7 +93,7 @@ public class SS extends Servidor{
     /**
      * Método que permite ao Servidor Secundário estar sempre à espera de pedidos e de responder aos mesmos pedidos. 
      */
-    public void transf_zone() {
+    public void transf_zone()  {
 
         while(true) {
 
@@ -110,21 +111,15 @@ public class SS extends Servidor{
                 out.println(requestBD);
                 out.flush();
 
-                long startBD = System.currentTimeMillis();
-                System.out.println("start: " + startBD);
-                Long timeout = Long.parseLong(super.getTimeOut()) + startBD;
-
                 String responseBD = null;
 
-                //Recebe versão
-                System.out.println("aguarda versao, esperar " + super.getTimeOut());
-                responseBD = in.readLine();
-                long total = System.currentTimeMillis();
-                System.out.println(responseBD);
-                System.out.println("total: " + total);
-                System.out.println("timeout: " + timeout);
+                Long timeoutVersao = Long.parseLong(super.getTimeOut()) + System.currentTimeMillis();
 
-                if (total <= timeout) {
+                //Recebe versão
+                responseBD = in.readLine();
+                System.out.println(responseBD);
+
+                if(System.currentTimeMillis() <= timeoutVersao) {
                     String[] res = responseBD.split(";", 3);
 
                     if (res[2].equals(this.BD.getSOASERIAL())) {
@@ -140,8 +135,8 @@ public class SS extends Servidor{
                         socket.shutdownOutput();
                         socket.close();
                         sleep(Long.parseLong(this.BD.getSOAREFRESH(super.getTimeOut())));
-                    }
 
+                    }
                     // Versão diferente, inicia transferência de zona
                     else {
 
@@ -153,11 +148,13 @@ public class SS extends Servidor{
                         System.out.println("transf zona inicia");
                         //Primeiro pedido -> envia domínio
                         String request = "1;1;" + super.getDominio();
-                        long start = System.currentTimeMillis();
 
                         out.println(request);
                         out.flush();
                         System.out.println(request);
+
+                        long start = System.currentTimeMillis();
+                        Long timeout = Long.parseLong(super.getTimeOut()) + start;
 
                         // Recebe número de linhas
                         String response = in.readLine(); // "2;1;nlinhastotal"
@@ -172,57 +169,122 @@ public class SS extends Servidor{
 
                             String[] args = response.split(";", 3); // 3;nlinha;stringregisto
                             int nLinhas = Integer.parseInt(args[2]);
-
+                            boolean ok = true;
+                            int length = 0;
                             for (int i = 1; i <= nLinhas; i++) {
                                 String linha = in.readLine();
-                                System.out.println(linha);
-                                String[] linhaBD = linha.split(";", 3);
-                                String registo = linhaBD[2];
-                                String[] regs = registo.split(" ", 5);
-                                Registo r = new Registo(regs[2], Integer.parseInt(regs[3]), regs[1], Integer.parseInt(regs[4]), regs[0], "sp");
-                                this.BD.transfZonaLinha(r);
+
+                                if(System.currentTimeMillis() <= timeout) {
+                                    System.out.println(linha);
+                                    String[] linhaBD = linha.split(";", 3);
+                                    String registo = linhaBD[2];
+                                    length += registo.getBytes(StandardCharsets.UTF_8).length;
+                                    String[] regs = registo.split(" ", 5);
+                                    Registo r = new Registo(regs[2], Integer.parseInt(regs[3]), regs[1], Integer.parseInt(regs[4]), regs[0], "sp");
+                                    this.BD.transfZonaLinha(r);
+
+
+                                    String respTransf = "3;"+ Integer.toString(i) + ";ok";
+                                    System.out.println(respTransf);
+                                    out.println(respTransf);
+                                    out.flush();
+                                }
+                                else{
+                                    ok = false;
+
+                                    String respErro = "3;"+ Integer.toString(i) + ";timeout";
+                                    System.out.println(respErro);
+                                    out.println(respErro);
+                                    out.flush();
+
+                                    break;
+                                }
                             }
 
                             long elapsedTimeMillis = System.currentTimeMillis() - start;
-                            String dadosEntrada = "SS " + Long.toString(elapsedTimeMillis) + " ms";
-                            // Logs
-                            Log zt = new Log("ZT", this.servidorPrimario, dadosEntrada);
-                            //Log Terminal
-                            System.out.println(zt);
-                            //Log Ficheiro
-                            zt.logToFile(super.getFicheiroLog());
-                            System.out.println("transf zona termina");
-                            this.counter = System.currentTimeMillis();
+                            socket.shutdownInput();
+                            socket.shutdownOutput();
+                            socket.close();
+
+                            //transf. zona concluída antes do timeout
+                            if(ok) {
+                                String dadosEntrada = "SS " + Long.toString(elapsedTimeMillis) + " ms " + Integer.toString(length) + " bytes";
+                                // Logs
+                                Log zt = new Log("ZT", this.servidorPrimario, dadosEntrada);
+                                //Log Terminal
+                                System.out.println(zt);
+                                //Log Ficheiro
+                                zt.logToFile(super.getFicheiroLog());
+                                System.out.println("transf zona termina");
+                                this.counter = System.currentTimeMillis();
+                                sleep(Long.parseLong(this.BD.getSOAREFRESH(super.getTimeOut())));
+                            }
+                            else {
+                                // timeout
+                                this.BD.clear();
+                                System.out.println(this.BD.BDsize());
+
+                                //Log timeout
+                                Log to = new Log("TO", this.servidorPrimario, "Zone Transfer");
+                                //Log Terminal
+                                System.out.println(to);
+                                //Log Ficheiro
+                                to.logToFile(super.getFicheiroLog());
+
+                                sleep(Long.parseLong(this.BD.getSOARETRY(super.getTimeOut())));
+                                System.out.println("ovo tentar de novo");
+
+                            }
+
                         } else {
+                            socket.shutdownInput();
+                            socket.shutdownOutput();
+                            socket.close();
+
                             // Logs
                             Log ez = new Log("EZ", this.servidorPrimario, "SS");
                             //Log Terminal
                             System.out.println(ez);
                             //Log Ficheiro
                             ez.logToFile(super.getFicheiroLog());
+
+                            sleep(Long.parseLong(this.BD.getSOAREFRESH(super.getTimeOut())));
                         }
-                        socket.shutdownInput();
-                        socket.shutdownOutput();
-                        socket.close();
                     }
-                } else {
-                    // timeout -> SP n responde a versão a tempo
-                    System.out.println("timeout versao");
-
-                    String resp = "1;1;timeout";
-                    System.out.println(resp);
-                    out.println(resp);
+                }
+                else {
+                    String respErro = "1;1;timeout";
+                    System.out.println(respErro);
+                    out.println(respErro);
                     out.flush();
-
                     socket.shutdownInput();
                     socket.shutdownOutput();
                     socket.close();
+
+                    //Log timeout
+                    Log to = new Log("TO", this.servidorPrimario, "Zone Transfer");
+                    //Log Terminal
+                    System.out.println(to);
+                    //Log Ficheiro
+                    to.logToFile(super.getFicheiroLog());
+
                     sleep(Long.parseLong(this.BD.getSOARETRY(super.getTimeOut())));
                     System.out.println("ovo tentar de novo");
                 }
-            }catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e){
+            }
+            catch (SocketException e) {
+                //Log timeout
+                Log to = new Log("TO", this.servidorPrimario, "Zone Transfer");
+                //Log Terminal
+                System.out.println(to);
+                //Log Ficheiro
+                try {
+                    to.logToFile(super.getFicheiroLog());
+                    sleep(Long.parseLong(this.BD.getSOARETRY(super.getTimeOut())));
+                } catch (InterruptedException | IOException ex) {
+                    ex.printStackTrace();
+                }
+            }catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
 

@@ -149,7 +149,9 @@ public class Data {
 
     public void clear(){
         this.l.writeLock().lock();
-        this.BD.clear();
+        if(!this.BD.isEmpty()){
+            this.BD.clear();
+        }
         this.l.writeLock().unlock();
     }
 

@@ -22,7 +22,7 @@ public class Log {
     private String ip;
     // Dados de entrada do Log
     private String dadosLog;
-    private Lock l = new ReentrantLock();
+
 
     /**
      * 
@@ -164,19 +164,12 @@ public class Log {
      * @throws IOException lança erro se não conseguir criar o ficheiro desejado
      */
     public void logToFile(String pathFile) throws IOException {
-        l.lock();
-        try {
             File logfile = new File(pathFile);
             logfile.createNewFile();
             FileOutputStream fos = new FileOutputStream(logfile, true);
             fos.write(this.toString().getBytes());
             fos.flush();
             fos.close();
-        }
-        finally {
-            l.unlock();
-        }
-
     }
 
 
