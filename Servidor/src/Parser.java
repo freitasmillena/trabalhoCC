@@ -165,7 +165,7 @@ public class Parser {
                                 }
                                 else {
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, linhaPartida[0], "file");
-                                    BD.addRegistoBD(linhaPartida[0], ns);
+                                    BD.addRegistoBD("NS", ns);
                                     BD.setSubdominio(linhaPartida[0]);
                                     sp.setSubDominio(linhaPartida[0]);
                                 }
@@ -175,11 +175,11 @@ public class Parser {
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, sp.getDominio(), "file");
                                     BD.addRegistoBD("NS", ns);
                                 }
-                                else {
+                                else { // smaller.@
                                     String[] splitlinha = linhaPartida[0].split("@", 2);
                                     String new_linhaPartida0 = splitlinha[0] + ar;
                                     ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, new_linhaPartida0, "file");
-                                    BD.addRegistoBD(new_linhaPartida0, ns);
+                                    BD.addRegistoBD("NS", ns);
                                     BD.setSubdominio(new_linhaPartida0);
                                     sp.setSubDominio(new_linhaPartida0);
                                 }
@@ -214,6 +214,11 @@ public class Parser {
                             Registo mx = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "MX", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("MX", mx);
                             //System.out.println(mx.toString());
+                            break;
+                        case "PTR":
+                            Registo ptr = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "PTR", prioridade, sp.getDominio(), "file");
+                            BD.addRegistoBD("PTR", ptr);
+                            //System.out.println(ptr.toString());
                             break;
                     }
                 }
