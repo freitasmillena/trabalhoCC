@@ -184,6 +184,7 @@ public class Data {
         List<Registo> registos = new ArrayList<>();
         this.l.readLock().lock();
         try{
+
             for(Registo r : this.BD.get(tag)){
                 if(r.getNome().equals(name)) {
                     registos.add(r.clone());
@@ -319,7 +320,8 @@ public class Data {
             if (this.subdominio != null && nome.contains(this.subdominio)) {
                 // response code 0, sem tags, sem authorities
                 // response é NS do sub e extra o A do sub
-                Registo r = fetch(this.subdominio, this.subdominio);
+                System.out.println("entrei aqui");
+                Registo r = fetchTag("NS", this.subdominio).get(0);
                 rcode = "1";
                 response = "";
                 tags = "A";
@@ -362,10 +364,19 @@ public class Data {
                     extra = extras[0];
                     nExtra = extras[1];
                     tags = "A";
-                } else {
+                }
+                else if(type.equals("PTR")){
+                    String nomes[] = nome.split("-",2);
+                    String ip = nomes[0];
+                    System.out.println(ip);
+                }
+                else {
                     //MX ou NS
-                    List<Registo> r = fetchTag(type, this.dominio);
+                    List<Registo> r = fetchTag(type, nome);
                     nValues = Integer.toString(r.size());
+                    if(r.size() == 0){
+                        rcode = "1";
+                    }
                     response = listString(r);
                     for (Registo reg : r) authorities.add(reg);
                     String[] extras = fetchExtra(authorities);

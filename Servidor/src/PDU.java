@@ -126,6 +126,7 @@ public class PDU {
         this.types.add("MX");
         this.types.add("CNAME");
         this.types.add("A");
+        this.types.add("PTR");
     }
 
     //formato conciso
