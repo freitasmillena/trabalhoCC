@@ -1,18 +1,22 @@
 # DNS database file for both primary servers for .dance.
-.dance. SOASP ns1.dance. 86400
-.dance. SOAADMIN dns\.admin.dance. 86400
-.dance. SOASERIAL 0117102022 86400
-.dance. SOAREFRESH 14400 86400
-.dance. SOARETRY 3600 86400
-.dance. SOAEXPIRE 604800 86400
 
-.dance. NS ns1.dance. 86400
+@ DEFAULT dance.
+TTL DEFAULT 86400
 
-.greens.dance. NS sp.greens.dance. 86400
-.blacks.dance. NS sp.blacks.dance. 86400
+@ SOASP ns1.dance. TTL
+@ SOAADMIN dns\.admin.dance. TTL
+@ SOASERIAL 0117102022 TTL
+@ SOAREFRESH 14400 TTL
+@ SOARETRY 3600 TTL
+@ SOAEXPIRE 604800 TTL
 
-ns1.dance. A 10.0.17.10 86400
-sp.greens.dance. A 10.0.0.10 86400
-sp.blacks.dance. A 10.0.10.15 86400
+@ NS ns1.dance. TTL
 
-sp.dance. CNAME ns1.dance. 86400
+.greens.@ NS sp.greens.dance. TTL
+.blacks.@ NS sp.blacks.dance. TTL
+
+ns1 A 10.0.17.10 TTL
+sp A 10.0.0.10 TTL
+sp A 10.0.10.15 TTL
+
+sp CNAME ns1 TTL

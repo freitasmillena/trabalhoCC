@@ -1,12 +1,16 @@
 # DNS database file for domain .reverse.dance.
 # It also includes a pointer to the primary server
-# of the 0.10-inaddr.reverse subdomain
+# of the .reverse.dance. subdomain
 
-.reverse.dance. SOASP ns1.reverse.dance. 86400
+@ DEFAULT reverse.dance.
+TTL DEFAULT 86400
 
-.reverse.dance. NS ns1.reverse.dance. 86400
-0.10-inaddr.dance. NS sp.0.10-inaddr.dance. 86400
+@ SOASP ns1.reverse.dance. 86400
 
-ns1.reverse.dance. A 10.0.10.15 86400
-sp.0.10-inaddr.dance. A 10.0.12.10 86400
+@ NS ns1.reverse.dance. 86400
+
+0.10-inaddr.@ NS sp.0.10-inaddr.reverse.dance. 86400
+
+ns1 A 10.0.10.15 86400
+sp.0.10-inaddr A 10.0.12.10 86400
 

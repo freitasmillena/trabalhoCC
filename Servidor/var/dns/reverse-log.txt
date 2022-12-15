@@ -1,0 +1,14 @@
+15:12:2022.20:13:15:111 QR 127.0.0.1 14404,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:13:15:115 RP 127.0.0.1 14404,A,3,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:15:18:535 QR 127.0.0.1 63551,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:15:18:541 RP 127.0.0.1 63551,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS sp.0.10-inaddr.reverse.dance. 86400 1000000;sp.0.10-inaddr.reverse.dance. A 10.0.12.10 86400 1000000;
+15:12:2022.20:16:13:45 QR 127.0.0.1 19480,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:16:13:47 RP 127.0.0.1 19480,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS sp.0.10-inaddr.reverse.dance. 86400 1000000;sp.0.10-inaddr.reverse.dance. A 10.0.12.10 86400 1000000;
+15:12:2022.20:18:34:250 QR 127.0.0.1 12464,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:18:34:255 RP 127.0.0.1 12464,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS sp.0.10-inaddr.reverse.dance. 86400 1000000;sp.0.10-inaddr.reverse.dance. A 10.0.12.10 86400 1000000;
+15:12:2022.20:21:03:906 QR 127.0.0.1 8722,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:21:03:913 RP 127.0.0.1 8722,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS sp.0.10-inaddr.reverse.dance. 86400 1000000;sp.0.10-inaddr.reverse.dance. A 10.0.12.10 86400 1000000;
+15:12:2022.20:21:35:393 QR 127.0.0.1 60022,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:21:35:397 RP 127.0.0.1 60022,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS sp.0.10-inaddr.reverse.dance. 86400 1000000;sp.0.10-inaddr.reverse.dance. A 10.0.12.10 86400 1000000;
+15:12:2022.20:21:52:418 QR 127.0.0.1 19287,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:21:52:422 RP 127.0.0.1 19287,A,1,0,2,2;11.13.0.10-inaddr.reverse.dance.,PTR;;.reverse.dance. NS ns1.reverse.dance. 86400 1000000,0.10-inaddr.reverse.dance. NS sp.0.10-inaddr.reverse.dance. 86400 1000000;ns1.reverse.dance. A 10.0.10.15 86400 1000000,sp.0.10-inaddr.reverse.dance. A 10.0.12.10 86400 1000000;

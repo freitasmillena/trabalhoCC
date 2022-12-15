@@ -1,34 +1,37 @@
 # DNS database file for domain .greens.dance.
 # It also includes a pointer to the primary server
-# of the alicent.greens subdomain
+# of the alicent.greens.dance. subdomain
 
-.greens.dance. SOASP ns1.greens.dance. 86400
-.greens.dance. SOAADMIN dns\.admin.greens.dance. 86400
-.greens.dance. SOASERIAL 0117102022 86400
-.greens.dance. SOAREFRESH 14400 86400
-.greens.dance. SOARETRY 3600 86400
-.greens.dance. SOAEXPIRE 604800 86400
+@ DEFAULT greens.dance.
+TTL DEFAULT 86400
 
-.greens.dance. NS ns1.greens.dance. 86400
-.greens.dance. NS ns2.greens.dance. 86400
-.greens.dance. NS ns3.greens.dance. 86400
+@ SOASP ns1.greens.dance. TTL
+@ SOAADMIN dns\.admin.greens.dance. TTL
+@ SOASERIAL 0117102022 TTL
+@ SOAREFRESH 14400 TTL
+@ SOARETRY 3600 TTL
+@ SOAEXPIRE 604800 TTL
 
-alicent.greens.dance. NS sp.alicent.greens.dance. 86400
+@ NS ns1.greens.dance. TTL
+@ NS ns2.greens.dance. TTL
+@ NS ns3.greens.dance. TTL
 
-.greens.dance. MX mx1.greens.dance. 86400 
-.greens.dance. MX mx2.greens.dance. 86400 
+alicent.@ NS sp.alicent.greens.dance. TTL
 
-ns1.greens.dance. A 10.0.0.10 86400
-ns2.greens.dance. A 10.0.9.10 86400
-ns3.greens.dance. A 10.0.11.10 86400
-sp.alicent.greens.dance. A 10.0.13.10 86400
-mx1.greens.dance. A 10.0.0.12 86400
-mx2.greens.dance. A 10.0.0.13 86400
-www.greens.dance. A 10.0.0.11 86400 
+@ MX mx1.greens.dance. TTL
+@ MX mx2.greens.dance. TTL
 
-sp.greens.dance. CNAME ns1.greens.dance. 86400
-ss1.greens.dance. CNAME ns2.greens.dance. 86400
-ss2.greens.dance. CNAME ns3.greens.dance. 86400
-mail1.greens.dance. CNAME mx1.greens.dance. 86400
-mail2.greens.dance. CNAME mx2.greens.dance. 86400 
-web.greens.dance. CNAME www.greens.dance. 86400
+ns1 A 10.0.0.10 TTL
+ns2 A 10.0.9.10 TTL
+ns3 A 10.0.11.10 TTL
+sp.alicent A 10.0.13.10 TTL
+mx1 A 10.0.0.12 TTL
+mx2 A 10.0.0.13 TTL
+www A 10.0.0.11 TTL
+
+sp CNAME ns1 TTL
+ss1 CNAME ns2 TTL
+ss2 CNAME ns3 TTL
+mail1 CNAME mx1 TTL
+mail2 CNAME mx2 TTL
+web CNAME www TTL

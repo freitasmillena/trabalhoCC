@@ -1,11 +1,14 @@
 # DNS database file for domain 0.10-inaddr.reverse.dance.
 # It also includes a pointer to the primary server
 
-0.10-inaddr.reverse.dance. SOASP ns1.0.10-inaddr.reverse.dance. 86400
+@ DEFAULT 0.10-inaddr.reverse.dance.
+TTL DEFAULT 86400
 
-0.10-inaddr.reverse.dance. NS ns1.0.10-inaddr.reverse.dance. 86400
+@ SOASP ns1.0.10-inaddr.reverse.dance. 86400
 
-ns1.0.10-inaddr.reverse.dance. A 10.0.10.15 86400
+@ NS ns1.0.10-inaddr.reverse.dance. 86400
+
+ns1 A 10.0.10.15 86400
 
 10.0.13.11 PTR mx1.alicent.greens.dance. 86400
 10.0.13.13 PTR mx2.alicent.greens.dance. 86400

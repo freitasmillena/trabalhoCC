@@ -1,0 +1,6 @@
+15:12:2022.20:27:43:887 QR 127.0.0.1 10511,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:27:43:893 RP 127.0.0.1 10511,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS ns1.0.10-inaddr.reverse.dance. 86400 1000000;ns1.0.10-inaddr.reverse.dance. A 10.0.10.15 86400 1000000;
+15:12:2022.20:29:23:944 QR 127.0.0.1 50101,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:29:23:947 RP 127.0.0.1 50101,A,1,0,1,1;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS ns1.0.10-inaddr.reverse.dance. 86400 1000000;ns1.0.10-inaddr.reverse.dance. A 10.0.10.15 86400 1000000;
+15:12:2022.20:30:21:257 QR 127.0.0.1 4255,Q,0,0,0,0;11.13.0.10-inaddr.reverse.dance.,PTR;;;;
+15:12:2022.20:30:21:260 RP 127.0.0.1 4255,,0,0,1,0;11.13.0.10-inaddr.reverse.dance.,PTR;;0.10-inaddr.reverse.dance. NS ns1.0.10-inaddr.reverse.dance. 86400 1000000;;

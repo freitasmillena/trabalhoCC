@@ -1,29 +1,32 @@
 # DNS database file for domain rhaenyra.blacks.dance.
 
-rhaenyra.blacks.dance. SOASP ns1.rhaenyra.blacks.dance. 86400
-rhaenyra.blacks.dance. SOAADMIN dns\.admin.rhaenyra.blacks.dance. 86400
-rhaenyra.blacks.dance. SOASERIAL 0117102022 86400
-rhaenyra.blacks.dance. SOAREFRESH 14400 86400
-rhaenyra.blacks.dance. SOARETRY 3600 86400
-rhaenyra.blacks.dance. SOAEXPIRE 604800 86400
+@ DEFAULT rhaenyra.blacks.dance.
+TTL DEFAULT 86400
 
-rhaenyra.blacks.dance. NS ns1.rhaenyra.blacks.dance. 86400
-rhaenyra.blacks.dance. NS ns2.rhaenyra.blacks.dance. 86400
-rhaenyra.blacks.dance. NS ns3.rhaenyra.blacks.dance. 86400
+@ SOASP ns1.rhaenyra.blacks.dance. TTL
+@ SOAADMIN dns\.admin.rhaenyra.blacks.dance. TTL
+@ SOASERIAL 0117102022 TTL
+@ SOAREFRESH 14400 TTL
+@ SOARETRY 3600 TTL
+@ SOAEXPIRE 604800 TTL
 
-rhaenyra.blacks.dance. MX mx1.rhaenyra.blacks.dance. 86400 
-rhaenyra.blacks.dance. MX mx2.rhaenyra.blacks.dance. 86400 
+@ NS ns1.rhaenyra.blacks.dance. TTL
+@ NS ns3.rhaenyra.blacks.dance. TTL
+@ NS ns2.rhaenyra.blacks.dance. TTL
 
-ns1.rhaenyra.blacks.dance. A 10.0.12.10 86400
-ns2.rhaenyra.blacks.dance. A 10.0.22.10 86400
-ns3.rhaenyra.blacks.dance. A 10.0.23.10 86400
-mx1.rhaenyra.blacks.dance. A 10.0.12.11 86400
-mx2.rhaenyra.blacks.dance. A 10.0.12.14 86400
-www.rhaenyra.blacks.dance. A 10.0.12.13 86400 
+@ MX mx1.rhaenyra.blacks.dance. TTL
+@ MX mx2.rhaenyra.blacks.dance. TTL
 
-sp.rhaenyra.blacks.dance. CNAME ns1.rhaenyra.blacks.dance. 86400
-ss1.rhaenyra.blacks.dance. CNAME ns2.rhaenyra.blacks.dance. 86400
-ss2.rhaenyra.blacks.dance. CNAME ns3.rhaenyra.blacks.dance. 86400
-mail1.rhaenyra.blacks.dance. CNAME mx1.rhaenyra.blacks.dance. 86400
-mail2.rhaenyra.blacks.dance. CNAME mx2.rhaenyra.blacks.dance. 86400 
-web.rhaenyra.blacks.dance. CNAME www.rhaenyra.blacks.dance. 86400
+ns1 A 10.0.12.10 TTL
+ns2 A 10.0.22.10 TTL
+ns3 A 10.0.23.10 TTL
+mx1 A 10.0.12.11 TTL
+mx2 A 10.0.12.14 TTL
+www A 10.0.12.13 TTL
+
+sp CNAME ns1 TTL
+ss1 CNAME ns2 TTL
+ss2 CNAME ns3 TTL
+mail1 CNAME mx1 TTL
+mail2 CNAME mx2 TTL
+web CNAME www TTL

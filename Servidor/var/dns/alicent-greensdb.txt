@@ -1,29 +1,32 @@
 # DNS database file for domain alicent.greens.dance.
 
-alicent.greens.dance. SOASP ns1.alicent.greens.dance. 86400
-alicent.greens.dance. SOAADMIN dns\.admin.alicent.greens.dance. 86400
-alicent.greens.dance. SOASERIAL 0117102022 86400
-alicent.greens.dance. SOAREFRESH 14400 86400
-alicent.greens.dance. SOARETRY 3600 86400
-alicent.greens.dance. SOAEXPIRE 604800 86400
+@ DEFAULT alicent.greens.dance.
+TTL DEFAULT 86400
 
-alicent.greens.dance. NS ns1.alicent.greens.dance. 86400
-alicent.greens.dance. NS ns2.alicent.greens.dance. 86400
-alicent.greens.dance. NS ns3.alicent.greens.dance. 86400
+@ SOASP ns1.alicent.greens.dance. TTL
+@ SOAADMIN dns\.admin.alicent.greens.dance. TTL
+@ SOASERIAL 0117102022 TTL
+@ SOAREFRESH 14400 TTL
+@ SOARETRY 3600 TTL
+@ SOAEXPIRE 604800 TTL
 
-alicent.greens.dance. MX mx1.alicent.greens.dance. 86400 
-alicent.greens.dance. MX mx2.alicent.greens.dance. 86400 
+@ NS ns1.alicent.greens.dance. TTL
+@ NS ns2.alicent.greens.dance. TTL
+@ NS ns3.alicent.greens.dance. TTL
 
-ns1.alicent.greens.dance. A 10.0.13.14 86400
-ns2.alicent.greens.dance. A 10.0.14.10 86400
-ns3.alicent.greens.dance. A 10.0.15.10 86400
-mx1.alicent.greens.dance. A 10.0.13.11 86400
-mx2.alicent.greens.dance. A 10.0.13.13 86400
-www.alicent.greens.dance. A 10.0.13.12 86400 
+@ MX mx1.alicent.greens.dance. TTL
+@ MX mx2.alicent.greens.dance. TTL
 
-sp.alicent.greens.dance. CNAME ns1.alicent.greens.dance. 86400
-ss1.alicent.greens.dance. CNAME ns2.alicent.greens.dance. 86400
-ss2.alicent.greens.dance. CNAME ns3.alicent.greens.dance. 86400
-mail1.alicent.greens.dance. CNAME mx1.alicent.greens.dance. 86400
-mail2.alicent.greens.dance. CNAME mx2.alicent.greens.dance. 86400 
-web.alicent.greens.dance. CNAME www.alicent.greens.dance. 86400
+ns1 A 10.0.13.14 TTL
+ns2 A 10.0.14.10 TTL
+ns3 A 10.0.15.10 TTL
+mx1 A 10.0.13.11 TTL
+mx2 A 10.0.13.13 TTL
+www A 10.0.13.12 TTL
+
+sp CNAME ns1 TTL
+ss1 CNAME ns2 TTL
+ss2 CNAME ns3 TTL
+mail1 CNAME mx1 TTL
+mail2 CNAME mx2 TTL
+web CNAME www TTL

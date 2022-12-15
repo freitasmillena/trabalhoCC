@@ -1,5 +1,4 @@
 # Configuration file for primary server for in-addr.reverse.
-in-addr.reverse. DB ../var/dns/reversedb.txt
-in-addr.reverse. DD 10.0.16.10
-in-addr.reverse. LG ../var/dns/in-addr-reverselog.txt
-in-addr.reverse. ST ../var/dns/rootservers.txt
+0.10-inaddr.reverse.dance. DB ../var/dns/0.10-inaddrbd.txt
+0.10-inaddr.reverse.dance. DD 10.0.16.10
+0.10-inaddr.reverse.dance. LG ../var/dns/in-addr-log.txt
