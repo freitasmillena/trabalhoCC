@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Data {
@@ -368,7 +365,26 @@ public class Data {
                 else if(type.equals("PTR")){
                     String nomes[] = nome.split("-",2);
                     String ip = nomes[0];
-                    System.out.println(ip);
+
+                    //inverter pra ter ip
+                    String sep[] = ip.split("\\.",4);
+                    Collections.reverse(Arrays.asList(sep));
+                    String ipFinal = sep[0] + "." + sep[1] + "." + sep[2] + "." + sep[3];
+
+                    //procura
+                    Registo r = fetch(ipFinal, "PTR");
+                    if (r != null) {
+                        response = r.toString();
+                        nValues = "1";
+
+                    } else {
+                        rcode = "1";
+
+                    }
+                    String[] extras = fetchExtra(authorities);
+                    extra = extras[0];
+                    nExtra = extras[1];
+                    tags = "A";
                 }
                 else {
                     //MX ou NS
