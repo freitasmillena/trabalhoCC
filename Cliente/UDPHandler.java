@@ -53,13 +53,15 @@ public class UDPHandler {
 
             //Receber
             DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+            s.setSoTimeout(120000);
             s.receive(response);
 
             resposta = new PDU(response.getData());
 
             s.close();
 
-        } catch (SocketTimeoutException ex) {
+        }
+        catch (SocketTimeoutException ex) {
             System.out.println("Timeout error: " + ex.getMessage());
             ex.printStackTrace();
         } catch (IOException ex) {

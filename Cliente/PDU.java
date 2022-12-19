@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe PDU - Protocol Data Unit - para o Cliente
  * 
@@ -19,11 +22,11 @@ public class PDU {
     // Número de entradas com informação adicional relacionada com os resultados da query ou com os servidores da lista de autoridades
     private String nExtraValues;
     // String compacta das entradas que fazem match no NAME e TYPE OF VALUE incluídos na cache ou na base de dados do servidor autoritativo
-    private String responseValues;
+    private List<Registo> responseValues;
     // String compacta das entradas que fazem match com o NAME e com o tipo de valor igual a NS incluídos na cache ou na base de dados do servidor autoritativo
-    private String authoritiesValues;
+    private List<Registo> authoritiesValues;
     // String compacta das entradas do tipo A  e que fazem match no parâmetro com todos os valores no campo RESPONSE VALUES e no campo AUTHORITIES VALUES
-    private String extraValues;
+    private List<Registo> extraValues;
     // Nome associado ao 'typeOfValue'
     private String name;
     // Tipo de resposta (MX, NS, A, CNAME)
@@ -48,9 +51,9 @@ public class PDU {
         this.nValues = "0";
         this.nAuthorities = "0";
         this.nExtraValues = "0";
-        this.responseValues = "";
-        this.authoritiesValues = "";
-        this.extraValues = "";
+        this.responseValues = new ArrayList<>();
+        this.authoritiesValues = new ArrayList<>();
+        this.extraValues = new ArrayList<>();
     }
 
     //recebeu resposta
@@ -62,11 +65,11 @@ public class PDU {
     public PDU(byte[] data){
         String msg =  new String(data).trim();
         String[] arrOfStr = msg.split(";", 6);
+        for(String s : arrOfStr){
+            System.out.println(s);
+        }
         String fst[] = arrOfStr[0].split(",", 6);
         String snd[] = arrOfStr[1].split(",", 2);
-        this.responseValues = arrOfStr[2];
-        this.authoritiesValues = arrOfStr[3];
-        this.extraValues = arrOfStr[4];
         this.messageID = fst[0];
         this.flags = fst[1];
         this.responseCode = fst[2];
@@ -75,6 +78,33 @@ public class PDU {
         this.nExtraValues = fst[5];
         this.name = snd[0];
         this.typeOfValue = snd[1];
+
+        this.responseValues = new ArrayList<>();
+
+        if(!this.nValues.equals("0")){
+            String[] responses = arrOfStr[2].split(",", Integer.parseInt(this.nValues));
+            for(String s : responses){
+                this.responseValues.add(new Registo(s.getBytes()));
+            }
+        }
+
+        this.authoritiesValues = new ArrayList<>();
+        if(!this.nAuthorities.equals("0")){
+            String[] responses = arrOfStr[3].split(",", Integer.parseInt(this.nAuthorities));
+            for(String s : responses){
+                this.authoritiesValues.add(new Registo(s.getBytes()));
+            }
+        }
+
+        this.extraValues = new ArrayList<>();
+        if(!this.nExtraValues.equals("0")){
+            String[] responses = arrOfStr[4].split(",", Integer.parseInt(this.nExtraValues));
+            for(String s : responses){
+                this.extraValues.add(new Registo(s.getBytes()));
+            }
+        }
+
+
     }
 
     //formato conciso
@@ -93,21 +123,27 @@ public class PDU {
                 .append(this.nExtraValues).append(";")
                 .append(this.name).append(",")
                 .append(this.typeOfValue).append(";");
-        if(this.flags.equals("Q")){
-            sb.append(this.responseValues).append(";");
-            sb.append(this.authoritiesValues).append(";");
-            sb.append(this.extraValues).append(";");
+        if(!nValues.equals("0")) {
+            for (int i = 0; i < Integer.parseInt(this.nValues); i++) {
+                if(i != 0) sb.append(",");
+                sb.append(this.responseValues.get(i));
+            }
         }
-        else{
-            sb.append("\n");
-            if(!this.responseValues.equals("")) sb.append(this.responseValues).append(";").append("\n");
-            if(!this.authoritiesValues.equals("")) sb.append(this.authoritiesValues).append(";").append("\n");
-            if(!this.extraValues.equals("")) sb.append(this.extraValues).append(";").append("\n");
-
+        sb.append(";");
+        if(!nAuthorities.equals("0")) {
+            for (int i = 0; i < Integer.parseInt(this.nValues); i++) {
+                if(i != 0) sb.append(",");
+                sb.append(this.authoritiesValues.get(i));
+            }
         }
-
-
-
+        sb.append(";");
+        if(!nExtraValues.equals("0")) {
+            for (int i = 0; i < Integer.parseInt(this.nValues); i++) {
+                if(i != 0) sb.append(",");
+                sb.append(this.extraValues.get(i));
+            }
+        }
+        sb.append(";");
 
         return sb.toString();
     }
@@ -126,14 +162,29 @@ public class PDU {
                 .append("Name: " + this.name).append(" ")
                 .append("Type of Value: " + this.typeOfValue).append(";").append("\n");
 
-        if(!this.responseValues.equals("")) {
-            sb.append("\n").append("Response Values: ").append("\n").append(this.responseValues).append(";").append("\n");
+        if(!nValues.equals("0")) {
+            sb.append("\nResponse Values: ").append("\n");
+            for (int i = 0; i < Integer.parseInt(this.nValues); i++) {
+                if(i != 0) sb.append("\n");
+                sb.append(this.responseValues.get(i));
+            }
+            sb.append("`\n");
         }
-        if(!this.authoritiesValues.equals("")) {
-            sb.append("\n").append("Authorities Values: ").append("\n").append(this.authoritiesValues).append(";").append("\n");
+        if(!nAuthorities.equals("0")) {
+            sb.append("\nAuthorities Values: ").append("\n");
+            for (int i = 0; i < Integer.parseInt(this.nAuthorities); i++) {
+                if(i != 0) sb.append("\n");
+                sb.append(this.authoritiesValues.get(i));
+            }
+            sb.append("`\n");
         }
-        if(!this.extraValues.equals("")) {
-            sb.append("\n").append("Extra Values: ").append("\n").append(this.extraValues).append(";").append("\n");
+        if(!nExtraValues.equals("0")) {
+            sb.append("\nExtra Values: ").append("\n");
+            for (int i = 0; i < Integer.parseInt(this.nExtraValues); i++) {
+                if(i != 0) sb.append("\n");
+                sb.append(this.extraValues.get(i));
+            }
+            sb.append("`\n");
         }
 
         return sb.toString();

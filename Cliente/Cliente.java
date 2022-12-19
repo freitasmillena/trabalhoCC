@@ -16,7 +16,7 @@ public class Cliente {
         String serverAdd = args[1];
         String name = args[2];
         String type = args[3];
-        String serverPort = "5556";
+        String serverPort = "5555";
 
         Random r = new Random();
         int msgID = r.nextInt(65535-1) + 1;
