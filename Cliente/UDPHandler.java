@@ -39,7 +39,7 @@ public class UDPHandler {
      */
     public PDU connectionHandler(String query) {
 
-        byte[] buffer = new byte[512];
+        byte[] buffer = new byte[2056];
 
         PDU resposta = null;
 
