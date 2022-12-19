@@ -165,7 +165,7 @@ public class SP extends Servidor{
                 //Log ficheiro
                 l1.logToFile(super.getFicheiroLog());
 
-                Thread tudp = new Thread(new UDPComm(this.BD,query,ipCliente,portClient,super.getFicheiroLog()));
+                Thread tudp = new Thread(new UDPComm(this.BD,query,ipCliente,portClient,super.getFicheiroLog(),this.getTimeOut()));
                 tudp.start();
 
             } catch (SocketException ex) {

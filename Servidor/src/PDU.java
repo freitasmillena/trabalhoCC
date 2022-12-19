@@ -22,11 +22,11 @@ public class PDU {
     // Número de entradas com informação adicional relacionada com os resultados da query ou com os servidores da lista de autoridades
     private String nExtraValues;
     // String compacta das entradas que fazem match no NAME e TYPE OF VALUE incluídos na cache ou na base de dados do servidor autoritativo
-    private String responseValues;
+    private List<Registo> responseValues;
     // String compacta das entradas que fazem match com o NAME e com o tipo de valor igual a NS incluídos na cache ou na base de dados do servidor autoritativo
-    private String authoritiesValues;
+    private List<Registo> authoritiesValues;
     // String compacta das entradas do tipo A  e que fazem match no parâmetro com todos os valores no campo RESPONSE VALUES e no campo AUTHORITIES VALUES
-    private String extraValues;
+    private List<Registo> extraValues;
     // Nome associado ao 'typeOfValue'
     private String name;
     // Tipo de valor de resposta da query (MX, NS, A, CNAME)
@@ -49,7 +49,7 @@ public class PDU {
      * @param authoritiesValues string compacta das entradas que fazem match com o NAME e com o tipo de valor igual a NS incluídos na cache ou na base de dados do servidor autoritativo
      * @param extraValues string compacta das entradas do tipo A  e que fazem match no parâmetro com todos os valores no campo RESPONSE VALUES e no campo AUTHORITIES VALUES
      */
-    public PDU(String messageID, String name, String typeOfValue, String flags,String responseCode, String nValues, String nAuthorities, String nExtraValues, String responseValues, String authoritiesValues, String extraValues) {
+    public PDU(String messageID, String name, String typeOfValue, String flags,String responseCode, String nValues, String nAuthorities, String nExtraValues, List<Registo> responseValues, List<Registo> authoritiesValues, List<Registo> extraValues) {
         this.messageID = messageID;
         this.name = name;
         this.typeOfValue = typeOfValue;
@@ -71,6 +71,13 @@ public class PDU {
         return types;
     }
 
+    public String getnExtraValues() {
+        return nExtraValues;
+    }
+
+    public String getnAuthorities() {
+        return nAuthorities;
+    }
 
     /**
      * Devolve a string do identificador único da mensagem
@@ -98,7 +105,14 @@ public class PDU {
         return typeOfValue;
     }
 
-    //recebeu query
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public String getnValues() {
+        return nValues;
+    }
+//recebeu query
     /**
      * Método que recebe uma query (em forma de array de bytes) para a reconstrução do PDU
      * 
@@ -106,7 +120,7 @@ public class PDU {
      */
     public PDU(byte[] data){
         String msg =  new String(data).trim();
-        String[] arrOfStr = msg.split(";", 3);
+        String[] arrOfStr = msg.split(";", 6);
         String fst[] = arrOfStr[0].split(",", 6);
         String snd[] = arrOfStr[1].split(",", 2);
         this.messageID = fst[0];
@@ -117,9 +131,32 @@ public class PDU {
         this.nExtraValues = fst[5];
         this.name = snd[0];
         this.typeOfValue = snd[1];
-        this.responseValues = "";
-        this.authoritiesValues = "";
-        this.extraValues = "";
+
+        this.responseValues = new ArrayList<>();
+
+        if(!this.nValues.equals("0")){
+            String[] responses = arrOfStr[2].split(",", Integer.parseInt(this.nValues));
+            for(String s : responses){
+                this.responseValues.add(new Registo(s.getBytes()));
+            }
+        }
+
+        this.authoritiesValues = new ArrayList<>();
+        if(!this.nAuthorities.equals("0")){
+            String[] responses = arrOfStr[3].split(",", Integer.parseInt(this.nAuthorities));
+            for(String s : responses){
+                this.authoritiesValues.add(new Registo(s.getBytes()));
+            }
+        }
+
+        this.extraValues = new ArrayList<>();
+        if(!this.nExtraValues.equals("0")){
+            String[] responses = arrOfStr[4].split(",", Integer.parseInt(this.nExtraValues));
+            for(String s : responses){
+                this.extraValues.add(new Registo(s.getBytes()));
+            }
+        }
+
 
         this.types = new ArrayList<>();
         this.types.add("NS");
@@ -144,12 +181,39 @@ public class PDU {
                 .append(this.nAuthorities).append(",")
                 .append(this.nExtraValues).append(";")
                 .append(this.name).append(",")
-                .append(this.typeOfValue).append(";")
-                .append(this.responseValues).append(";")
-                .append(this.authoritiesValues).append(";")
-                .append(this.extraValues).append(";");
+                .append(this.typeOfValue).append(";");
+        if(!nValues.equals("0")) {
+            for (int i = 0; i < Integer.parseInt(this.nValues); i++) {
+                if(i != 0) sb.append(",");
+                sb.append(this.responseValues.get(i));
+            }
+        }
+        sb.append(";");
+        if(!nAuthorities.equals("0")) {
+            for (int i = 0; i < Integer.parseInt(this.nAuthorities); i++) {
+                if(i != 0) sb.append(",");
+                sb.append(this.authoritiesValues.get(i));
+            }
+        }
+        sb.append(";");
+        if(!nExtraValues.equals("0")) {
+            for (int i = 0; i < Integer.parseInt(this.nExtraValues); i++) {
+                if(i != 0) sb.append(",");
+                sb.append(this.extraValues.get(i));
+            }
+        }
+        sb.append(";");
 
         return sb.toString();
     }
 
+    public List<String> getExtraIps(){
+        List<String> res = new ArrayList<>();
+
+        for(Registo r : this.extraValues){
+            res.add(r.getvalor());
+        }
+
+        return res;
+    }
 }

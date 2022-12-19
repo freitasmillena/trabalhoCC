@@ -7,7 +7,7 @@ public class Data {
     private Map<String, List<Registo>> BD;
     private String dominio;
     private String subdominio;
-    private String DD;
+    private List<String> DD;
     private ReentrantReadWriteLock l = new ReentrantReadWriteLock();
     private List<String> ST = new ArrayList<>();
     private boolean SR;
@@ -17,8 +17,12 @@ public class Data {
         this.dominio = dominio;
     }
 
-    public void addST(String ip){
-        this.ST.add(ip);
+    public void setST(List<String> ST){
+        this.ST = ST;
+    }
+
+    public List<String> getST() {
+        return ST;
     }
 
     public void setSR(boolean SR) {
@@ -29,11 +33,11 @@ public class Data {
         return SR;
     }
 
-    public String getDD() {
+    public List<String> getDD() {
         return DD;
     }
 
-    public void setDD(String DD) {
+    public void setDD(List<String> DD) {
         this.DD = DD;
     }
 
@@ -196,20 +200,6 @@ public class Data {
 
     }
 
-    /**
-     * Converte uma lista de registos numa string compactada
-     *
-     * @param registos lista de registos
-     * @return string compacta com todos os registos nela
-     */
-    public String listString(List<Registo> registos){
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < registos.size();i++){
-            if(i != 0) sb.append(",");
-            sb.append(registos.get(i).toString());
-        }
-        return sb.toString();
-    }
 
     /**
      * Devolve o registo com o mesmo nome e tag
@@ -250,23 +240,25 @@ public class Data {
      * @param registos registos que queremos avaliar e adicionar na string final dos ExtraValues
      * @return string compactada com os todos registos que se deverão adicionar no campo ExtraValues
      */
-    public String[] fetchExtra(List<Registo> registos){
+    public List<Registo> fetchExtra(List<Registo> registos, List<Registo> reg){
         List<Registo> res = new ArrayList<>();
-        String[] str = new String[2];
 
-        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < registos.size();i++){
             Registo r = fetch(registos.get(i).getvalor(), "A");
             if(!res.contains(r)) {
                 res.add(r.clone());
-                if(i != 0) sb.append(",");
-                sb.append(r);
             }
         }
-        str[0] = sb.toString();
-        str[1] = Integer.toString(res.size());
+        if(reg != null) {
+            for(Registo r : reg){
+                Registo extra = fetch(r.getvalor(), "A");
+                if(!res.contains(extra)) {
+                    res.add(extra.clone());
+                }
+            }
+        }
 
-        return str;
+        return res;
     }
 
     /**
@@ -293,13 +285,12 @@ public class Data {
      */
     public String handleQuery(PDU query){
 
-        List<Registo> authorities = fetchTag("NS", this.dominio);
-        String nAuthorities = Integer.toString(authorities.size());
-        String auth = listString(authorities);
+        List<Registo> auth = fetchTag("NS", this.dominio);
+        String nAuthorities = Integer.toString(auth.size());
         String type = query.getTypeOfValue();
         String nome = query.getName();
-        String response = "";
-        String extra = "";
+        List<Registo> response = new ArrayList<>();
+        List<Registo> extra = new ArrayList<>();
         String nValues = "0";
         String nExtra = "0";
         String tags = "";
@@ -310,24 +301,19 @@ public class Data {
             tags = "A";
             rcode = "3";
             nAuthorities = "0";
-            auth = "";
+            auth = null;
         }
 
         else {
             if (this.subdominio != null && nome.contains(this.subdominio)) {
-                // response code 0, sem tags, sem authorities
-                // response é NS do sub e extra o A do sub
-                System.out.println("entrei aqui");
-                Registo r = fetchTag("NS", this.subdominio).get(0);
+                // response code 1, tag A, sem response, auth é NS do sub, extra só ip do sub
+                List<Registo> r = fetchTag("NS", this.subdominio);
                 rcode = "1";
-                response = "";
                 tags = "A";
-                authorities.add(r);
-                nAuthorities = Integer.toString(authorities.size());
-                auth = listString(authorities);
-                String[] extras = fetchExtra(authorities);
-                extra = extras[0];
-                nExtra = extras[1];
+                nAuthorities = "1";
+                auth = r;
+                extra = fetchExtra(r, null);
+                nExtra = "1";
             } else if (nome.contains(this.dominio)) {
                 // response code 0, tag A -> encontrou resposta
                 // response code 1, tag A -> n encontrei máquina, sem extra, sem resposta, com NS
@@ -336,30 +322,27 @@ public class Data {
                 if (type.equals("A")) {
                     Registo r = fetch(nome, "A");
                     if (r != null) {
-                        response = r.toString();
+                        response.add(r);
                         nValues = "1";
 
                     } else {
                         rcode = "1";
 
                     }
-                    containsAuth(authorities, nome);
-                    String[] extras = fetchExtra(authorities);
-                    extra = extras[0];
-                    nExtra = extras[1];
+                    containsAuth(auth, nome);
+                    extra = fetchExtra(auth, null);
+                    nExtra = Integer.toString(extra.size());
                     tags = "A";
                 } else if (type.equals("CNAME")) {
                     Registo r = fetch(nome, "CNAME");
                     if (r != null) {
-                        response = r.toString();
+                        response.add(r);
                         nValues = "1";
-                        authorities.add(r);
                     } else {
                         rcode = "1";
                     }
-                    String[] extras = fetchExtra(authorities);
-                    extra = extras[0];
-                    nExtra = extras[1];
+                    extra = fetchExtra(auth, response);
+                    nExtra = Integer.toString(extra.size());
                     tags = "A";
                 }
                 else if(type.equals("PTR")){
@@ -374,16 +357,15 @@ public class Data {
                     //procura
                     Registo r = fetch(ipFinal, "PTR");
                     if (r != null) {
-                        response = r.toString();
+                        response.add(r);
                         nValues = "1";
 
                     } else {
                         rcode = "1";
 
                     }
-                    String[] extras = fetchExtra(authorities);
-                    extra = extras[0];
-                    nExtra = extras[1];
+                    extra = fetchExtra(auth, null);
+                    nExtra = Integer.toString(extra.size());
                     tags = "A";
                 }
                 else {
@@ -393,20 +375,17 @@ public class Data {
                     if(r.size() == 0){
                         rcode = "1";
                     }
-                    response = listString(r);
-                    for (Registo reg : r) authorities.add(reg);
-                    String[] extras = fetchExtra(authorities);
-                    extra = extras[0];
-                    nExtra = extras[1];
+                    response = r;
+                    extra = fetchExtra(auth,r);
+                    nExtra = Integer.toString(extra.size());
                     tags = "A";
 
                 }
             } else { // response code 2, A
                 tags = "A";
                 rcode = "2";
-                String[] extras = fetchExtra(authorities);
-                extra = extras[0];
-                nExtra = extras[1];
+                extra = fetchExtra(auth, null);
+                nExtra = Integer.toString(extra.size());
 
             }
         }

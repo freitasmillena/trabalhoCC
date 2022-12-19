@@ -231,9 +231,7 @@ public class Parser {
             }
         }
 
-        for(String st : sp.getServidoresTopo()){
-            BD.addST(st);
-        }
+        BD.setST(sp.getServidoresTopo());
         BD.setSR(false);
         sp.setData(BD);
     }
@@ -319,6 +317,7 @@ public class Parser {
         Data cache = Data.getInstance(sr.getDominio());
         cache.setSR(true);
         cache.setDD(sr.getDD());
+        cache.setST(sr.getServidoresTopo());
         sr.setCache(cache);
     }
 

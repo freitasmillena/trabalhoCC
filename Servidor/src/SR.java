@@ -1,3 +1,8 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.*;
 
 /**
@@ -9,17 +14,16 @@ import java.util.*;
  */
 public class SR extends Servidor{
     // Lista de servidores associados ao SR
-    private List<String> servidoresDNS;
+    private List<String> DD;
     // Cache / Base de dados do SR
     private Data cache;
-    private String DD;
 
     /**
      * Construtor vazio para um Servidor de Resolução
      */
     public SR() {
         super();
-        this.servidoresDNS = new ArrayList<>();
+        this.DD = new ArrayList<>();
     }
 
     /**
@@ -34,42 +38,23 @@ public class SR extends Servidor{
      */
     public SR(String dominio, String timeout, String portaAtendimento, String ficheiroLog, List<String> servidoresTopo, List<String> servidoresDNS) {
         super(dominio, portaAtendimento, ficheiroLog, servidoresTopo, timeout);
-        this.servidoresDNS = new ArrayList<>();
+        this.DD = new ArrayList<>();
         for(String dns : servidoresDNS){
-            this.servidoresDNS.add(dns);
+            this.DD.add(dns);
         }
     }
 
-    public String getDD() {
-        return DD;
-    }
 
     public void setDD(String DD) {
-        this.DD = DD;
+        this.DD.add(DD);
     }
 
     /**
      * Devolve a Lista de servidores associados ao SR
      * @return Cópia da Lista de servidores associados ao SR
      */
-    public List<String> getServidoresDNS() {
-        List<String> res = new ArrayList<>();
-        for(String st : this.servidoresDNS){
-            res.add(st);
-        }
-        return res;
-    }
-
-    /**
-     * Define os servidores associados ao SR
-     * @param servidoresDNS Lista de servidores associados ao SR
-     */
-    public void setServidoresDNS(List<String> servidoresDNS) {
-        this.servidoresDNS = new ArrayList<>();
-
-        for(String st : servidoresDNS){
-            this.servidoresDNS.add(st);
-        }
+    public List<String> getDD() {
+        return this.DD;
     }
 
 
@@ -93,7 +78,7 @@ public class SR extends Servidor{
         if (o == null || getClass() != o.getClass()) return false;
         SR sr = (SR) o;
         return (super.equals(sr) &&
-                this.servidoresDNS.equals(sr.getServidoresDNS())
+                this.DD.equals(sr.getDD())
         );
     }
 
@@ -103,8 +88,47 @@ public class SR extends Servidor{
     }
 
     @Override
-    public void query() {
-        System.out.println("sou um SR e ainda n tenho run");
+    public void query(){
+
+        while (true) {
+            byte[] buffer = new byte[512];
+            DatagramSocket serverS = null;
+
+            try {
+                //Receber
+                serverS = new DatagramSocket(5555);
+                DatagramPacket receiver = new DatagramPacket(buffer, buffer.length);
+                serverS.receive(receiver);
+                serverS.close();
+
+
+                int portClient = receiver.getPort();
+                InetAddress ipCliente = receiver.getAddress();
+
+                PDU query = new PDU(receiver.getData());
+
+                //Logs query recebida
+                String ip = ipCliente.toString();
+                String[] args = ip.split("/", 2);
+
+                Log l1 = new Log("QR", args[1], query.ToString());
+
+                //Log terminal
+                System.out.println(l1);
+                //Log ficheiro
+                l1.logToFile(super.getFicheiroLog());
+
+                Thread tudp = new Thread(new UDPComm(this.cache,query,ipCliente,portClient,super.getFicheiroLog(), this.getTimeOut()));
+                tudp.start();
+
+            } catch (SocketException ex) {
+                System.out.println("Socket error: " + ex.getMessage());
+            } catch (IOException ex) {
+                System.out.println("I/O error: " + ex.getMessage());
+            }
+
+        }
+
     }
 
 }
