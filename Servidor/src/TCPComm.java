@@ -100,7 +100,7 @@ public class TCPComm implements Runnable{
                         boolean stop = false;
                         int length = 0;
                         for (Registo r : regs) {
-                            sleep(10000);
+                            sleep(1);
 
                             String registo = r.toString();
                             length += registo.getBytes(StandardCharsets.UTF_8).length;

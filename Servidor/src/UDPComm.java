@@ -25,7 +25,7 @@ public class UDPComm implements Runnable{
     public void runSR(){
         System.out.println("Dominio: " + bd.getdominio() + " DD: " + bd.getDD());
 
-        byte[] buffer = new byte[512];
+        byte[] buffer = new byte[2056];
 
         PDU resposta = null;
         boolean flag = false;
@@ -180,7 +180,6 @@ public class UDPComm implements Runnable{
                    s.send(sender);
                    s.close();
 
-                   resposta = null;
 
                    String ip = this.ipCliente.toString();
                    String[] args = ip.split("/", 2);
@@ -189,6 +188,7 @@ public class UDPComm implements Runnable{
                    Log l2 = new Log("RP", args[1], resposta.ToString());
                    System.out.println(l2);
                    l2.logToFile(logFile);
+		   resposta = null;
                } catch (SocketException ex) {
                    System.out.println("Socket error: " + ex.getMessage());
                } catch (IOException ex) {

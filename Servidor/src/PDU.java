@@ -153,6 +153,7 @@ public class PDU {
         if(!this.nExtraValues.equals("0")){
             String[] responses = arrOfStr[4].split(",", Integer.parseInt(this.nExtraValues));
             for(String s : responses){
+		System.out.println(s);
                 this.extraValues.add(new Registo(s.getBytes()));
             }
         }

@@ -6,7 +6,7 @@ public class Data {
     private static Data single_instance = null;
     private Map<String, List<Registo>> BD;
     private String dominio;
-    private String subdominio;
+    private List<String> subdominios;
     private List<String> DD;
     private ReentrantReadWriteLock l = new ReentrantReadWriteLock();
     private List<String> ST = new ArrayList<>();
@@ -15,6 +15,7 @@ public class Data {
     private Data(String dominio){
         this.BD = new HashMap<>();
         this.dominio = dominio;
+	this.subdominios = new ArrayList<>();
     }
 
     public void setST(List<String> ST){
@@ -41,18 +42,12 @@ public class Data {
         this.DD = DD;
     }
 
-
-
     public void setSubdominio(String subdominio) {
-        this.subdominio = subdominio;
+        this.subdominios.add(subdominio);
     }
 
     public String getdominio() {
         return dominio;
-    }
-
-    public String getSubdominio() {
-        return subdominio;
     }
 
     public static Data getInstance(String dominio){
@@ -277,6 +272,16 @@ public class Data {
 
     }
 
+    public String containsSub(String nome){
+        String res = null;
+        for(String s : this.subdominios){
+            if(nome.contains(s)) {
+                res = s;
+                break;
+            }
+        }
+        return res;
+    }
     /**
      * Método responsável por receber uma query de um cliente e por criar o PDU de resposta para o cliente.
      *
@@ -305,16 +310,17 @@ public class Data {
         }
 
         else {
-            if (this.subdominio != null && nome.contains(this.subdominio)) {
+            String sub = containsSub(nome);
+            if (this.subdominios.size() !=0 && sub != null) {
                 // response code 1, tag A, sem response, auth é NS do sub, extra só ip do sub
-                List<Registo> r = fetchTag("NS", this.subdominio);
+                List<Registo> r = fetchTag("NS", sub);
                 rcode = "1";
                 tags = "A";
                 nAuthorities = "1";
                 auth = r;
                 extra = fetchExtra(r, null);
                 nExtra = "1";
-            } else if (nome.contains(this.dominio)) {
+            } else if (nome.contains(this.dominio) && (nome.length() <= this.dominio.length() + 5)) {
                 // response code 0, tag A -> encontrou resposta
                 // response code 1, tag A -> n encontrei máquina, sem extra, sem resposta, com NS
 
@@ -436,12 +442,9 @@ public class Data {
      */
     public void transfZonaLinha(Registo r){
         if((!this.dominio.equals(r.getNome()) )  && r.getTag().equals("NS")){
-            addRegistoBD(r.getNome(), r.clone());
-            this.subdominio = r.getNome();
+            this.subdominios.add(r.getNome());
         }
-        else {
-            addRegistoBD(r.getTag(), r.clone());
-        }
+        addRegistoBD(r.getTag(), r.clone());
 
     }
 }
