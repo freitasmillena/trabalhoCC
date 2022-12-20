@@ -1,4 +1,4 @@
 # Configuration file for resolver server for .greens.dance.
-.greens.dance. DD 10.0.0.14
+.greens.dance. DD 10.0.0.10
 .greens.dance. LG ../var/dns/greenslogsr.txt
 root ST ../var/dns/rootservers.txt
