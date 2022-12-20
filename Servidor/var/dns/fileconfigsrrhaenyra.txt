@@ -1,4 +1,4 @@
 # Configuration file for resolver server for rhaenyra.blacks.dance.
-rhaenyra.blacks.dance. DD 10.0.12.12
+rhaenyra.blacks.dance. DD 10.0.12.10
 rhaenyra.blacks.dance. LG ../var/dns/rhaenyralogsr.txt
 root ST ../var/dns/rootservers.txt
