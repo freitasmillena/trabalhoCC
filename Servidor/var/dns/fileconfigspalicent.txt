@@ -2,6 +2,5 @@
 alicent.greens.dance. DB ../var/dns/alicent-greensdb.txt
 alicent.greens.dance. SS 10.0.14.10
 alicent.greens.dance. SS 10.0.15.10
-alicent.greens.dance. DD 10.0.13.10
 alicent.greens.dance. LG ../var/dns/alicentlogsp.txt
 root ST ../var/dns/rootservers.txt
