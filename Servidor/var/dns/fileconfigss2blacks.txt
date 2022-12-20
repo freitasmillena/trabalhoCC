@@ -1,5 +1,4 @@
 # Configuration file for secondary server for .blacks.dance.
 .blacks.dance. SP 10.0.10.15
-.blacks.dance. DD 10.0.21.10
 .blacks.dance. LG ../var/dns/blackslogss2.txt
 root ST ../var/dns/rootservers.txt
