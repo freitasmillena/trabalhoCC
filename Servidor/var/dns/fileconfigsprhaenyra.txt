@@ -2,6 +2,5 @@
 rhaenyra.blacks.dance. DB ../var/dns/rhaenyrasdb.txt
 rhaenyra.blacks.dance. SS 10.0.22.10
 rhaenyra.blacks.dance. SS 10.0.23.10
-rhaenyra.blacks.dance. DD 10.0.12.10
 rhaenyra.blacks.dance. LG ../var/dns/rhaenyraslogsp.txt
 root ST ../var/dns/rootservers.txt
