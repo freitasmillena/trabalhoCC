@@ -1,4 +1,3 @@
 # Configuration file for both primary servers for .dance.
 .dance. DB ../var/dns/dancedb.txt
-.dance. DD 10.0.17.10
 .dance. LG ../var/dns/dancelog.txt
