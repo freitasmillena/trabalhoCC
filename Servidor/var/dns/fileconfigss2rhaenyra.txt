@@ -1,5 +1,4 @@
 # Configuration file for secondary server for rhaenyra.blacks.dance.
 rhaenyra.blacks.dance. SP 10.0.12.10
-rhaenyra.blacks.dance. DD 10.0.23.10
 rhaenyra.blacks.dance. LG ../var/dns/rhaenyraslogss2.txt
 root ST ../var/dns/rootservers.txt
