@@ -16,7 +16,7 @@ TTL DEFAULT 86400
 .blacks.@ NS sp.blacks.dance. TTL
 
 ns1 A 10.0.17.10 TTL
-sp A 10.0.0.10 TTL
-sp A 10.0.10.15 TTL
+sp.greens A 10.0.0.10 TTL
+sp.blacks A 10.0.10.15 TTL
 
 sp CNAME ns1 TTL
