@@ -121,8 +121,8 @@ public class PDU {
     public PDU(byte[] data){
         String msg =  new String(data).trim();
         String[] arrOfStr = msg.split(";", 6);
-        String fst[] = arrOfStr[0].split(",", 6);
-        String snd[] = arrOfStr[1].split(",", 2);
+        String[] fst = arrOfStr[0].split(",", 6);
+        String[] snd = arrOfStr[1].split(",", 2);
         this.messageID = fst[0];
         this.flags = fst[1];
         this.responseCode = fst[2];
@@ -217,4 +217,35 @@ public class PDU {
 
         return res;
     }
+
+    public List<Registo> getAuth(){
+        List<Registo> res = new ArrayList<>();
+
+        for(Registo r : this.authoritiesValues){
+            res.add(r.clone());
+        }
+
+        return res;
+    }
+
+    public List<Registo> getResponseValues(){
+        List<Registo> res = new ArrayList<>();
+
+        for(Registo r : this.responseValues){
+            res.add(r.clone());
+        }
+
+        return res;
+    }
+
+    public List<Registo> getExtraValues(){
+        List<Registo> res = new ArrayList<>();
+
+        for(Registo r : this.extraValues){
+            res.add(r.clone());
+        }
+
+        return res;
+    }
+
 }

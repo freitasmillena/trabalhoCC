@@ -191,7 +191,7 @@ public class SP extends Servidor{
 
                     Socket socket = ss.accept();
 
-                    Thread t = new Thread(new TCPComm(this.BD, socket, super.getFicheiroLog(), this.servidoresSecundarios));
+                    Thread t = new Thread(new TCPComm(this.BD, socket, super.getFicheiroLog(), this.servidoresSecundarios, Integer.parseInt(super.getTimeOut())));
                     t.start();
 
                 }

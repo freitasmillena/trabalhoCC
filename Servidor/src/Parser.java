@@ -127,32 +127,32 @@ public class Parser {
                             else defaults.put(linhaPartida[0], linhaPartida[2]);
                             break;
                         case "SOASP":
-                            Registo soap = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOASP", prioridade, sp.getDominio(), "file");
+                            Registo soap = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "SOASP", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("SOASP", soap);
                             System.out.println(soap.toString());
                             break;
                         case "SOAADMIN":
-                            Registo soadmin = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAADMIN", prioridade, sp.getDominio(), "file");
+                            Registo soadmin = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "SOAADMIN", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("SOAADMIN", soadmin);
                             System.out.println(soadmin.toString());
                             break;
                         case "SOASERIAL":
-                            Registo soaserial = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOASERIAL", prioridade, sp.getDominio(), "file");
+                            Registo soaserial = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "SOASERIAL", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("SOASERIAL", soaserial);
                             System.out.println(soaserial.toString());
                             break;
                         case "SOAREFRESH":
-                            Registo soarefresh = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAREFRESH", prioridade, sp.getDominio(), "file");
+                            Registo soarefresh = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "SOAREFRESH", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("SOAREFRESH", soarefresh);
                             System.out.println(soarefresh.toString());
                             break;
                         case "SOARETRY":
-                            Registo soaretry = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOARETRY", prioridade, sp.getDominio(), "file");
+                            Registo soaretry = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "SOARETRY", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("SOARETRY", soaretry);
                             System.out.println(soaretry.toString());
                             break;
                         case "SOAEXPIRE":
-                            Registo soaexpire = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "SOAEXPIRE", prioridade, sp.getDominio(), "file");
+                            Registo soaexpire = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "SOAEXPIRE", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("SOAEXPIRE", soaexpire);
                             System.out.println(soaexpire.toString());
                             break;
@@ -160,12 +160,12 @@ public class Parser {
                             Registo ns = null;
                             if (ar == null) {
                                 if (linhaPartida[0].equals(sp.getDominio())) {
-                                    ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, sp.getDominio(), "file");
+                                    ns = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "NS", prioridade, sp.getDominio(), "file");
                                     System.out.println(ns.toString());
                                     BD.addRegistoBD("NS", ns);
                                 }
                                 else {
-                                    ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, linhaPartida[0], "file");
+                                    ns = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "NS", prioridade, linhaPartida[0], "file");
                                     System.out.println(ns.toString());
                                     BD.addRegistoBD("NS", ns);
                                     System.out.println(linhaPartida[0]);
@@ -175,14 +175,14 @@ public class Parser {
                             }
                             else { // ar != null
                                 if (linhaPartida[0].equals("@")) {
-                                    ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, sp.getDominio(), "file");
+                                    ns = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "NS", prioridade, sp.getDominio(), "file");
                                     BD.addRegistoBD("NS", ns);
                                     System.out.println(ns.toString());
                                 }
                                 else { // smaller.@
                                     String[] splitlinha = linhaPartida[0].split("@", 2);
                                     String new_linhaPartida0 = splitlinha[0] + ar;
-                                    ns = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "NS", prioridade, new_linhaPartida0, "file");
+                                    ns = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "NS", prioridade, new_linhaPartida0, "file");
                                     BD.addRegistoBD("NS", ns);
                                     System.out.println(ns.toString());
                                     System.out.println(new_linhaPartida0);
@@ -197,10 +197,10 @@ public class Parser {
                         case "A":
                             Registo a = null;
                             if (ar == null) {
-                                a = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "A", prioridade, linhaPartida[0], "file");
+                                a = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "A", prioridade, linhaPartida[0], "file");
                             }
                             else {
-                                a = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "A", prioridade, linhaPartida[0] + "." + ar, "file");
+                                a = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "A", prioridade, linhaPartida[0] + "." + ar, "file");
                             }
                             BD.addRegistoBD("A", a); // Formato ns1.example.com.
                             System.out.println(a.toString());
@@ -208,21 +208,21 @@ public class Parser {
                         case "CNAME":
                             Registo cname = null;
                             if (ar == null) {
-                                cname = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0], "file");
+                                cname = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0], "file");
                             }
                             else {
-                                cname = new Registo(new_linhaPartida2 + "." + ar, Integer.parseInt(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0] + "." + ar, "file");
+                                cname = new Registo(new_linhaPartida2 + "." + ar, Long.parseLong(new_linhaPartida3), "CNAME", prioridade, linhaPartida[0] + "." + ar, "file");
                             }
                             BD.addRegistoBD("CNAME", cname);
                             System.out.println(cname.toString());
                             break;
                         case "MX":
-                            Registo mx = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "MX", prioridade, sp.getDominio(), "file");
+                            Registo mx = new Registo(new_linhaPartida2, Long.parseLong(new_linhaPartida3), "MX", prioridade, sp.getDominio(), "file");
                             BD.addRegistoBD("MX", mx);
                             System.out.println(mx.toString());
                             break;
                         case "PTR":
-                            Registo ptr = new Registo(new_linhaPartida2, Integer.parseInt(new_linhaPartida3), "PTR", prioridade, linhaPartida[0], "file");
+                            Registo ptr = new Registo(linhaPartida[2], Long.parseLong(new_linhaPartida3), "PTR", prioridade, linhaPartida[0], "file");
                             BD.addRegistoBD("PTR", ptr);
                             System.out.println(ptr.toString());
                             break;

@@ -130,7 +130,14 @@ public class Data {
         this.l.writeLock().lock();
         try {
             if (this.BD.containsKey(tipoValor)) {
-                this.BD.get(tipoValor).add(r.clone());
+                List<Registo> list = this.BD.get(tipoValor);
+                for(Registo reg : list){
+                    if(reg.getNome().equals(r.getNome())){
+                        list.remove(reg);
+                        break;
+                    }
+                }
+                list.add(r.clone());
             } else {
                 List<Registo> reg = new ArrayList<>();
                 reg.add(r.clone());
@@ -176,17 +183,23 @@ public class Data {
      * @param tag tag dos registos que o método tem de devolver
      * @return lista dos registos com a tag recebida
      */
-    public List<Registo> fetchTag(String tag, String name){
+    public List<Registo> fetchTag(String tag, String name, int SR){
         List<Registo> registos = new ArrayList<>();
         this.l.readLock().lock();
         try{
-
-            for(Registo r : this.BD.get(tag)){
-                if(r.getNome().equals(name)) {
-                    registos.add(r.clone());
+            if(this.BD.containsKey(tag)) {
+                for (Registo r : this.BD.get(tag)) {
+                    if(SR == 1){
+                        long now = System.currentTimeMillis();
+                        if(r.getTimetolive() < now){
+                            r.setValid(false);
+                        }
+                    }
+                    if (r.getNome().equals(name) && r.isValid()) {
+                        registos.add(r.clone());
+                    }
                 }
             }
-
             return registos;
         }
         finally {
@@ -203,30 +216,40 @@ public class Data {
      * @param tag tag do registo desejado
      * @return registo com o nome e a tag pedidos
      */
-    public Registo fetch(String nome, String tag) {
+    public Registo fetch(String nome, String tag, int SR) {
+
         this.l.readLock().lock();
-        List<Registo> registos = new ArrayList<>();
-        for(Registo r : this.BD.get(tag)) registos.add(r.clone());
-        this.l.readLock().unlock();
-
-        Registo objetivo = null;
-
-        for (Registo r : registos) {
-            if (tag.equals("CNAME")) {
-                if (r.getvalor().equals(nome)) {
-                    objetivo = r;
-                    break;
-                }
-            } else {
-                if (r.getNome().equals(nome)) {
-                    objetivo = r;
-                    break;
+        try {
+            Registo objetivo = null;
+            if (this.BD.containsKey(tag)) {
+                for (Registo r : this.BD.get(tag)) {
+                    if(SR == 1){
+                        long now = System.currentTimeMillis();
+                        if(r.getTimetolive() < now){
+                            r.setValid(false);
+                        }
+                    }
+                    if (tag.equals("CNAME")) {
+                        if (r.getvalor().equals(nome) && r.isValid()) {
+                            objetivo = r;
+                            break;
+                        }
+                    } else {
+                        if (r.getNome().equals(nome) && r.isValid()) {
+                            objetivo = r;
+                            break;
+                        }
+                    }
                 }
             }
-
+            return objetivo;
+        }
+        finally {
+            this.l.readLock().unlock();
         }
 
-        return objetivo;
+
+
     }
 
     /**
@@ -235,19 +258,20 @@ public class Data {
      * @param registos registos que queremos avaliar e adicionar na string final dos ExtraValues
      * @return string compactada com os todos registos que se deverão adicionar no campo ExtraValues
      */
-    public List<Registo> fetchExtra(List<Registo> registos, List<Registo> reg){
+    public List<Registo> fetchExtra(List<Registo> registos, List<Registo> reg, int SR){
         List<Registo> res = new ArrayList<>();
 
         for(int i = 0; i < registos.size();i++){
-            Registo r = fetch(registos.get(i).getvalor(), "A");
-            if(!res.contains(r)) {
+            Registo r = fetch(registos.get(i).getvalor(), "A", SR);
+
+            if(r != null && !res.contains(r)) {
                 res.add(r.clone());
             }
         }
         if(reg != null) {
             for(Registo r : reg){
-                Registo extra = fetch(r.getvalor(), "A");
-                if(!res.contains(extra)) {
+                Registo extra = fetch(r.getvalor(), "A", SR);
+                if(extra != null && !res.contains(extra)) {
                     res.add(extra.clone());
                 }
             }
@@ -290,7 +314,7 @@ public class Data {
      */
     public String handleQuery(PDU query){
 
-        List<Registo> auth = fetchTag("NS", this.dominio);
+        List<Registo> auth = fetchTag("NS", this.dominio,0);
         String nAuthorities = Integer.toString(auth.size());
         String type = query.getTypeOfValue();
         String nome = query.getName();
@@ -313,12 +337,12 @@ public class Data {
             String sub = containsSub(nome);
             if (this.subdominios.size() !=0 && sub != null) {
                 // response code 1, tag A, sem response, auth é NS do sub, extra só ip do sub
-                List<Registo> r = fetchTag("NS", sub);
+                List<Registo> r = fetchTag("NS", sub,0);
                 rcode = "1";
                 tags = "A";
                 nAuthorities = "1";
                 auth = r;
-                extra = fetchExtra(r, null);
+                extra = fetchExtra(r, null,0);
                 nExtra = "1";
             } else if (nome.contains(this.dominio) && (nome.length() <= this.dominio.length() + 5)) {
                 // response code 0, tag A -> encontrou resposta
@@ -326,63 +350,63 @@ public class Data {
 
                 //A
                 if (type.equals("A")) {
-                    Registo r = fetch(nome, "A");
+                    Registo r = fetch(nome, "A",0);
                     if (r != null) {
                         response.add(r);
                         nValues = "1";
 
                     } else {
-                        rcode = "1";
+                        rcode = "2";
 
                     }
                     containsAuth(auth, nome);
-                    extra = fetchExtra(auth, null);
+                    extra = fetchExtra(auth, null,0);
                     nExtra = Integer.toString(extra.size());
                     tags = "A";
                 } else if (type.equals("CNAME")) {
-                    Registo r = fetch(nome, "CNAME");
+                    Registo r = fetch(nome, "CNAME",0);
                     if (r != null) {
                         response.add(r);
                         nValues = "1";
                     } else {
-                        rcode = "1";
+                        rcode = "2";
                     }
-                    extra = fetchExtra(auth, response);
+                    extra = fetchExtra(auth, response,0);
                     nExtra = Integer.toString(extra.size());
                     tags = "A";
                 }
                 else if(type.equals("PTR")){
-                    String nomes[] = nome.split("-",2);
+                    String[] nomes = nome.split("-",2);
                     String ip = nomes[0];
 
                     //inverter pra ter ip
-                    String sep[] = ip.split("\\.",4);
+                    String[] sep = ip.split("\\.",4);
                     Collections.reverse(Arrays.asList(sep));
                     String ipFinal = sep[0] + "." + sep[1] + "." + sep[2] + "." + sep[3];
 
                     //procura
-                    Registo r = fetch(ipFinal, "PTR");
+                    Registo r = fetch(ipFinal, "PTR",0);
                     if (r != null) {
                         response.add(r);
                         nValues = "1";
 
                     } else {
-                        rcode = "1";
+                        rcode = "2";
 
                     }
-                    extra = fetchExtra(auth, null);
+                    extra = fetchExtra(auth, null,0);
                     nExtra = Integer.toString(extra.size());
                     tags = "A";
                 }
                 else {
                     //MX ou NS
-                    List<Registo> r = fetchTag(type, nome);
+                    List<Registo> r = fetchTag(type, nome,0);
                     nValues = Integer.toString(r.size());
                     if(r.size() == 0){
-                        rcode = "1";
+                        rcode = "2";
                     }
                     response = r;
-                    extra = fetchExtra(auth,r);
+                    extra = fetchExtra(auth,r,0);
                     nExtra = Integer.toString(extra.size());
                     tags = "A";
 
@@ -390,7 +414,7 @@ public class Data {
             } else { // response code 2, A
                 tags = "A";
                 rcode = "2";
-                extra = fetchExtra(auth, null);
+                extra = fetchExtra(auth, null,0);
                 nExtra = Integer.toString(extra.size());
 
             }
@@ -399,6 +423,143 @@ public class Data {
         PDU resposta = new PDU(query.getMessageID(),nome,type, tags, rcode, nValues, nAuthorities,nExtra,response,auth,extra);
         return resposta.ToString();
     }
+
+
+    public List<Registo> getAllTag(String tag){
+        List<Registo> registos = new ArrayList<>();
+        this.l.readLock().lock();
+        try{
+            if(this.BD.containsKey(tag)) {
+                for (Registo r : this.BD.get(tag)) {
+                    long now = System.currentTimeMillis();
+                    if(r.getTimetolive() < now){
+                            r.setValid(false);
+                    }
+                    if(r.isValid()) registos.add(r.clone());
+                }
+            }
+            return registos;
+        }
+        finally {
+            this.l.readLock().unlock();
+        }
+    }
+
+
+    public String getLPM(String nome, List<Registo> registos){
+        String lpm = null;
+        int length = -1;
+
+        for(Registo r : registos){
+            String name = r.getNome();
+            if(nome.contains(name) && name.length() > length){
+                lpm = name;
+                length = name.length();
+            }
+        }
+        return lpm;
+    }
+
+    public PDU handleCache(PDU query){
+        PDU resposta = null;
+
+        String tag = query.getTypeOfValue();
+        String name = query.getName();
+
+        // Para criar PDU
+        List<Registo> auth = null;
+        String nAuthorities = "0";
+        List<Registo> extra = null;
+        String nValues = "0";
+        String nExtra = "0";
+        String tags = "";
+        String rcode = "0";
+
+
+        List<Registo> responseValue = new ArrayList<>();
+
+        //Procura por resposta direta à query na cache
+        if(tag.equals("NS") || tag.equals("MX")){
+            List<Registo> res = fetchTag(tag,name,1);
+            if(res.size() > 0){
+                for(Registo r : res) responseValue.add(r);
+            }
+        }
+        else{
+           if(tag.equals("PTR")){
+               String[] nomes = name.split("-",2);
+               String ip = nomes[0];
+
+               //inverter pra ter ip
+               String[] sep = ip.split("\\.",4);
+               Collections.reverse(Arrays.asList(sep));
+               name = sep[0] + "." + sep[1] + "." + sep[2] + "." + sep[3];
+           }
+
+           Registo r = fetch(name,tag,1);
+           if(r != null) responseValue.add(r);
+        }
+
+        //Checar se obteve resposta à query
+        if(responseValue.size() > 0){
+            //tamanho maior que 0 => teve resposta. Cria PDU com resposta.
+            nValues = Integer.toString(responseValue.size());
+
+            //Buscar autoridades
+            auth = fetchTag("NS", name,1);
+            nAuthorities = Integer.toString(auth.size());
+
+            //Buscar extra
+            if(tag.equals("A") || tag.equals("PTR")){
+                extra = fetchExtra(auth,null,1);
+            }
+            else {
+                extra = fetchExtra(auth,responseValue,1);
+            }
+            nExtra = Integer.toString(extra.size());
+
+            resposta = new PDU(query.getMessageID(),name,tag,tags,rcode,nValues,nAuthorities,nExtra,responseValue,auth,extra);
+        }
+        else{
+            //Não teve resposta => procura por referência longest prefix match NS ao name
+
+            //Pegar NS
+            List<Registo> ns = getAllTag("NS");
+            if(ns.size() > 0){
+                String lpm = getLPM(name,ns);
+                if(lpm != null){
+                    for(Registo r: ns){
+                        if(!r.getNome().equals(lpm)) ns.remove(r); //remove os que forem diferentes do lpm
+                    }
+
+                    auth = ns;
+                    nAuthorities = Integer.toString(ns.size());
+                    //Pegar Extra
+                    extra = fetchExtra(ns, null,1);
+                    //Formar PDU se extra n for vazio
+                    if(extra.size() > 0){
+                        nExtra = Integer.toString(extra.size());
+                        resposta = new PDU(query.getMessageID(),name,tag, "A", "1", "0",nAuthorities,nExtra,responseValue,auth,extra);
+                    }
+                }
+            }
+        }
+
+        return resposta;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Devolve o tamanho da base de dados do servidor (em formato String)

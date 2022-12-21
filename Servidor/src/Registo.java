@@ -9,7 +9,7 @@ public class Registo {
     // Valor associado ao registo
     private String valor;
     // Tempo de validade do registo : tempo máximo em segundos que os dados podem existir na cache dum servidor
-    private int timetolive;
+    private long timetolive;
     // Tag do registo
     private String tag;
     // Valor da prioridade do registo (varia entre 0 e 1 milhão)
@@ -39,7 +39,7 @@ public class Registo {
      * @param prioridade Valor da prioridade do registo (varia entre 0 e 1 milhão)
      * @param nome Nome associado ao registo
      */
-    public Registo(String valor, int timetolive, String tag, int prioridade, String nome, String origem) {
+    public Registo(String valor, long timetolive, String tag, int prioridade, String nome, String origem) {
         this.valor = valor;
         this.timetolive = timetolive;
         this.tag = tag;
@@ -80,7 +80,7 @@ public class Registo {
     }
 
     public boolean isValid() {
-        return valid;
+        return this.valid;
     }
 
     public void setValid(boolean valid) {
@@ -131,7 +131,7 @@ public class Registo {
      * Devolve o Tempo de validade do registo
      * @return Tempo de validade do registo
      */
-    public int getTimetolive() {
+    public long getTimetolive() {
         return timetolive;
     }
 
@@ -192,7 +192,9 @@ public class Registo {
                 this.tag.equals(registo.getTag()) &&
                 this.timetolive == registo.getTimetolive() &&
                 this.prioridade == registo.getPrioridade() &&
-                this.nome.equals(registo.getNome())
+                this.nome.equals(registo.getNome()) &&
+                this.valid == registo.isValid() &&
+                this.origem.equals(registo.getOrigem())
         );
     }
 
@@ -222,5 +224,9 @@ public class Registo {
                 .append(" ")
                 .append(this.prioridade);
        return sb.toString();
+    }
+
+    public void updateTTL(){
+        this.timetolive = this.timetolive + System.currentTimeMillis();
     }
 }
