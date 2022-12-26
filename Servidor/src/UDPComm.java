@@ -31,8 +31,10 @@ public class UDPComm implements Runnable{
         boolean flag = false;
 
         resposta = this.bd.handleCache(this.query);
+        System.out.println("Resposta" + resposta.ToString());
 
         if(resposta == null){
+            System.out.println("Resposta nula");
             Queue<String> ips = new ArrayDeque<>();
 
             if(this.query.getName().contains(this.bd.getdominio()) && (this.bd.getDD().size() > 0)) {
@@ -109,6 +111,7 @@ public class UDPComm implements Runnable{
 
         flag = false;
        while(resposta != null) {
+           System.out.println("Resposta" + resposta.ToString());
            if (resposta.getResponseCode().equals("1") && resposta.getnValues().equals("0")) {
                while (true) {
 
