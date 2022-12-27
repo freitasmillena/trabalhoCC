@@ -9,7 +9,7 @@ public class Registo {
     // Valor associado ao registo
     private String valor;
     // Tempo de validade do registo : tempo máximo em segundos que os dados podem existir na cache dum servidor
-    private int timetolive;
+    private long timetolive;
     // Tag do registo
     private String tag;
     // Valor da prioridade do registo (varia entre 0 e 1 milhão)
@@ -39,7 +39,7 @@ public class Registo {
      * @param prioridade Valor da prioridade do registo (varia entre 0 e 1 milhão)
      * @param nome Nome associado ao registo
      */
-    public Registo(String valor, int timetolive, String tag, int prioridade, String nome, String origem) {
+    public Registo(String valor, long timetolive, String tag, int prioridade, String nome, String origem) {
         this.valor = valor;
         this.timetolive = timetolive;
         this.tag = tag;
@@ -71,11 +71,11 @@ public class Registo {
      */
     public Registo(byte[] data){
         String msg =  new String(data).trim();
-        String[] arrOfStr = msg.split(" ", 5);
+        String[] arrOfStr = msg.split(" ", 7);
         this.nome = arrOfStr[0];
         this.tag = arrOfStr[1];
         this.valor = arrOfStr[2];
-        this.timetolive = Integer.parseInt(arrOfStr[3]);
+        this.timetolive = Long.parseLong(arrOfStr[3]);
         this.prioridade = Integer.parseInt(arrOfStr[4]);
     }
 
@@ -131,7 +131,7 @@ public class Registo {
      * Devolve o Tempo de validade do registo
      * @return Tempo de validade do registo
      */
-    public int getTimetolive() {
+    public long getTimetolive() {
         return timetolive;
     }
 
@@ -139,7 +139,7 @@ public class Registo {
      * Define o Tempo de validade do registo
      * @param timetolive Tempo de validade do registo
      */
-    public void setTimetolive(int timetolive) {
+    public void setTimetolive(long timetolive) {
         this.timetolive = timetolive;
     }
 
@@ -224,3 +224,4 @@ public class Registo {
        return sb.toString();
     }
 }
+
