@@ -1,5 +1,5 @@
 # Configuration file for primary server for rhaenyra.blacks.dance.
-rhaenyra.blacks.dance. DB ../var/dns/rhaenyrasdb.txt
+rhaenyra.blacks.dance. DB ../var/dns/rhaenyradb.txt
 rhaenyra.blacks.dance. SS 10.0.22.10
 rhaenyra.blacks.dance. SS 10.0.23.10
 rhaenyra.blacks.dance. LG ../var/dns/rhaenyraslogsp.txt
