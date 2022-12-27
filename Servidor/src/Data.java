@@ -510,7 +510,9 @@ public class Data {
             nValues = Integer.toString(responseValue.size());
 
             //Buscar autoridades
-            auth = fetchTag("NS", name,1);
+            List<Registo> ns = getAllTag("NS");
+            String lpm = getLPM(name,ns);
+            auth = fetchTag("NS", lpm,1);
             nAuthorities = Integer.toString(auth.size());
 
             //Buscar extra
@@ -556,19 +558,7 @@ public class Data {
         return resposta;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     /**
      * Devolve o tamanho da base de dados do servidor (em formato String)
      *
