@@ -31,7 +31,7 @@ public class UDPComm implements Runnable{
         boolean flag = false;
 
         resposta = this.bd.handleCache(this.query);
-        System.out.println("Resposta" + resposta.ToString());
+        System.out.println(resposta == null);
 
         if(resposta == null){
             System.out.println("Resposta nula");
@@ -112,6 +112,7 @@ public class UDPComm implements Runnable{
         flag = false;
        while(resposta != null) {
            System.out.println("Resposta" + resposta.ToString());
+	   System.out.println();
            if (resposta.getResponseCode().equals("1") && resposta.getnValues().equals("0")) {
                while (true) {
 
@@ -211,8 +212,11 @@ public class UDPComm implements Runnable{
                    List<Registo> auth = resposta.getAuth();
                    List<Registo> extra = resposta.getExtraValues();
                    List<Registo> response = resposta.getResponseValues();
-
+		   System.out.println("auth :"+ auth.size());
+                   System.out.println("extra :"+ extra.size());
+                   System.out.println("response :"+ response.size());
                    for(Registo a : auth){
+		       System.out.println(a);
                        a.updateTTL();
                        this.bd.addRegistoBD("NS",a);
                    }

@@ -71,12 +71,14 @@ public class Registo {
      */
     public Registo(byte[] data){
         String msg =  new String(data).trim();
-        String[] arrOfStr = msg.split(" ", 5);
+        String[] arrOfStr = msg.split(" ", 7);
         this.nome = arrOfStr[0];
         this.tag = arrOfStr[1];
         this.valor = arrOfStr[2];
         this.timetolive = Integer.parseInt(arrOfStr[3]);
         this.prioridade = Integer.parseInt(arrOfStr[4]);
+	this.valid = !arrOfStr[5].equals("false");
+	this.origem = arrOfStr[6];
     }
 
     public boolean isValid() {
@@ -222,7 +224,11 @@ public class Registo {
                 .append(" ")
                 .append(this.timetolive)
                 .append(" ")
-                .append(this.prioridade);
+                .append(this.prioridade)
+		.append(" ")
+		.append(this.valid)
+		.append(" ")
+                .append(this.origem);
        return sb.toString();
     }
 

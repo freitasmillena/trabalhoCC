@@ -130,6 +130,7 @@ public class Data {
         this.l.writeLock().lock();
         try {
             if (this.BD.containsKey(tipoValor)) {
+                System.out.println("if");
                 List<Registo> list = this.BD.get(tipoValor);
                 for(Registo reg : list){
                     if(reg.getvalor().equals(r.getvalor())){
@@ -139,6 +140,7 @@ public class Data {
                 }
                 list.add(r.clone());
             } else {
+	        System.out.println("else");
                 List<Registo> reg = new ArrayList<>();
                 reg.add(r.clone());
                 this.BD.put(tipoValor, reg);
@@ -191,11 +193,19 @@ public class Data {
                 for (Registo r : this.BD.get(tag)) {
                     if(SR == 1){
                         long now = System.currentTimeMillis();
+			System.out.println("TTL: " + r.getTimetolive());
+			System.out.println("Now: " + now);
                         if(r.getTimetolive() < now){
+			    System.out.println("HERE:" + now);	
                             r.setValid(false);
                         }
                     }
+		    System.out.println(r.getNome());
+                    System.out.println(name);
+		    System.out.println(r.getNome().equals(name));
+		    System.out.println(r.isValid());
                     if (r.getNome().equals(name) && r.isValid()) {
+			System.out.println("fetchTag adicionou");
                         registos.add(r.clone());
                     }
                 }
@@ -231,12 +241,13 @@ public class Data {
                     }
                     if (tag.equals("CNAME")) {
                         if (r.getvalor().equals(nome) && r.isValid()) {
-                            objetivo = r;
+                            objetivo = r.clone();
                             break;
                         }
                     } else {
                         if (r.getNome().equals(nome) && r.isValid()) {
-                            objetivo = r;
+			    System.out.println("fetch");
+                            objetivo = r.clone();
                             break;
                         }
                     }
@@ -478,6 +489,7 @@ public class Data {
         List<Registo> responseValue = new ArrayList<>();
 
         //Procura por resposta direta à query na cache
+	System.out.println(this.BDsize());
         if(tag.equals("NS") || tag.equals("MX")){
             List<Registo> res = fetchTag(tag,name,1);
             System.out.println("Size ns ou mx" + res.size());
@@ -513,6 +525,7 @@ public class Data {
             List<Registo> ns = getAllTag("NS");
             String lpm = getLPM(name,ns);
             auth = fetchTag("NS", lpm,1);
+	    auth.removeIf(r -> r.getvalor().contains("sp"));
             nAuthorities = Integer.toString(auth.size());
 
             //Buscar extra
@@ -534,8 +547,9 @@ public class Data {
             List<Registo> ns = getAllTag("NS");
             if(ns.size() > 0){
                 String lpm = getLPM(name,ns);
-                System.out.println("LPM: " + lpm);
+                System.out.println(lpm == null);
                 if(lpm != null){
+		    System.out.println(lpm);
                     for(Registo r: ns){
                         if(!r.getNome().equals(lpm)) ns.remove(r); //remove os que forem diferentes do lpm
                     }
