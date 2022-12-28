@@ -386,7 +386,7 @@ public class SS extends Servidor{
                                 String[] linhaBD = linha.split(";", 3);
                                 String registo = linhaBD[2];
                                 length += registo.getBytes(StandardCharsets.UTF_8).length;
-                                String[] regs = registo.split(" ", 5);
+                                String[] regs = registo.split(" ", 7);
                                 Registo r = new Registo(regs[2], Integer.parseInt(regs[3]), regs[1], Integer.parseInt(regs[4]), regs[0], "other");
                                 //this.BD.transfZonaLinha(r);
                                 rlist.add(r);
