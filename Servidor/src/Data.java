@@ -130,7 +130,7 @@ public class Data {
         this.l.writeLock().lock();
         try {
             if (this.BD.containsKey(tipoValor)) {
-                System.out.println("if");
+                //System.out.println("if");
                 List<Registo> list = this.BD.get(tipoValor);
                 for(Registo reg : list){
                     if(reg.getvalor().equals(r.getvalor())){
@@ -140,7 +140,7 @@ public class Data {
                 }
                 list.add(r.clone());
             } else {
-	        System.out.println("else");
+	        //System.out.println("else");
                 List<Registo> reg = new ArrayList<>();
                 reg.add(r.clone());
                 this.BD.put(tipoValor, reg);
@@ -193,19 +193,19 @@ public class Data {
                 for (Registo r : this.BD.get(tag)) {
                     if(SR == 1){
                         long now = System.currentTimeMillis();
-			System.out.println("TTL: " + r.getTimetolive());
-			System.out.println("Now: " + now);
+			//System.out.println("TTL: " + r.getTimetolive());
+			//System.out.println("Now: " + now);
                         if(r.getTimetolive() < now){
-			    System.out.println("HERE:" + now);	
+			    //System.out.println("HERE:" + now);
                             r.setValid(false);
                         }
                     }
-		    System.out.println(r.getNome());
-                    System.out.println(name);
-		    System.out.println(r.getNome().equals(name));
-		    System.out.println(r.isValid());
+		    //System.out.println(r.getNome());
+                    //System.out.println(name);
+		    //System.out.println(r.getNome().equals(name));
+		    //System.out.println(r.isValid());
                     if (r.getNome().equals(name) && r.isValid()) {
-			System.out.println("fetchTag adicionou");
+			//System.out.println("fetchTag adicionou");
                         registos.add(r.clone());
                     }
                 }
@@ -246,7 +246,7 @@ public class Data {
                         }
                     } else {
                         if (r.getNome().equals(nome) && r.isValid()) {
-			    System.out.println("fetch");
+			   // System.out.println("fetch");
                             objetivo = r.clone();
                             break;
                         }
@@ -489,10 +489,10 @@ public class Data {
         List<Registo> responseValue = new ArrayList<>();
 
         //Procura por resposta direta à query na cache
-	System.out.println(this.BDsize());
+	//System.out.println(this.BDsize());
         if(tag.equals("NS") || tag.equals("MX")){
             List<Registo> res = fetchTag(tag,name,1);
-            System.out.println("Size ns ou mx" + res.size());
+            //System.out.println("Size ns ou mx" + res.size());
             if(res.size() > 0){
                 for(Registo r : res) responseValue.add(r);
             }
@@ -510,14 +510,14 @@ public class Data {
 
            Registo r = fetch(name,tag,1);
            if(r != null) {
-               System.out.println("Registo" + r);
+               //System.out.println("Registo" + r);
                responseValue.add(r);
            }
         }
 
         //Checar se obteve resposta à query
         if(responseValue.size() > 0){
-            System.out.println("Teve resposta à query na cache");
+           // System.out.println("Teve resposta à query na cache");
             //tamanho maior que 0 => teve resposta. Cria PDU com resposta.
             nValues = Integer.toString(responseValue.size());
 
@@ -538,7 +538,7 @@ public class Data {
             nExtra = Integer.toString(extra.size());
 
             resposta = new PDU(query.getMessageID(),name,tag,tags,rcode,nValues,nAuthorities,nExtra,responseValue,auth,extra);
-            System.out.println("Resposta na cache " + resposta.ToString());
+            //System.out.println("Resposta na cache " + resposta.ToString());
         }
         else{
             //Não teve resposta => procura por referência longest prefix match NS ao name
@@ -547,9 +547,9 @@ public class Data {
             List<Registo> ns = getAllTag("NS");
             if(ns.size() > 0){
                 String lpm = getLPM(name,ns);
-                System.out.println(lpm == null);
+               // System.out.println(lpm == null);
                 if(lpm != null){
-		    System.out.println(lpm);
+		    //System.out.println(lpm);
                     for(Registo r: ns){
                         if(!r.getNome().equals(lpm)) ns.remove(r); //remove os que forem diferentes do lpm
                     }
@@ -560,10 +560,10 @@ public class Data {
                     extra = fetchExtra(ns, null,1);
                     //Formar PDU se extra n for vazio
                     if(extra.size() > 0){
-                        System.out.println("Extra maior que 0");
+                       // System.out.println("Extra maior que 0");
                         nExtra = Integer.toString(extra.size());
                         resposta = new PDU(query.getMessageID(),name,tag, "A", "1", "0",nAuthorities,nExtra,responseValue,auth,extra);
-                        System.out.println("Referência na cache: " + resposta.ToString());
+                        //System.out.println("Referência na cache: " + resposta.ToString());
                     }
                 }
             }

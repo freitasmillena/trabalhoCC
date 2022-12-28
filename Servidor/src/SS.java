@@ -312,7 +312,7 @@ public class SS extends Servidor{
 
                 //Pergunta versão
                 String requestBD = "1;1;SOASERIAL";
-                System.out.println(requestBD);
+                //System.out.println(requestBD);
                 out.println(requestBD);
                 out.flush();
 
@@ -321,13 +321,14 @@ public class SS extends Servidor{
                 //Recebe versão
                 socket.setSoTimeout(Integer.parseInt(super.getTimeOut()));
                 responseBD = in.readLine();
-                System.out.println(responseBD);
+                //System.out.println(responseBD);
 
                 String[] res = responseBD.split(";", 3);
 
                 if (res[2].equals(this.BD.getSOASERIAL())) {
                     this.BD.changeValid(true);
-                    System.out.println("soaserial igual");
+                    this.counter = System.currentTimeMillis();
+                    //System.out.println("soaserial igual");
 
                     /*String response = "1;1;done";
                     System.out.println(response);
@@ -348,13 +349,13 @@ public class SS extends Servidor{
                         out.println(resp);
                         out.flush();*/
 
-                    System.out.println("transf zona inicia");
+                    //System.out.println("transf zona inicia");
                     //Primeiro pedido -> envia domínio
                     String request = "1;1;" + super.getDominio();
 
                     out.println(request);
                     out.flush();
-                    System.out.println(request);
+                    //System.out.println(request);
 
                     long start = System.currentTimeMillis();
 
@@ -362,7 +363,7 @@ public class SS extends Servidor{
                     // Recebe número de linhas
                     socket.setSoTimeout(Integer.parseInt(super.getTimeOut()));
                     String response = in.readLine(); // "2;1;nlinhastotal"
-                    System.out.println(response);
+                    //System.out.println(response);
                     String[] error = response.split(";", 3);
                     List<Registo> rlist = new ArrayList<>();
 
@@ -381,7 +382,7 @@ public class SS extends Servidor{
                         for (int i = 1; i <= nLinhas; i++) {
                             String linha = in.readLine();
                             if(System.currentTimeMillis() <= timeout) {
-                                System.out.println(linha);
+                                //System.out.println(linha);
                                 String[] linhaBD = linha.split(";", 3);
                                 String registo = linhaBD[2];
                                 length += registo.getBytes(StandardCharsets.UTF_8).length;
@@ -392,14 +393,14 @@ public class SS extends Servidor{
 
                                 //envia ao sp que está ok
                                 String respTransf = "3;"+ Integer.toString(i) + ";ok";
-                                System.out.println(respTransf);
+                                //System.out.println(respTransf);
                                 out.println(respTransf);
                                 out.flush();
                             }
                             else {
                                 //timeout
                                 String respErro = "3;"+ Integer.toString(i) + ";timeout";
-                                System.out.println(respErro);
+                                //System.out.println(respErro);
                                 out.println(respErro);
                                 out.flush();
                                 throw new SocketTimeoutException();
@@ -424,7 +425,7 @@ public class SS extends Servidor{
                         System.out.println(zt);
                         //Log Ficheiro
                         zt.logToFile(super.getFicheiroLog());
-                        System.out.println("transf zona termina");
+                        //System.out.println("transf zona termina");
                         this.counter = System.currentTimeMillis();
                         sleep(Long.parseLong(this.BD.getSOAREFRESH(super.getTimeOut())));
                     } else {
@@ -446,7 +447,7 @@ public class SS extends Servidor{
             }
             catch (SocketTimeoutException | SocketException e) {
                 try {
-                    System.out.println(this.BD.BDsize());
+                    //System.out.println(this.BD.BDsize());
                     socket.shutdownInput();
                     socket.shutdownOutput();
                     socket.close();

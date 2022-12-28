@@ -208,14 +208,14 @@ public class TCPComm implements Runnable{
             String ipSS=socket.getInetAddress().toString();
             String[]ip=ipSS.split("/",2);
             ipss=ip[1];
-            System.out.println(request);
+            //System.out.println(request);
 
             //boolean flag=false;
 
             if(args[2].equals("SOASERIAL")) {
                 sleep(15000);
                 String response = "1;1;" + this.bd.getSOASERIAL();
-                System.out.println(response);
+                //System.out.println(response);
                 out.println(response);
                 out.flush();
             }
@@ -230,14 +230,14 @@ public class TCPComm implements Runnable{
                 //Envia n de linhas da base de dados "2;1;nlinhas"
 
                 String response="2;1;"+size;
-                System.out.println(response);
+                //System.out.println(response);
                 out.println(response);
                 out.flush();
 
 
                 //Recebe n de linhas de volta da base de dados
                 String responseLinhas=in.readLine();
-                System.out.println(responseLinhas);
+                //System.out.println(responseLinhas);
                 String[]argsLinha=responseLinhas.split(";",3);
 
 
@@ -257,7 +257,7 @@ public class TCPComm implements Runnable{
 
                         out.println(linhaBD);
                         out.flush();
-                        System.out.println(linhaBD);
+                        //System.out.println(linhaBD);
                         numero++;
 
                         String check = in.readLine();
@@ -284,7 +284,7 @@ public class TCPComm implements Runnable{
             }
             else{
                 String response="1;1;dominioInvalido";
-                System.out.println(response);
+                //System.out.println(response);
                 out.println(response);
                 out.flush();
 
