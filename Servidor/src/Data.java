@@ -519,13 +519,14 @@ public class Data {
         if(responseValue.size() > 0){
            // System.out.println("Teve resposta à query na cache");
             //tamanho maior que 0 => teve resposta. Cria PDU com resposta.
+            responseValue.removeIf(r -> r.getvalor().contains("sp"));
             nValues = Integer.toString(responseValue.size());
 
             //Buscar autoridades
             List<Registo> ns = getAllTag("NS");
             String lpm = getLPM(name,ns);
             auth = fetchTag("NS", lpm,1);
-	    auth.removeIf(r -> r.getvalor().contains("sp"));
+	        auth.removeIf(r -> r.getvalor().contains("sp"));
             nAuthorities = Integer.toString(auth.size());
 
             //Buscar extra
@@ -549,15 +550,19 @@ public class Data {
                 String lpm = getLPM(name,ns);
                // System.out.println(lpm == null);
                 if(lpm != null){
-		    //System.out.println(lpm);
+		            //System.out.println(lpm);
+                    List<Registo> lpmfinal = new ArrayList<>();
                     for(Registo r: ns){
-                        if(!r.getNome().equals(lpm)) ns.remove(r); //remove os que forem diferentes do lpm
+                        if(r.getNome().equals(lpm)) {
+                            System.out.println(r);
+                            lpmfinal.add(r);
+                        } //remove os que forem diferentes do lpm
                     }
 
-                    auth = ns;
-                    nAuthorities = Integer.toString(ns.size());
+                    auth = lpmfinal;
+                    nAuthorities = Integer.toString(auth.size());
                     //Pegar Extra
-                    extra = fetchExtra(ns, null,1);
+                    extra = fetchExtra(auth, null,1);
                     //Formar PDU se extra n for vazio
                     if(extra.size() > 0){
                        // System.out.println("Extra maior que 0");
