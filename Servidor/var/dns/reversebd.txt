@@ -11,6 +11,6 @@ TTL DEFAULT 86400
 
 0.10-inaddr.@ NS sp.0.10-inaddr.reverse.dance. 86400
 
-ns1 A 10.0.10.15 86400
-sp.0.10-inaddr A 10.0.12.10 86400
+ns1 A 10.0.24.10 86400
+sp.0.10-inaddr A 10.0.16.10 86400
 
