@@ -487,9 +487,10 @@ public class Data {
 
 
         List<Registo> responseValue = new ArrayList<>();
-
+        boolean flag = true;
+        
         //Procura por resposta direta à query na cache
-	//System.out.println(this.BDsize());
+        //System.out.println(this.BDsize());
         if(tag.equals("NS") || tag.equals("MX")){
             List<Registo> res = fetchTag(tag,name,1);
             //System.out.println("Size ns ou mx" + res.size());
@@ -498,6 +499,7 @@ public class Data {
             }
         }
         else{
+           Registo r = null;
            if(tag.equals("PTR")){
                String[] nomes = name.split("-",2);
                String ip = nomes[0];
@@ -505,10 +507,13 @@ public class Data {
                //inverter pra ter ip
                String[] sep = ip.split("\\.",4);
                Collections.reverse(Arrays.asList(sep));
-               name = sep[0] + "." + sep[1] + "." + sep[2] + "." + sep[3];
+               String ipFinal = sep[0] + "." + sep[1] + "." + sep[2] + "." + sep[3];
+               r = fetch(ipFinal,tag,1);
+           }
+           else{
+               r = fetch(name,tag,1);
            }
 
-           Registo r = fetch(name,tag,1);
            if(r != null) {
                //System.out.println("Registo" + r);
                responseValue.add(r);
@@ -519,29 +524,31 @@ public class Data {
         if(responseValue.size() > 0){
            // System.out.println("Teve resposta à query na cache");
             //tamanho maior que 0 => teve resposta. Cria PDU com resposta.
-	    responseValue.removeIf(r -> r.getvalor().contains("sp"));
+            responseValue.removeIf(r -> r.getvalor().contains("sp"));
             nValues = Integer.toString(responseValue.size());
 
             //Buscar autoridades
             List<Registo> ns = getAllTag("NS");
             String lpm = getLPM(name,ns);
             auth = fetchTag("NS", lpm,1);
-	    auth.removeIf(r -> r.getvalor().contains("sp"));
+	        auth.removeIf(r -> r.getvalor().contains("sp"));
             nAuthorities = Integer.toString(auth.size());
 
             //Buscar extra
-            if(tag.equals("A") || tag.equals("PTR")){
-                extra = fetchExtra(auth,null,1);
-            }
-            else {
-                extra = fetchExtra(auth,responseValue,1);
-            }
-            nExtra = Integer.toString(extra.size());
+            if(auth.size() > 0) {
+                if (tag.equals("A") || tag.equals("PTR")) {
+                    extra = fetchExtra(auth, null, 1);
+                } else {
+                    extra = fetchExtra(auth, responseValue, 1);
+                }
+                nExtra = Integer.toString(extra.size());
 
-            resposta = new PDU(query.getMessageID(),name,tag,tags,rcode,nValues,nAuthorities,nExtra,responseValue,auth,extra);
-            //System.out.println("Resposta na cache " + resposta.ToString());
+                flag = false;
+                resposta = new PDU(query.getMessageID(), name, tag, tags, rcode, nValues, nAuthorities, nExtra, responseValue, auth, extra);
+                //System.out.println("Resposta na cache " + resposta.ToString());
+            }
         }
-        else{
+        if(flag){
             //Não teve resposta => procura por referência longest prefix match NS ao name
 
             //Pegar NS
@@ -550,10 +557,9 @@ public class Data {
                 String lpm = getLPM(name,ns);
                // System.out.println(lpm == null);
                 if(lpm != null){
-		    System.out.println(lpm);
+		            //System.out.println(lpm);
                     List<Registo> lpmfinal = new ArrayList<>();
                     for(Registo r: ns){
-			System.out.println(r.getNome());
                         if(r.getNome().equals(lpm)) {
                             System.out.println(r);
                             lpmfinal.add(r);

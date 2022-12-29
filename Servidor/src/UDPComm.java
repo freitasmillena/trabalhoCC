@@ -114,9 +114,8 @@ public class UDPComm implements Runnable{
            //System.out.println("Resposta" + resposta.ToString());
 	   //System.out.println();
            if (resposta.getResponseCode().equals("1") && resposta.getnValues().equals("0")) {
-               while (true) {
 
-                   //Adicionar auth e extra à cache
+	       //Adicionar auth e extra à cache
                    List<Registo> auth = resposta.getAuth();
                    List<Registo> extra = resposta.getExtraValues();
 
@@ -138,11 +137,16 @@ public class UDPComm implements Runnable{
                        ipExtra.add(s);
                    }
 
+               while (true) {
+
                    String ipe = null;
                    DatagramSocket s = null;
 
                    try {
+		       System.out.println("Antes: " + ipExtra.size());
                        ipe = ipExtra.remove();
+		       System.out.println(ipe);
+                       System.out.println("Depois: " + ipExtra.size());
                        InetAddress ip = InetAddress.getByName(ipe);
 
                        //Enviar
