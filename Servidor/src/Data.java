@@ -561,7 +561,7 @@ public class Data {
                     List<Registo> lpmfinal = new ArrayList<>();
                     for(Registo r: ns){
                         if(r.getNome().equals(lpm)) {
-                            System.out.println(r);
+                            //System.out.println(r);
                             lpmfinal.add(r);
                         } //remove os que forem diferentes do lpm
                     }
