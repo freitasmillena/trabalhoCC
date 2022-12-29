@@ -143,10 +143,10 @@ public class UDPComm implements Runnable{
                    DatagramSocket s = null;
 
                    try {
-		       System.out.println("Antes: " + ipExtra.size());
+		       //System.out.println("Antes: " + ipExtra.size());
                        ipe = ipExtra.remove();
-		       System.out.println(ipe);
-                       System.out.println("Depois: " + ipExtra.size());
+		       //System.out.println(ipe);
+                       //System.out.println("Depois: " + ipExtra.size());
                        InetAddress ip = InetAddress.getByName(ipe);
 
                        //Enviar
