@@ -10,9 +10,9 @@ import java.util.Set;
 /**
  * Classe Parser - responsável por converter conteúdo de um ficheiro em dados importantes para o programa
  * 
- * @author Millena Freitas (a97777) - 15%
- * @author Guilherme Martins (a92847) - 80%
- * @author Vasco Oliveira (a96361) - 5%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class Parser {
 

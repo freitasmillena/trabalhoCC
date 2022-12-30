@@ -11,6 +11,14 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Classe que define a maneira como é efetuada a comunicação entre um Servidor Primário e um Servidor Secundário para a Transferência de Zona, utilizando o protocolo de comunicação TCP.
+ * Implementada tendo em conta para uso em Threads (Runnable).
+ * 
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
+ */
 public class TCPComm implements Runnable{
     private Data bd;
     private Socket socket;
@@ -18,6 +26,9 @@ public class TCPComm implements Runnable{
     private List<String> SS = new ArrayList<>();
     private int timeout;
 
+    /**
+     * Constrtutor de uma estrutura para a comunicação TCP.
+     */
     public TCPComm(Data bd, Socket socket, String logFile, List<String> SS, int timeout) {
         this.bd = bd;
         this.socket = socket;
@@ -193,6 +204,9 @@ public class TCPComm implements Runnable{
     }
      */
 
+    /**
+     * Executa a classe TCPcom, quando inserida numa Thread.
+     */
     public void run(){
         String ipss=null;
         try{

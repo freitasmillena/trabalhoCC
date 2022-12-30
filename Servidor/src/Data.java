@@ -1,6 +1,13 @@
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * Classe que representa a estrutura de uma base de dados, que pode pertencer a um servidor
+ * 
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
+ */
 public class Data {
 
     private static Data single_instance = null;
@@ -12,6 +19,11 @@ public class Data {
     private List<String> ST = new ArrayList<>();
     private boolean SR;
 
+    /**
+     * Construtor da estrutura dos dados.
+     * 
+     * @param dominio dominio do servidor a que corresponde a estrutura de dados
+     */
     private Data(String dominio){
         this.BD = new HashMap<>();
         this.dominio = dominio;
@@ -30,6 +42,12 @@ public class Data {
         this.SR = SR;
     }
 
+    /**
+     * Verifica se a estrtura Data está associada (ou não) a um Servidor de Resolução (SR).
+     * Caso esteja, o método 'handleCache' pode ser usado.
+     * 
+     * @return devolve booleano que indica se a base de dados pertence a um Servidor de Resolução
+     */
     public boolean isSR() {
         return SR;
     }
@@ -50,6 +68,12 @@ public class Data {
         return dominio;
     }
 
+    /**
+     * Obter instance da estrutura Data.
+     * 
+     * @param dominio dominio do Data
+     * @return insatnce da estrtutura Data
+     */
     public static Data getInstance(String dominio){
         if(single_instance == null) single_instance = new Data(dominio);
         return single_instance;
@@ -151,7 +175,9 @@ public class Data {
         }
     }
 
-
+    /**
+     * Limpa todos os registos dentro da base de dados.
+     */
     public void clear(){
         this.l.writeLock().lock();
         if(!this.BD.isEmpty()){
@@ -160,6 +186,11 @@ public class Data {
         this.l.writeLock().unlock();
     }
 
+    /**
+     * Muda a validade dos registos da base de dados, dependendo do valor lógico que for recebido.
+     *
+     * @param valid valor lógico que pretende alterar nos registos da base de dados.
+     */
     public void changeValid(boolean valid){
         this.l.writeLock().lock();
         try {
@@ -307,6 +338,13 @@ public class Data {
 
     }
 
+    /**
+     * Devolve a string do subdomínio que pertence à string recebida.
+     * Se não for encontrado o subdominio, é devolvida uma resposta nula.
+     * 
+     * @param nome nome que se quer verificar neste método
+     * @return string do sub-dominio que está contido na variável 'nome'
+     */
     public String containsSub(String nome){
         String res = null;
         for(String s : this.subdominios){
@@ -435,6 +473,12 @@ public class Data {
     }
 
 
+    /**
+     * Devolve todos os registos que possuem tag igual à recebida pelo método.
+     * 
+     * @param tag tag dos registos desejados
+     * @return lista dos registos com a tag pedida
+     */
     public List<Registo> getAllTag(String tag){
         List<Registo> registos = new ArrayList<>();
         this.l.readLock().lock();
@@ -456,6 +500,14 @@ public class Data {
     }
 
 
+    /**
+     * Implementa o algoritmo LPM (Longest Prefix Match), aplicado ao contexto dos nomes de domínios.
+     * Devolve o nome do domínio que tiver maior correspondência com o nome recebido.
+     * 
+     * @param nome string original onde se deseja encontra o LPM
+     * @param registos registos onde se quer comparar com a string 'nome' recebida
+     * @return maior nome de domínio que tenha maior correspondência com o nome dado pelo método
+     */
     public String getLPM(String nome, List<Registo> registos){
         String lpm = null;
         int length = -1;
@@ -470,6 +522,13 @@ public class Data {
         return lpm;
     }
 
+    /**
+     * Sempre que é procurada a resposta a uma query do cliente na cache do Servidor de Resolução, este método é usado
+     * para procurar na cache uma possível resposta. Caso não consiga, indica os prócimos passos.
+     * 
+     * @param query query provinda do cliente
+     * @return PDU de resposta ao pedido do cliente
+     */
     public PDU handleCache(PDU query){
         PDU resposta = null;
 
@@ -604,6 +663,11 @@ public class Data {
         }
     }
 
+    /**
+     * Devolve todos os registos que estão contidos na base de dados.
+     * 
+     * @return todos os registos dentro da base de dados
+     */
     public List<Registo> getAllRegistos(){
         List<Registo> res = new ArrayList<>();
         this.l.readLock().lock();

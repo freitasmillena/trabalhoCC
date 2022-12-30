@@ -8,9 +8,9 @@ import java.util.*;
 /**
  * Claase SR - Servidor de Resolução (extensão da classe Servidor)
  * 
- * @author Millena Freitas (a97777) - 50%
- * @author Guilherme Martins (a92847) - 20%
- * @author Vasco Oliveira (a96361) - 30%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class SR extends Servidor{
     // Lista de servidores associados ao SR
@@ -45,6 +45,11 @@ public class SR extends Servidor{
     }
 
 
+    /**
+     * Define e endereço IP para o DD do Servidor de Resolução.
+     * 
+     * @param DD endereço IP (DD) a adicionar
+     */
     public void setDD(String DD) {
         this.DD.add(DD);
     }
@@ -88,6 +93,9 @@ public class SR extends Servidor{
     }
 
     @Override
+    /**
+     * Responsável por receber uma query e enviá-la para processamento na comunicação UDP.
+     */
     public void query(){
 
         while (true) {

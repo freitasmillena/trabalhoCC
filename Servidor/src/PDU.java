@@ -4,9 +4,9 @@ import java.util.List;
 /**
  * Classe PDU - Protocol Data Unit - para construção de um PDU de resposta do Servidor
  * 
- * @author Millena Freitas (a97777) - 60%
- * @author Guilherme Martins (a92847) - 20%
- * @author Vasco Oliveira (a96361) - 20%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class PDU {
     // Identificador único da mesnagem
@@ -207,7 +207,7 @@ public class PDU {
 
         return sb.toString();
     }
-
+    
     public List<String> getExtraIps(){
         List<String> res = new ArrayList<>();
 
@@ -238,6 +238,11 @@ public class PDU {
         return res;
     }
 
+    /**
+     * Devolve a lista dos registos com os Extra Values contidos no PDU.
+     * 
+     * @return lista dos registos com os Extra Values contidos no PDU
+     */
     public List<Registo> getExtraValues(){
         List<Registo> res = new ArrayList<>();
 

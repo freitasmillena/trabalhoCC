@@ -5,6 +5,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+/**
+ * Classe que define a maneira como é efetuada a comunicação entre servidores e clientes para o envio/receção de queries, utilizando o protocolo de comunicação UDP.
+ * Implementada tendo em conta para uso em Threads (Runnable).
+ * 
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
+ */
 public class UDPComm implements Runnable{
     private Data bd;
     private PDU query;
@@ -22,6 +30,9 @@ public class UDPComm implements Runnable{
         this.timeout = timeout;
     }
 
+    /**
+     * Executa a classe UDPcom, quando inserida numa Thread, especificamente para um Servidor de Resolução.
+     */
     public void runSR(){
         System.out.println("Dominio: " + bd.getdominio() + " DD: " + bd.getDD());
 
@@ -259,6 +270,9 @@ public class UDPComm implements Runnable{
 
     }
 
+    /**
+     * Executa a classe UDPcom, quando inserida numa Thread.
+     */
     public void run() {
         if(bd.isSR()){
             runSR();

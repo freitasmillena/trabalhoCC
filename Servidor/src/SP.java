@@ -5,9 +5,9 @@ import java.util.*;
 /**
  * Classe SP - de um Servidor Primário (extensão de Servidor)
  * 
- * @author Millena Freitas (a97777) - 50%
- * @author Guilherme Martins (a92847) - 20%
- * @author Vasco Oliveira (a96361) - 30%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class SP extends Servidor{
     // Diretoria do ficheiro de base de dados do servidor primário
@@ -127,6 +127,11 @@ public class SP extends Servidor{
         this.servidoresSecundarios.add(ss);
     }
 
+    /**
+     * Define a base de dados do Servidor Primário.
+     * 
+     * @param bd base de dados que passará a estar associada ao SP
+     */
     public void setData(Data bd){
         this.BD = bd;
     }

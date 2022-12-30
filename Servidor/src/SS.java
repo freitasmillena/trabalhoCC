@@ -13,9 +13,9 @@ import static java.lang.Thread.sleep;
 /**
  * Classe SS - Servidor Secundário
  * 
- * @author Millena Freitas (a97777) - 50%
- * @author Guilherme Martins (a92847) - 20%
- * @author Vasco Oliveira (a96361) - 30%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class SS extends Servidor{
     // Servidor primário associado ao Servidor secundário
@@ -298,6 +298,10 @@ public class SS extends Servidor{
         }
     }*/
 
+    /**
+     * Define os procedimentos a aplicar para realizar a Transferência de Zona entre o SS (Servidor Secundário) e o respetivo Servidor Primário,
+     * de forma a obter uma cópia atual da base de dados do SP.
+     */
     public void transf_zone() {
         while(true) {
 

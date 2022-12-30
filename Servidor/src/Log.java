@@ -9,9 +9,9 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Classe Log
  * 
- * @author Millena Freitas (a97777) - 10%
- * @author Guilherme Martins (a92847) - 10%
- * @author Vasco Oliveira (a96361) - 80%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class Log {
     // Data e hora completa do sistema operativo na altura em que aconteceu a atividade registada
@@ -25,7 +25,7 @@ public class Log {
 
 
     /**
-     * 
+     * Constrtutor vazio de um Log
      */
     public Log(){
         this.dadosLog = "";
