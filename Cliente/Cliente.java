@@ -2,6 +2,10 @@ import java.util.Random;
 
 /**
  * Classe do Cliente
+ * 
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class Cliente {
 

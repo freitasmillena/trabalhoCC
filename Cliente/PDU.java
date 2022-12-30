@@ -4,9 +4,9 @@ import java.util.List;
 /**
  * Classe PDU - Protocol Data Unit - para o Cliente
  * 
- * @author Millena Freitas (a97777) - 60%
- * @author Guilherme Martins (a92847) - 20%
- * @author Vasco Oliveira (a96361) - 20%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class PDU {
     // Identificador único da mensagem
@@ -149,6 +149,11 @@ public class PDU {
     }
 
 
+    /**
+     * Imprime o conteúdo da query de resposta obtida pelo Cliente, com uma apresentação agradável no terminal do respetivo Cliente.
+     *
+     * @return String que deverá ser impressa no terminal do Cliente
+     */
     public String imprime(){
         StringBuilder sb = new StringBuilder();
         sb.append("\n").append("Message id: " + this.messageID)

@@ -1,9 +1,9 @@
 /**
  * Classe Registo - corrresponde a um pedaço de informação da base de dados dos servidores
  * 
- * @author Millena Freitas (a97777) - 50%
- * @author Guilherme Martins (a92847) - 20%
- * @author Vasco Oliveira (a96361) - 30%
+ * @author Millena Freitas (a97777)
+ * @author Guilherme Martins (a92847)
+ * @author Vasco Oliveira (a96361)
  */
 public class Registo {
     // Valor associado ao registo
@@ -79,14 +79,29 @@ public class Registo {
         this.prioridade = Integer.parseInt(arrOfStr[4]);
     }
 
+    /**
+     * Verifica se o registo é válido para puder ser usado pelos servidores.
+     * 
+     * @return booleano que diz se o registo é válida ou não
+     */
     public boolean isValid() {
         return valid;
     }
 
+    /**
+     * Define o registo segundo a validade recebida pelo método.
+     * 
+     * @param valid booleano que indica a validade do registo
+     */
     public void setValid(boolean valid) {
         this.valid = valid;
     }
 
+    /**
+     * Mostra de qual servidor provém o respetivo registo
+     * 
+     * @return origem do registo
+     */
     public String getOrigem() {
         return origem;
     }
