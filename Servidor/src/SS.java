@@ -282,7 +282,7 @@ public class SS extends Servidor{
 
             try {
                 //Receber
-                serverS = new DatagramSocket(5556);
+                serverS = new DatagramSocket(5555);
                 DatagramPacket receiver = new DatagramPacket(buffer, buffer.length);
                 serverS.receive(receiver);
                 serverS.close();

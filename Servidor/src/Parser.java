@@ -77,7 +77,7 @@ public class Parser {
             e.printStackTrace();
         }
 
-
+	if(ST){
         Log logST = new Log("ST","127.0.0.1","5555 debug " + sp.getTimeOut());
         System.out.println(logST);
         try {
@@ -85,6 +85,7 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
 
     }
 
