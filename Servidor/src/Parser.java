@@ -28,6 +28,7 @@ public class Parser {
         
         List<String> linhas = lerFicheiro(nomeFich);
 
+        boolean ST = true;
         for (String linha : linhas) {
 
             if (linha.equals("\n")) continue;
@@ -51,6 +52,7 @@ public class Parser {
                         break;
                     case "ST":
                         fileParserST(linhaPartida[2], sp);
+                        ST = false;
                         break;
                     case "LG":
                         sp.setFicheiroLog(linhaPartida[2]);
@@ -58,6 +60,32 @@ public class Parser {
                 }
             }
         }
+
+        Log l = new Log("EV","127.0.0.1","ficheiro de ST lido");
+        System.out.println(l);
+        try {
+            l.logToFile(sp.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log log = new Log("EV","127.0.0.1","ficheiro de configuração lido");
+        System.out.println(log);
+        try {
+            log.logToFile(sp.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Log logST = new Log("ST","127.0.0.1","5555 debug " + sp.getTimeOut());
+        System.out.println(logST);
+        try {
+            logST.logToFile(sp.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Prioridades aplicáveis apenas para os todos campos
@@ -234,6 +262,13 @@ public class Parser {
         BD.setST(sp.getServidoresTopo());
         BD.setSR(false);
         sp.setData(BD);
+        Log log = new Log("EV","127.0.0.1","ficheiro de dados lido");
+        System.out.println(log);
+        try {
+            log.logToFile(sp.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Para ficheiros de configuração de SS - Servidores Secundários
@@ -277,6 +312,22 @@ public class Parser {
         Data BD = Data.getInstance(ss.getDominio());
         BD.setSR(false);
         ss.setData(BD);
+
+        Log l = new Log("EV","127.0.0.1","ficheiro de ST lido");
+        System.out.println(l);
+        try {
+            l.logToFile(ss.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log log = new Log("EV","127.0.0.1","ficheiro de configuração lido");
+        System.out.println(log);
+        try {
+            log.logToFile(ss.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Para ficheiros de configuração de SR - Servidores de Resolução
@@ -319,6 +370,22 @@ public class Parser {
         cache.setDD(sr.getDD());
         cache.setST(sr.getServidoresTopo());
         sr.setCache(cache);
+
+        Log l = new Log("EV","127.0.0.1","ficheiro de ST lido");
+        System.out.println(l);
+        try {
+            l.logToFile(sr.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log log = new Log("EV","127.0.0.1","ficheiro de configuração lido");
+        System.out.println(log);
+        try {
+            log.logToFile(sr.getFicheiroLog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -341,6 +408,7 @@ public class Parser {
                 s.assServidorTopo(linhaPartida[0]);
             }
         }
+
     }
 
     /**
@@ -351,9 +419,14 @@ public class Parser {
      */
     public List<String> lerFicheiro(String nomeFich) {
         List<String> lines;
-        try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);}
+        try {
+            lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);
+
+        }
         catch(IOException exc) {
-            System.out.println("n achou " + nomeFich);
+            Log l = new Log("FL","127.0.0.1","ficheiro não encontrado");
+            System.out.println(l);
+
             lines = new ArrayList<>();
         }
         return lines;

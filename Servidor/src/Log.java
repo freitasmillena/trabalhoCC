@@ -165,6 +165,10 @@ public class Log {
      */
     public void logToFile(String pathFile) throws IOException {
             File logfile = new File(pathFile);
+            if(!logfile.exists()){
+                Log l = new Log("EV","127.0.0.1","ficheiro de log criado");
+                System.out.println(l);
+            }
             logfile.createNewFile();
             FileOutputStream fos = new FileOutputStream(logfile, true);
             fos.write(this.toString().getBytes());
